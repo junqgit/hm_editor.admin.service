@@ -1,0 +1,109 @@
+<div class="box">
+  <div class="search" style="display: inline-block;">
+    <input style="height: 22px;padding: unset;margin: 3px 0;width: 148px;" pInputText type="text"
+    [(ngModel)]="hisNameFilter" placeholder="HIS字段" [ngModelOptions]="{standalone: true}" />
+
+    <input style="height: 22px;padding: unset;margin: 3px 0;width: 148px;" pInputText type="text"
+    [(ngModel)]="dsNameFilter" placeholder="数据元" [ngModelOptions]="{standalone: true}" />
+
+    <label>全量同步：</label>
+    <p-dropdown [options]="tfValues" [(ngModel)]="syncFliter"  appendTo="body" 
+    [style]="{'width': '60px','height':'22px','line-height':'unset'}" ></p-dropdown>
+    <!-- <label>是否手术：</label>
+    <p-dropdown [options]="tfValues" [(ngModel)]="operationFliter"  appendTo="body" 
+    [style]="{'width': '60px','height':'22px','line-height':'unset'}" ></p-dropdown> -->
+    <label>值域：</label>
+    <p-dropdown [options]="valValues" [(ngModel)]="valFliter"  appendTo="body" 
+    [style]="{'width': '60px','height':'22px','line-height':'unset'}" ></p-dropdown>
+  </div>
+  <div class="ops" style="display: inline-block;">
+    <button pButton label="查询" icon="fa-search" (click)="reloadData()"></button>
+    <button pButton label="增加" icon="fa-plus" (click)="addMapper()"></button>
+    <button class="ml-10" icon="iconfont icon-edit" pButton type="button" label="值域"
+                (click)="showValueMapperDialog()"></button>
+    <!-- <button pButton label="删除" icon="icon iconfont icon-delete" (click)="delDs()"></button> -->
+  </div>
+
+  <div class="content">
+    <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="valueList"
+      dataKey="uid" fixedPaginator="true" scrollable="true">
+      <p-column [style]="{'width':'180px'}" field="hisNames" header="HIS字段"></p-column>
+      <p-column [style]="{'width':'180px'}" field="dsName" header="数据元"></p-column>
+      <p-column [style]="{'width':'80px'}" field="syncFlag" header="全量同步">
+        <ng-template let-col let-template="rowData" pTemplate="body">
+          {{template[col['field']]?'是':'否'}}
+        </ng-template>
+      </p-column>
+
+      <!-- <p-column [style]="{'width':'80px'}" field="joinFlag" header="内容合并">
+        <ng-template let-col let-template="rowData" pTemplate="body">
+          {{template[col['field']]?'是':'否'}}
+        </ng-template>
+      </p-column> -->
+      <!-- <p-column [style]="{'width':'80px'}" field="operationFlag" header="是否手术">
+        <ng-template let-col let-template="rowData" pTemplate="body">
+          {{template[col['field']]?'是':'否'}}
+        </ng-template>
+      </p-column> -->
+      <p-column [style]="{'width':'80px'}" field="valMapper" header="值域"></p-column>
+      <p-column [style]="{'width':'180px'}" field="names" header="操作">
+        <ng-template let-col let-template="rowData" pTemplate="body">
+          <div class="ops">
+            <button pButton label="编辑" icon="fa-edit" (click)="editorMapperData(template)"></button>
+            <button pButton label="删除" icon="icon iconfont icon-delete" (click)="delMapper(template)"></button>
+          </div>
+
+        </ng-template>
+
+      </p-column>
+    </p-dataTable>
+  </div>
+
+
+  <!-- 添加映射 -->
+  <p-dialog [header]="from+'配置'" [(visible)]="mapperDlg" modal="true" closeOnEscape="false" [responsive]="true">
+    <div class="row">
+      <label>HIS字段</label>
+      <div>
+        <div *ngFor="let item of hisNames;let index = index">
+          <input style="height: 22px;padding: unset;margin: 3px 0;width: 148px;" pInputText type="text"
+            [(ngModel)]="item['name']" [ngModelOptions]="{standalone: true}" />
+          <button *ngIf="index != 0" style="height: 22px;width: 22px;" pButton icon="fa-minus"
+            (click)="delHisName(index)"></button>
+          <button *ngIf="index == (hisNames.length - 1)" style="height: 22px;width: 22px;" pButton icon="fa-plus"
+            (click)="addHisName()"></button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>数据元</label>
+      <kyee-all-datatsource-dp [(ngModel)]="selDs" [width]="'148px'"></kyee-all-datatsource-dp>
+    </div>
+    <div class="row">
+      <label>全量同步</label>
+      <p-checkbox [(ngModel)]="syncFlag" [binary]="true"></p-checkbox>
+    </div>
+
+    <!-- <div class="row">
+      <label>内容合并</label>
+      <p-checkbox [(ngModel)]="joinFlag" [binary]="true"></p-checkbox>
+    </div> -->
+    <!-- <div class="row">
+      <label>是否手术</label>
+      <p-checkbox [(ngModel)]="operationFlag" [binary]="true"></p-checkbox>
+    </div> -->
+    <div class="row">
+      <label>值域</label>
+      <p-dropdown [options]="valMappers" [(ngModel)]="selValMapper" appendTo="body"
+        [style]="{'width': '148px','height':'22px','line-height':'unset'}" optionLabel="label"></p-dropdown>
+      <!-- <p-checkbox [(ngModel)]="valMapper" [binary]="true"></p-checkbox> -->
+    </div>
+    <div class="ops center">
+      <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmMapper()"></button>
+      <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.mapperDlg = false"></button>
+    </div>
+
+  </p-dialog>
+  <kyee-value-mapper></kyee-value-mapper>
+</div>
+<p-growl [(value)]="msgs" [life]=5000></p-growl>

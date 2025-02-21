@@ -1,0 +1,291 @@
+<div *ngIf="selectParamType ==='病历模板'">
+    <div *ngIf="showOtherProperty('visible','病历模板排序规则')">
+        <div class="params">
+            <div style="display: inline-block;">病历模板排序规则</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div class="params-section clearfix">
+            <div class="ui-g-6">
+                <p class="margin-t-15 fl-l">当前选择:
+                    {{paramBean['病历模板排序规则']?showOptionsLabel(showOtherProperty('options','病历模板排序规则'),paramBean['病历模板排序规则']):paramBean['病历模板排序规则']}}
+                </p>
+            </div>
+            <div class="ui-g-6">
+                <p-dropdown class="fl-r" [options]="showOtherProperty('options','病历模板排序规则')"
+                    [(ngModel)]="paramBean['病历模板排序规则']" placeholder="请选择"
+                    (onChange)="saveHospitalParams()"></p-dropdown>
+            </div>
+        </div>
+        <div class="params">该参数控制新建病历以及模板维护中模板的显示排序，默认以序号正序排列，该参数支持按照模板名称、版本号正序排列。</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','电子病历历史版本是否显示过期')">
+        <div class="params">
+            <div style="display: inline-block;">电子病历历史版本是否显示过期</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['电子病历历史版本是否显示过期']" class="icon iconfont icon-caps-on"
+                    style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['电子病历历史版本是否显示过期']" class="icon iconfont icon-caps-off"
+                    style="color: #5CB85C;"></span>
+                当前：{{paramBean['电子病历历史版本是否显示过期']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['电子病历历史版本是否显示过期']"
+                    (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">启用时，对比除区域模板之外的医院、科室模板（发布），若有比当前收藏的版本（科室、个人）高的同名病历模板，标识当前版本过期；不启用，则所有模板都不过期</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','过期模板是否可新建病历')">
+        <div class="params">
+            <div style="display: inline-block;">过期模板是否可新建病历</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['过期模板是否可新建病历']" class="icon iconfont icon-caps-on"
+                    style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['过期模板是否可新建病历']" class="icon iconfont icon-caps-off"
+                    style="color: #5CB85C;"></span>
+                当前：{{paramBean['过期模板是否可新建病历']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['过期模板是否可新建病历']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">启用时，若当前收藏模板（科室、个人）提示过期，仍可新建病历</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','过期模板不能收藏')">
+        <div class="params">
+            <div style="display: inline-block;">过期模板不能收藏</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['过期模板不能收藏']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['过期模板不能收藏']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+                当前：{{paramBean['过期模板不能收藏']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['过期模板不能收藏']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">启用时，过期模板不能收藏；禁用时，过期模板可以收藏。</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','病历模板套餐收藏')">
+        <div class="params">
+            <div style="display: inline-block;">是否启用病历模板套餐收藏</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['病历模板套餐收藏']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['病历模板套餐收藏']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+                当前：{{paramBean['病历模板套餐收藏']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['病历模板套餐收藏']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">
+            启用时：1、选中患者病历后，点击【生成模板套餐】按钮，选择个人套餐或科室套餐，完成收藏；
+            2、新建病历界面，增加“科室套餐”、“个人套餐”列表，可以选中套餐新建病历；
+            3、模板维护界面，增加“科室套餐”、“个人套餐”列表，维护套餐。
+        </div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','新建病历默认范围')">
+        <div class="params">
+            <div style="display: inline-block;">新建病历默认范围</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block; padding-left: 40px;">
+            <p class="margin-t-15">当前选择:
+                {{paramBean['新建病历默认范围']?showOptionsLabel(showOtherProperty('options','新建病历默认范围'),paramBean['新建病历默认范围']):paramBean['新建病历默认范围']}}
+            </p>
+        </div>
+        <div style="display: inline-block; padding-left: 200px;text-align: center;">
+            <p-dropdown [options]="showOtherProperty('options','新建病历默认范围')" [(ngModel)]="paramBean['新建病历默认范围']"
+                (onChange)="saveHospitalParams()"></p-dropdown>
+        </div>
+        <div class="params">默认设置：新建病历默认范围为 [区域]</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','是否显示区域模板')">
+        <div class="params">
+            <div style="display: inline-block;">新建病历时是否显示区域模板</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['是否显示区域模板']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['是否显示区域模板']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+                当前：{{paramBean['是否显示区域模板']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['是否显示区域模板']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">启用时显示区域模板，禁用则区域模板不显示。</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','医生是否启用收藏科室模板')">
+        <div class="params">
+            <div style="display: inline-block;">医生是否启用收藏科室模板</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['医生是否启用收藏科室模板']" class="icon iconfont icon-caps-on"
+                    style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['医生是否启用收藏科室模板']" class="icon iconfont icon-caps-off"
+                    style="color: #5CB85C;"></span>
+                当前：{{paramBean['医生是否启用收藏科室模板']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['医生是否启用收藏科室模板']"
+                    (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">病历书写模块：启用时，所有医生均可收藏为科室模板；禁用时，科主任可收藏为科室模板，其他医生只能收藏为个人模板；默认禁用</div>
+    
+        <div *ngIf="paramBean['医生是否启用收藏科室模板']">
+            <div class="params">
+              <div style="display: inline-block;">收藏科室模版是否需要审核</div>
+              <div style="display: inline-block; width: 70%"><hr></div>
+            </div>
+            <div style="display: inline-block;width: 100%;">
+              <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['收藏科室模版是否需要审核']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['收藏科室模版是否需要审核']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+                当前：{{paramBean['收藏科室模版是否需要审核']? '需要审核' : '不需要审核'}}
+              </div>
+              <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['收藏科室模版是否需要审核']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+              </div>
+            </div>
+          </div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','护士是否启用收藏科室模板')">
+        <div class="params">
+            <div style="display: inline-block;">护士是否启用收藏科室模板</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['护士是否启用收藏科室模板']" class="icon iconfont icon-caps-on"
+                    style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['护士是否启用收藏科室模板']" class="icon iconfont icon-caps-off"
+                    style="color: #5CB85C;"></span>
+                当前：{{paramBean['护士是否启用收藏科室模板']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['护士是否启用收藏科室模板']"
+                    (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">病历书写模块：启用时，所有护士均可收藏为科室模板；禁用时，护士长可收藏为科室模板，其他护士只能收藏为个人模板；默认禁用</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','科室查询参数绑定')">
+        <div class="params">
+            <div style="display: inline-block;">科室查询参数绑定</div>
+
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+            <button pButton type="button" (click)="saveHospitalParams()" label="保存"
+                style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div style="margin-left: 20px;display: inline-block;">
+                科室查询参数绑定
+            </div>
+            <button pButton type="button" style="margin-left: 248px;" (click)="addLsList('kscs',csList)"
+                label="增加"></button>
+            <ul class="data-config" style="margin-left: 20px;position: relative">
+                <li *ngFor="let item of csList ;let i=index">
+                    <p-multiSelect [style]="{'width': '50%'}" [panelStyle]="{'width': '100%'}" [options]="ksList"
+                        (click)="change(item)" [(ngModel)]="item['value']"></p-multiSelect>
+                    <button pButton style="margin-left: 15px;position: absolute" type="button"
+                        (click)="removeKsList(csList,i)" label="删除"></button>
+                </li>
+
+            </ul>
+        </div>
+        <div class="params">创建病历时，如果当前登陆科室与绑定的科室是一组，则可以使用绑定科室的模板</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','个人收藏模板是否允许跨科室查询')">
+        <div class="params">
+            <div style="display: inline-block;">个人收藏模板是否允许跨科室查询</div>
+            <div style="display: inline-block; width: 70%">
+                <hr>
+            </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <div class="currentCheckedValue">
+                <span *ngIf="!paramBean['个人收藏模板是否允许跨科室查询']" class="icon iconfont icon-caps-on"
+                    style="color: #EB564A;"></span>
+                <span *ngIf="paramBean['个人收藏模板是否允许跨科室查询']" class="icon iconfont icon-caps-off"
+                    style="color: #5CB85C;"></span>
+                当前：{{paramBean['个人收藏模板是否允许跨科室查询']? '启用' : '禁用'}}
+            </div>
+            <div style="display: inline-block; width: 49%;text-align: right;">
+                <p-inputSwitch [(ngModel)]="paramBean['个人收藏模板是否允许跨科室查询']"
+                    (onChange)="saveHospitalParams()"></p-inputSwitch>
+            </div>
+        </div>
+        <div class="params">病历书写模块：启用时，医生收藏的个人模板可以跨科室查询；禁用时，医生收藏的个人模板不可以跨科室查询，只能查询当前科室；默认禁用</div>
+    </div>
+    <div *ngIf="showOtherProperty('visible','是否显示个人收藏模板')">
+        <div class="params">
+          <div style="display: inline-block;">是否显示个人收藏模板</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['是否显示个人收藏模板']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['是否显示个人收藏模板']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['是否显示个人收藏模板']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['是否显示个人收藏模板']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，可收藏、显示个人模版；禁用时，不允许收藏个人模版，也不显示个人收藏模版</div>
+      </div>
+    <div *ngIf="showOtherProperty('visible','病历模板需要清空的数据元')">
+        <div class="params">
+            <div style="display: inline-block;">病历模板需要清空的数据元</div>
+            <button pButton type="button" (click)="saveHospitalParams()" label="保存"
+                style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+            <!-- <div style="margin-left: 20px;display: inline-block;">
+                病历模板需要清空的数据元：
+            </div> -->
+            <div style="display: inline-block; width: 100%;">
+                <input pInputText [(ngModel)]="paramBean['病历模板需要清空的数据元']" style="width: 100%" />
+            </div>
+        </div>
+        <div class="params">
+            参数说明:配置收藏模板或者引用病历时需要清空的数据元，各个数据元名称之间以英文逗号隔开；
+        </div>
+    </div>
+</div>

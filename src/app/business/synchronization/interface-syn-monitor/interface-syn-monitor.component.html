@@ -1,0 +1,62 @@
+<section class="interface-syn-monitor">
+  <form class="mt-5 mb-10 search">
+    <div class="mb-10">
+<!--        <span class="mlr-10">区域编码</span>-->
+<!--        <p-dropdown [options]="areaCodeList" [(ngModel)]="selectedAreaCode" [style]="{'width':'200px'}"-->
+<!--                    placeholder="请选择" [ngModelOptions]="{standalone: true}" optionLabel="areaCode"></p-dropdown>-->
+        <span class="mlr-10">数据类型</span>
+        <p-dropdown [options]="jobNameList" [(ngModel)]="selectedJobName" [style]="{'width':'200px'}"
+                    placeholder="请选择" [ngModelOptions]="{standalone: true}" optionLabel="jobChineseName"></p-dropdown>
+
+        <p-dropdown class="ml-10" [options]="statusList" [(ngModel)]="selectedStatus" [style]="{'width':'200px'}"
+                    [ngModelOptions]="{standalone: true}"></p-dropdown>
+    </div>
+    <div>
+        <span class="mlr-10">开始时间</span>
+        <p-calendar [(ngModel)]="startDate" showLanguage="ch" [style]="{'max-width':'172px'}"
+                    [inputStyle]="{'width':'172px'}" [showIcon]="true"  readonlyInput="readonlyInput" dateFormat="yy-mm-dd"  [showTime]="true" [showSeconds]="true"
+                    [ngModelOptions]="{standalone: true}"></p-calendar>
+        <span class="mr-10" style="margin-left: 38px;">结束时间</span>
+        <p-calendar [(ngModel)]="endDate" showLanguage="ch" [style]="{'max-width':'172px'}"
+                    [inputStyle]="{'width':'172px'}" [showIcon]="true"  readonlyInput="readonlyInput" dateFormat="yy-mm-dd" [showTime]="true" [showSeconds]="true"
+                    [ngModelOptions]="{standalone: true}"></p-calendar>
+        <button pButton type="button" class="kyee-button-lg ml_40" label="查询" (click)="doSearch()"></button>
+        <button pButton type="button" class="kyee-button-lg ml_20" label="删除" (click)="doDelete()"></button>
+    </div>
+  </form>
+  <div class="interface-syn-monitor-content">
+  <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [rowStyleClass]="updateStateBg" [value]="dynamicSyncBeanList" dataKey="_dynamicId"
+               [isShowPaginInfo]="true" (onRowDblclick)="queryDetail()" [(selection)]="selectedDynamicSyncBean" selectionMode="single"
+               [totalRecords]="page.totalRecords"  [rows]="page.pageSize" [paginator]="true"
+               [pageLinks]="3" emptyMessage="暂无数据..."  loadingIcon="fa-spinner" [(first)] = "first"
+               [lazy]="true" (onLazyLoad)="loadDataLazy($event)" fixedPaginator="true" scrollable="true" scrollHeight="100%">
+    <p-column [style]="{'width':'4%','text-align': 'center'}" selectionMode="single"></p-column>
+    <p-column [style]="{'width':'0%'}" field="_id" header="ObjectId" [hidden]=true></p-column>
+    <p-column [style]="{'width':'10%'}" field="areaCode" header="区域编码" [hidden]=true></p-column>
+    <p-column [style]="{'width':'10%'}" field="jobChineseName" header="数据类型"></p-column>
+    <p-column [style]="{'width':'10%'}" field="syncStartTime" header="开始时间">
+      <ng-template pTemplate="body" let-col let-data="rowData">{{data[col.field] | date:'y-MM-dd HH:mm:ss'}}</ng-template>
+    </p-column>
+    <p-column [style]="{'width':'10%'}" field="syncEndTime" header="结束时间">
+      <ng-template pTemplate="body" let-col let-data="rowData">{{data[col.field] | date:'y-MM-dd HH:mm:ss'}}</ng-template>
+    </p-column>
+    <p-column [style]="{'width':'10%'}" field="syncInterruptTime" header="中断时间">
+      <ng-template pTemplate="body" let-col let-data="rowData">{{data[col.field] | date:'y-MM-dd HH:mm:ss'}}</ng-template>
+    </p-column>
+    <p-column [style]="{'width':'10%'}" field="activeThreadCount" header="活跃线程数"></p-column>
+    <p-column [style]="{'width':'5%'}" field="status" header="状态"></p-column>
+  </p-dataTable>
+</div>
+  <p-dialog class="dialog-modal-block" header="同步详情" [(visible)]="detialDisplay" modal="modal" draggable="false" resizable="false">
+    <form class="mtb-5">
+      <span class="mr-10">同步地址</span>
+      <input type="text" pInputText placeholder="同步地址" [(ngModel)]="selectedDynamicSyncBean.syncUrl" size="100"
+             [ngModelOptions]="{standalone: true}">
+    </form>
+    <form class="mtb-5">
+      <span class="mr-10">错误信息</span>
+      <textarea pInputTextarea [(ngModel)]="selectedDynamicSyncBean.errorInfo" [rows]="20" [cols]="103" style="vertical-align:top"
+                [ngModelOptions]="{standalone: true}"></textarea>
+    </form>
+  </p-dialog>
+</section>

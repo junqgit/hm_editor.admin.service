@@ -1,0 +1,180 @@
+<div class="form-config mlr-10">
+    <div class="form-head">{{isSysAdmin ? '区域选择' : '体温单&nbsp;>&nbsp;固定项设置'}}</div>
+    <div class="form-main-container">
+        <!-- 左侧医院列表 -->
+        <div class="left-tree-area" *ngIf="isSysAdmin">
+            <!-- <div class="left-btn padding">
+                <p-header class="ui-group-title">表单列表</p-header>
+            </div> -->
+            <div class="hospital-search-block">
+                <input style="width: 90%;" name="filterHospitalName" type="text" pInputText [(ngModel)]="filterHospitalName" placeholder="区域/医院"/>
+                <span class="icon iconfont icon-sousuo" (click)="getAreasAndHospitalsList()"></span>
+            </div>
+            <div class="left-tree-list">
+                <p-tree [style]="{'height': '100%', 'width': '100%'}" [(value)]= "reportsTree"  selectionMode="single" [isShowTitle] = "true" [(selection)]="selectedReport" (onNodeSelect)="reportSelect()"></p-tree>
+            </div>
+        </div>
+        <!-- 右侧配置界面 -->
+        <div id="treeTableFather" class="right-area" *ngIf="showConfigTable" [ngStyle]="{'width':isSysAdmin?'79%':'98%'}">
+            <div class="top-button padding">
+                <button class="specialHover"type="button" pButton icon="fa-plus" (click)="addClick()" label="新增"></button>
+                <button class="specialHover"type="button" pButton icon="fa-edit" (click)="doEdit()" label="修改"></button>
+                <button class="specialHover"type="button" pButton icon="fa-minus" (click)="deleteClick()" label="删除"></button>
+                <!-- <button class="specialHover" *ngIf="rptType !== '0'" type="button" pButton icon="fa-copy" (click)="doCopy()" label="复制"></button> -->
+                <!-- <button class="specialHover" type="button" pButton icon="fa-download" (click)="downloadData()" label="下载数据"></button> -->
+                <!-- <p-fileUpload style="display: inline-block;vertical-align: middle;" name="uploadfile" url={{uploadUrl}} mode="basic" chooseLabel="上传数据"
+                        (onBeforeUpload)="fileBeforeUpload($event.xhr, $event.formData)"  (onUpload)="fileUpload($event.xhr, $event.formData)" (onError)="fileError($event.xhr, $event.formData)"></p-fileUpload> -->
+                <!-- <button class="specialHover" type="button" pButton icon="fa-edit" *ngIf="showConfigTable" (click)="doEditSection()" label="编辑分段"></button>
+                <p-dropdown class="dropdown" [options]="sectionList"  placeholder="选择分段" *ngIf="showConfigTable"
+                            (onChange)="sectionChange()" [(ngModel)]="chooseSection"
+                            styleClass="{'width':'200px'}"></p-dropdown> -->
+            </div>
+            <section  class="table-tree" *ngIf="showConfigTable">
+                <p-treeTable [value]="widgetsfilter" [columns]="cols" [scrollable]="true" [style]="{width:'100%'}" [scrollHeight]="height[0]" (onContextMenuSelect)="onDetialSelect($event)"
+                            (onNodeExpand)="scrollTreeBody()" (onNodeCollapse)="scrollTreeBody()"
+                            selectionMode="single" [(selection)]="selectedRow" [(contextMenuSelection)]="selectedRow" [contextMenu]="cm">
+                    <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                            <col *ngFor="let col of columns" [ngStyle]="{'width':col.width}">
+                        </colgroup>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns">
+                                {{col.header}}
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+                        <tr [ttSelectableRow]="rowNode" [ttContextMenuRow]="rowNode">
+                            <td *ngFor="let col of columns; let i = index" [ngStyle]="{'text-align':i===0?'left':'center'}">
+                                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i === 0"></p-treeTableToggler>
+                                {{rowData[col.field]}}
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" >
+                        暂无配置项
+                    </ng-template>
+                </p-treeTable>
+            </section>
+        </div>
+    </div>
+
+    <!--护理类表单内容明细弹出框-- start-->
+    <p-dialog [(header)]="rptTitle" [(visible)]="displayRptDialog" [width]="600" showEffect="fade" [modal]="true" (onHide) ="doCancel()">
+        <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="rptDetailDialog">
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>控件类型<span style="color: red">*</span>：</label>
+                </div>
+                <div class="row-input">
+                    <p-dropdown [style]="{'width': '100%'}" [options]="widgetsTypeOptions" [(ngModel)]="rptDetailDialog['控件类型代码']" placeholder="请选择控件类型"></p-dropdown>
+                </div>
+                <div class="row-label-text paddingL">
+                    <label>可为空：</label>
+                </div>
+                <div class="row-input">
+                    <p-dropdown [style]="{'width': '100%'}" [options]="emptyOptions" [(ngModel)]="rptDetailDialog['是否可为空']" placeholder="请选是否可为空"></p-dropdown>
+                </div>
+            </div>
+
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>控件名<span style="color: red">*</span>：</label>
+                </div>
+                <div class="row-input showTable"  [ngClass]="{'showTable': commonSource !== true,'hideTable': commonSource ==true}">
+                    <input pInputText [(ngModel)]="rptDetailDialog['控件名称']" [(disabled)]="isCanEdit"  kMaxLength="99" kyeeValidate tip="长度超过限制" tipZIndex ="10000000"/>
+                </div>
+                <div class="row-input showTable"  [ngClass]="{'showTable': commonSource == true,'hideTable': commonSource !== true}">
+                    <p-dropdown [style]="{'width': '100%'}" [options]="dictList"[(disabled)]="isCanEdit" [(ngModel)]="rptDetailDialog['控件名称']" placeholder="请选择控件名"></p-dropdown>
+                </div>
+                <div class="width1 paddingL">
+                    <p-checkbox   label="同源" binary="true" (onChange) ="onChange()" [(ngModel)]="commonSource"></p-checkbox>
+                </div>
+                <!-- <div class="width1">
+                    <p-checkbox label="保存" binary="true" (onChange) ="onChange()"  [(ngModel)]="widgetSaveToDb"></p-checkbox>
+                </div> -->
+                <div class="width2">
+                    <p-checkbox  label="大文本(特殊字符)" binary="true" (onChange) ="onChange()"  [(ngModel)]="bigField"></p-checkbox>
+                </div>
+            </div>
+
+
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                <label>控件显示名<span style="color: red">*</span>：</label>
+                </div>
+                <div class="row-input">
+                    <input pInputText [(ngModel)]="rptDetailDialog['控件显示名称']"  kMaxLength="40" kyeeValidate tip="长度超过限制" tipZIndex ="10000000"/>
+                </div>
+                <div class="row-label-text paddingL">
+                    <label>排序值<span style="color: red">*</span>：</label>
+                </div>
+                <div class="row-input">
+                    <p-spinner [(ngModel)]="rptDetailDialog['控件排序值']" [min]="0" [max]="9999" thousandSeparator=""></p-spinner>
+                </div>
+            </div>
+
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>Grid列宽：</label>
+                </div>
+                <div class="row-input">
+                    <p-spinner [(ngModel)]="rptDetailDialog['控件列宽度']" [min]="0" [max]="9999" thousandSeparator=""></p-spinner>
+                </div>
+                <div class="row-label-text paddingL">
+                    <label>控件列宽：</label>
+                </div>
+                <div class="row-input">
+                    <input pInputText [(ngModel)]="rptDetailDialog['控件宽度']"   kMaxLength="19" kyeeValidate tip="长度超过限制" tipZIndex ="10000000"/>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>默认值：</label>
+                </div>
+                <div class="row-input">
+                    <p-dropdown [style]="{'width': '100%'}" [options]="defaultTypeOptions" [(ngModel)]="rptDetailDialog['默认值']" editable="editable" placeholder="请选择默认值"></p-dropdown>
+                </div>
+                <div class="row-label-text paddingL">
+                    <label>控件状态：</label>
+                </div>
+                <div class="row-input">
+                    <p-dropdown [style]="{'width': '100%'}" [options]="widgetsStateOptions" [(ngModel)]="rptDetailDialog['是否可用']" placeholder="请选组件状态"></p-dropdown>
+                </div>
+            </div>
+
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>正则表达式：</label>
+                </div>
+                <div class="row-input">
+                    <input pInputText [(ngModel)]="rptDetailDialog['正则表达式']"  kMaxLength="499" kyeeValidate tip="长度超过限制" tipZIndex ="10000000" />
+                </div>
+                <div class="row-label-text paddingL">
+                    <label>错误提示：</label>
+                </div>
+                <div class="row-input">
+                    <input pInputText [(ngModel)]="rptDetailDialog['错误信息提示']"  kMaxLength="999" kyeeValidate tip="长度超过限制" tipZIndex ="10000000"/>
+                </div>
+            </div>
+
+            <div class="ui-grid-row">
+                <div class="row-label-text">
+                    <label>备注：</label>
+                </div>
+                <div class="ui-grid-col-10">
+                    <input pInputText [(ngModel)]="rptDetailDialog['备注']"  kMaxLength="2999" kyeeValidate tip="长度超过限制" tipZIndex ="10000000"/>
+                </div>
+            </div>
+        </div>
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button class="specialHover" type="button" pButton icon="fa-close" (click)="doCancel()" label="取消"></button>
+                <button class="specialHover" type="button" pButton icon="fa-check" (click)="doSave()" label="保存"></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+    <!--护理类表单内容明细弹出框-- end-->
+</div>

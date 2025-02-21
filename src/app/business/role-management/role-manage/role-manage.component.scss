@@ -1,0 +1,128 @@
+.role-manage {
+  width: 98%;
+  height: 100%;
+  display: inline-block;
+  overflow: hidden;
+  .left-tree-area {
+    display: inline-block;
+    width: 23%;
+    height: 100%;
+    background: white;
+    .hospital-search-block {
+      height: 28px;
+    }
+    .left-tree-list {
+      height: calc(100% - 28px);
+    }
+  }
+  .right-user-area {
+    display: inline-block;
+    vertical-align: top;
+    height:100%;
+    .right-user-form {
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.inp{
+    height: 30px;
+    width: 250px;
+}
+.add-btn{
+    float: right;
+}
+
+/deep/ .add-role-dialog {
+    .ui-dialog {
+        width: 400px;
+    }
+    .ui-widget-header {
+        font-weight: 700;
+    }
+    .ui-widget.ui-dialog .ui-dialog-titlebar{
+        padding: 5px 20px;
+    }
+    .add-role-content {
+        padding: 15px 15px;
+    }
+}
+
+/deep/ .delete-role-dialog{
+    .ui-dialog {
+        width: 25%;
+    }
+    .ui-widget-header {
+        font-weight: 700;
+    }
+    .ui-widget.ui-dialog .ui-dialog-titlebar{
+        padding: 5px 20px;
+    }
+    .add-role-content {
+        padding: 15px 15px;
+    }
+    .line{
+        line-height: 60px;
+        text-align: center;
+    }
+}
+
+.dialog-label{
+    width: 60px;
+    display: inline-block;
+    vertical-align: top;
+}
+.role-menu-list {
+  display: inline-block;
+  max-height: 200px;
+  overflow: scroll;
+}
+
+:host /deep/ .ui-tree{
+  width: 100%;
+}
+
+.role-menu-list /deep/ .ui-tree.ui-widget-content {
+  border: 0;
+  background: #fff;
+  .ui-state-highlight {
+    background: transparent;
+    border: 0;
+  }
+}
+
+/deep/ .ui-datatable .ui-paginator-bottom {
+  text-align: center;
+  padding: .5em;
+}
+
+
+.role-box{
+    height: 406px;
+    border: 1px solid #e1e3e4;
+    background: #fff;
+    margin-top: 0.5em;
+    h1{
+        height: 26px;
+        line-height: 20px;
+        border-bottom: 1px solid #e1e3e4;
+    }
+    .role-menu-list {
+        width: 100%;
+        height: 330px;
+        max-height: 330px;
+        overflow: scroll;
+    }
+    .role-menu-btn{
+        padding-top: 5px;
+        border-top: 1px solid #e1e3e4;
+        text-align: center;
+    }
+}
+p-footer{
+    p{
+        text-align: left;
+        color: red;
+        margin-right: 215px;
+    }
+}

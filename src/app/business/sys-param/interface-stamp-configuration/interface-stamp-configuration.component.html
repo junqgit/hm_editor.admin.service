@@ -1,0 +1,52 @@
+<section class="interface-stamp-configuration">
+  <form class="mt-10 mb-10">
+    <div>
+      <input pInputText placeholder="数据类型/标识" type="text" class="inp" [(ngModel)]="searchParm" [ngModelOptions]="{standalone: true}">
+      <button pButton type="button" label="查询" class="ml-50" (click)="doSearch()"></button>
+    </div>
+  </form>
+  <p-dataTable [style]="{'max-height': 'calc(100% - 50px)','overflow':'auto','text-align':'center'}"
+               [value]="interfaceStamps" selectionMode="single"
+               emptyMessage="暂无数据..." loadingIcon="fa-spinner">
+    <p-column [style]="{'width':'0%'}" field="_id" header="ObjectId" [hidden]=true></p-column>
+    <p-column header="序号" [style]="{'width': '5%'}">
+      <ng-template let-col let-patient="rowData" let-index="rowIndex" pTemplate="body">
+        <span>{{index + 1}}</span>
+      </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'20%'}" field="jobChineseName" header="数据类型"></p-column>
+    <p-column [style]="{'width':'20%'}" field="jobName" header="数据标识"></p-column>
+    <p-column [style]="{'width':'40%'}" field="desc" header="说明"></p-column>
+    <p-column [style]="{'width':'15%'}" field="" header="操作">
+      <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+        <button pButton type="button" (click)="editConfiguration(item)" label="编辑"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+
+  <p-dialog class="dialog-modal-block" header="定时器设置" [(visible)]="displayDialogEdit"
+            modal="modal" draggable="false" resizable="false" (onHide)="dialogModalHidden()">
+    <form class="dialog-modal-container mtb-5">
+      <div class="mb-10">
+        <label class="item-label-name mr-10">数据类型</label>
+        <input class="item-input" type="text" pInputText placeholder="数据类型" [(ngModel)]="selectedConfiguration.jobChineseName"
+               [ngModelOptions]="{standalone: true}" maxlength="50">
+      </div>
+      <div class="mb-10">
+        <label class="item-label-name mr-10">数据标识</label>
+        <input class="item-input" type="text" pInputText placeholder="数据标识" [(ngModel)]="selectedConfiguration.jobName" readonly="true"
+               [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="mb-10">
+        <label class="item-label-name mr-10" style="vertical-align: top;">说明</label>
+        <textarea class="item-input" type="text" pInputText placeholder="说明" [(ngModel)]="selectedConfiguration.desc"
+                  [ngModelOptions]="{standalone: true}" maxlength="100"></textarea>
+      </div>
+    </form>
+    <p-footer>
+      <button class="mr-20" pButton type="button" icon="iconfont icon-ensure" (click)="confirmDialog()" label="确认"></button>
+      <button class="cancel-btn" pButton type="button" icon="iconfont icon-cancel" (click)="displayDialogEdit = false;" label="取消"></button>
+    </p-footer>
+  </p-dialog>
+
+</section>

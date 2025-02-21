@@ -1,0 +1,138 @@
+<div class="form-config mlr-10">
+  <div class="form-head">{{isSysAdmin ? '区域选择' : '体温单&nbsp;>&nbsp;自定义项设置'}}</div>
+  <div class="form-main-container">
+    <!-- 左侧医院列表 -->
+    <div class="left-tree-area" *ngIf="isSysAdmin">
+      <div class="hospital-search-block">
+          <input style="width: 90%;" name="filterHospitalName" type="text" pInputText [(ngModel)]="filterHospitalName" placeholder="区域/医院"/>
+          <span class="icon iconfont icon-sousuo" (click)="getAreasAndHospitalsList()"></span>
+      </div>
+      <div class="left-tree-list">
+          <p-tree [style]="{'height': '100%', 'width': '100%'}" [(value)]= "reportsTree"  selectionMode="single" [isShowTitle] = "true" [(selection)]="selectedReport" (onNodeSelect)="reportSelect()"></p-tree>
+      </div>
+  </div>
+  <!-- 右侧配置界面 -->
+  <div id="treeTableFather" class="right-area" *ngIf="showConfigTable" [ngStyle]="{'width':isSysAdmin?'79%':'98%'}">
+      <div class="top-button padding">
+          <button class="specialHover"type="button" pButton icon="fa-plus" (click)="addClick()" label="新增"></button>
+          <button class="specialHover"type="button" pButton icon="fa-edit" (click)="doEdit()" label="修改"></button>
+          <button class="specialHover"type="button" pButton icon="fa-minus" (click)="deleteClick()" label="删除"></button>
+      </div>
+      <section  class="table-tree">
+        <p-dataTable [(value)]="signDictList" selectionMode="single" [(selection)]="selectedSignDict" [responsive]="true">
+        <p-column field="体征代码" header="体征代码" [style]="{'width':'15%','text-align': 'center'}"></p-column>
+        <p-column field="体征名称" header="体征名称" [style]="{'width':'15%', 'text-align': 'center'}"></p-column>
+        <!-- <p-column field="打印名称" header="体征打印名称" [style]="{'width':'15%', 'text-align': 'center'}"></p-column> -->
+        <p-column field="体征单位" header="体征单位" [style]="{'width':'15%', 'text-align': 'center'}"></p-column>
+        <!-- <p-column field="最大值" header="最大值" [style]="{'width':'10%', 'text-align': 'center'}"></p-column>
+        <p-column field="最小值" header="最小值" [style]="{'width':'10%', 'text-align': 'center'}"></p-column> -->
+        <p-column field="排序" header="排序" [style]="{'width':'10%', 'text-align': 'center'}"></p-column>
+        <p-column field="描述" header="描述" [style]="{'width':'30%'}"></p-column>
+        <ng-template pTemplate="emptymessage">
+          暂无数据
+        </ng-template>
+      </p-dataTable>
+      </section>
+  </div>
+  </div>
+  
+  <!--体征类表单自定义项明细弹出框-- start-->
+  <p-dialog id="sign-dict-dia" [(header)]="rptTitle" [(visible)]="displayRptDialog" [width]="600" showEffect="fade" [modal]="true" (onHide) ="doCancel()">
+      <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedSignDict">
+        <div class="ui-grid-row margin-top">
+          <div class="ui-grid-col-2 ">
+            <label class="signLabel" for="name">体征代码</label>
+            <span style="color:red">*</span>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['体征代码']" kMaxLength="8" tip="长度超过限制"
+            [readonly]="rptTitle == '编辑体征项'" id="SIGNS_CODE" [(ngModel)]="selectedSignDict['体征代码']" />
+          </div>
+          <div class="ui-g-col-1"></div>
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="recDate">体征名称</label>
+            <span style="color:red">*</span>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText  [kyeeValidate]="selectedSignDict['体征名称']" kMaxLength="20" tip="长度超过限制" 
+            id="SIGNS_SHOW_NAME" [(ngModel)]="selectedSignDict['体征名称']"
+            />
+          </div>
+        </div>
+        <div class="ui-grid-row margin-top">
+          <!-- <div class="ui-grid-col-2">
+            <label class="signLabel" for="recDate">打印名称</label>
+            <span style="color:red">*</span>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['打印名称']" kMaxLength="50" tip="长度超过限制"
+             id="PRINT_NAME" [(ngModel)]="selectedSignDict['打印名称']"
+            />
+          </div>
+          <div class="ui-g-col-1"></div> -->
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="recTime">体征单位</label>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['体征单位']" kMaxLength="10" tip="长度超过限制"
+             id="SIGNS_UNIT" [(ngModel)]="selectedSignDict['体征单位']"
+            />
+          </div>
+          <div class="ui-g-col-1"></div>
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="showTime">排序</label>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['排序']" kMaxLength="2" kMax="99" kMin="0" tip="0-99 数字"
+             id="ORDERS" [(ngModel)]="selectedSignDict['排序']"
+            />
+          </div>
+        </div>
+        <!-- <div class="ui-grid-row margin-top">
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="showDate">最大值</label>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['最大值']" kMaxLength="10" tip="最多10位数字"
+             id="MAX_VALUE" [(ngModel)]="selectedSignDict['最大值']"
+            />
+          </div>
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="showTime">最小值</label>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['最小值']" kMaxLength="10"  tip="最多10位数字"
+             id="MIN_VALUE" [(ngModel)]="selectedSignDict['最小值']"
+            />
+          </div>
+        </div> -->
+        <!-- <div class="ui-grid-row margin-top">
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="showTime">排序</label>
+          </div>
+          <div class="ui-grid-col-4">
+            <input pInputText [kyeeValidate]="selectedSignDict['排序']" kMaxLength="2" kMax="99" kMin="0" tip="0-99 数字"
+             id="ORDERS" [(ngModel)]="selectedSignDict['排序']"
+            />
+          </div>
+        </div> -->
+        <div class="ui-grid-row margin-top">
+          <div class="ui-grid-col-2">
+            <label class="signLabel" for="showTime">描述</label>
+          </div>
+          <div class="ui-grid-col-10">
+            <textarea [kyeeValidate]="selectedSignDict['描述']" kMaxLength="256" tip="长度超过限制"
+             id="SIGNS_DESC" rows="5" cols="30" [(ngModel)]="selectedSignDict['描述']"
+              pInputTextarea></textarea>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+          <div class="ui-dialog-buttonpane ui-helper-clearfix">
+              <button class="specialHover" type="button" pButton icon="fa-close" (click)="doCancel()" label="取消"></button>
+              <button class="specialHover" type="button" pButton icon="fa-check" (click)="doSave()" label="保存"></button>
+          </div>
+      </p-footer>
+  </p-dialog>
+  <!--体征类表单自定义项明细弹出框-- end-->
+</div>

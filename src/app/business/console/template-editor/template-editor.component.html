@@ -1,0 +1,130 @@
+<!-- 移动目录、模版顺序 -->
+<div class="template-import">
+
+  <section class="select-hispital-block">
+      <div>
+        <label class="mr-5">选择医院</label>
+        <p-dropdown [disabled]="isHospitalRole" [options]="hospitalList" class="kyee-dropdown" [(ngModel)]="selectedHispital" optionLabel='医院名称' [style]="{'width':'200px'}"
+        [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"
+          (onChange)="changeHospital($event)"></p-dropdown>
+      </div>
+      <!-- <button class="import-btn kyee-button" pButton type="button" label="导入文件" (click)="showImportFileDialog($event)"></button> -->
+  </section>
+  <section class="ui-g ui-fluid selection-condition-block">
+      <label class="mr-10">所属分类：</label>
+      <p-radioButton *ngIf="!isHospitalRole" class="mr-20" name="scope" value="area" label="区域" [(ngModel)]="selectedScope"
+                     (click)="changeScope('area')"></p-radioButton>
+      <p-radioButton class="mr-20" name="scope" value="hospital" label="医院" [(ngModel)]="selectedScope"
+                      (click)="changeScope('hospital')"></p-radioButton>
+      <p-radioButton class="mr-5" name="scope" value="deptment" label="科室" [(ngModel)]="selectedScope"
+                      (click)="changeScope('deptment')"></p-radioButton>
+      <p-dropdown *ngIf="selectedScope== 'deptment'"  class="kyee-dropdown" [options]="deptmentList" [(ngModel)]="selectedDeptment" optionLabel="科室名称" [style]="{'width':'150px'}"
+        [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"
+        (onChange)="changeDeptment($event)"></p-dropdown>
+  </section>
+  <section class="ui-g">
+      <div class="template-dir-block">
+          <p-dataTable #dirTable [value]="templateDirs" scrollable="true" scrollHeight="300px" [loading]="dirLoadingFlag"
+                [style]="{'text-align': 'center'}" loadingIcon="fa-spinner" selectionMode="single"
+                emptyMessage="暂无模板目录..." [(selection)]="selectedTemplateDir" (onRowSelect)="updateTemplateList()">
+
+            <p-column field="目录名称" header="模板目录"></p-column>
+          </p-dataTable>
+      </div>
+      <div class="template-list-block">
+          <p-dataTable [value]="emrTemplates" scrollHeight="300px" scrollable="true"
+                    [loading]="templateLoadingFlag" loadingIcon="fa-spinner" [style]="{'text-align':'center'}"
+                    selectionMode="single" emptyMessage="暂无模板..." [(selection)]="selectedTemplate">
+            <p-column [style]="{'width':'50px'}" selectionMode="single"></p-column>
+            <p-column [style]="{'width':'75%'}">
+                <ng-template pTemplate="header"> 模板名称</ng-template>
+                <ng-template let-col let-template="rowData" pTemplate="body">
+                    <!-- {{template['模板名称']|getTrueName}} -->
+                    {{template['模板名称']|getTrueName}}
+                </ng-template>
+            </p-column>
+            <p-column [style]="{'width':'20%', 'text-align':'center'}">
+                <ng-template pTemplate="header">操作</ng-template>
+                <ng-template let-col let-template="rowData" pTemplate="body">
+                    <button type="button" pButton label="预览" (click)="previewTemplate(template)"></button>
+                    <button type="button" pButton label="删除" (click)="deleteTemplate(template)"></button>
+                </ng-template>
+            </p-column>
+            <p-footer>
+                <button type="button" pButton label="移动至其他目录" (click)="showAdjustDirOverlay($event, templateDirsMenu)"
+                [disabled]="!selectedTemplate || selectedScope == 'area'"></button>
+                <button type="button" pButton label="上移" (click)="modifyTemplate(selectedTemplate, 'up')" [disabled]="!selectedTemplate || selectedScope == 'area'"></button>
+                <button type="button" pButton label="下移" (click)="modifyTemplate(selectedTemplate, 'down')" [disabled]="!selectedTemplate || selectedScope == 'area'"></button>
+            </p-footer>
+          </p-dataTable>
+          <p-overlayPanel #templateDirsMenu appendTo="body" [style]="{'background': '#fff'}">
+            <div class="mb-10" *ngIf="selectedTemplateDir">
+                <label>当前：&nbsp;&nbsp;&nbsp;</label>
+                <input type="text" class="cur-dir-text" pInputText [disabled]="true"
+                [(ngModel)]="selectedTemplateDir['目录名称']"/>
+            </div>
+            <section class="ui-g overlay-panel-content">
+                <label>移动到：</label>
+                <div>
+                <p-listbox [options]="templateDirs" [(ngModel)]="selectedNewDirs" optionLabel="目录名称"
+                class="template-listbox"></p-listbox>
+                <footer class="overlay-panel-footer">
+                    <button type="button" pButton label="确认" (click)="confirmAdjustDir(templateDirsMenu)"></button>
+                    <button type="button" pButton label="取消" (click)="closeAdjustDirOverlay(templateDirsMenu)"></button>
+                </footer>
+                </div>
+            </section>
+          </p-overlayPanel>
+      </div>
+  </section>
+
+  <!--iframe嵌入编辑器-->
+  <p-dialog header="模板预览" [(visible)]="editorDisplay" styleClass="editor-dlg" modal="true"
+    closeOnEscape="false" [responsive]="true">
+    <iframe #editorIframe width="100%" height="100%"></iframe>
+  </p-dialog>
+
+  <!-- <p-dialog class="import-file-dialog" header="导入模板文件" [(visible)]="isShowUploadDialog" modal="true" closeOnEscape="false"
+  [responsive]="true" (onHide)="beforeHideImportFileDialog($event)">
+    <ul class="impot-file-content">
+        <li class="mb-20">
+            <label class="mr-10">选择医院</label>
+            <p-dropdown [options]="hospitalList" class="kyee-dropdown hospital-dropdown" [(ngModel)]="selectedImportFileHispital" optionLabel='医院名称'
+            [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"
+            (onChange)="changeImportFileHospital($event)" [style]="{'width':'200px'}"></p-dropdown>
+        </li>
+        <li class="mb-20">
+            <label class="mr-10">选择分类</label>
+            <p-radioButton *ngIf="!isHospitalRole" class="mr-20" name="scopeType" value="area" label="区域" [(ngModel)]="selectedImportFileScope"
+                         (click)="changeImportFileScope('area')"></p-radioButton>
+            <p-radioButton class="mr-20" name="scopeType" value="hospital" label="医院" [(ngModel)]="selectedImportFileScope"
+                (click)="changeImportFileScope('hospital')"></p-radioButton>
+            <p-radioButton class="mr-5" name="scopeType" value="deptment" label="科室" [(ngModel)]="selectedImportFileScope"
+                (click)="changeImportFileScope('deptment')"></p-radioButton>
+            <p-dropdown *ngIf="selectedImportFileScope== 'deptment'" class="kyee-dropdown section-dropdown" [options]="importFileDeptmentList"
+            [(ngModel)]="selectedImportFileDeptment" optionLabel="科室名称" [style]="{'width':'150px'}"
+            [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"></p-dropdown>
+        </li>
+        <li class="mb-20 import-file-area">
+            <label class="mr-10">选择文件</label>
+            <div>
+                <div>
+                    <button class="import-btn kyee-button" pButton type="button" label="+ 点击上传" (click)="importFile($event)"></button>
+                    <input #fileUpload type="file" ng2FileSelect [uploader]="uploader"  hidden=true/>
+                </div>
+                <div class="mt-5">
+                    <span class="import-file-name">{{importFileName}}</span>
+                    <span *ngIf="importFileName" class="fa fa-close ml-10 remove-file-btn" (click)="removeFile()"></span>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <p-footer>
+        <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="confirmUpload()"></button>
+        <button pButton class="mr-20 kyee-button" type="button" label="取消" (click)="closeUploadDialog()"></button>
+    </p-footer>
+  </p-dialog> -->
+
+  <p-growl [(value)]="msgs" [life]=5000></p-growl>
+</div>
+

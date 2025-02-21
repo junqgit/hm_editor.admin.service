@@ -1,0 +1,65 @@
+<div *ngIf="selectParamType ==='病案借阅'" >
+      <div *ngIf="showOtherProperty('visible','病案借阅审批')">
+        <div class="params">
+          <div style="display: inline-block;">病案借阅是否需要审批</div>
+          <div style="display: inline-block; width: 72%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['病案借阅审批']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['病案借阅审批']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['病案借阅审批']? '需要审批' : '不需要审批'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['病案借阅审批']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">病案借阅流程配置，不需要审批是可以直接借阅成功，</div>
+        <div class="params">需要审批的流程申请后需要管理员同意才借阅成功。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','借阅归还时限')">
+        <div class="params">
+          <div style="display: inline-block;">病案借阅自动归还时限设置</div>
+          <div style="display: inline-block; width: 67%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['借阅归还时限']['启用']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['借阅归还时限']['启用']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['借阅归还时限']['启用']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['借阅归还时限']['启用']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="params" style="display: inline-block;width: 60%">借阅成功后过该时限系统自动收回已借阅的病案</div>
+          <div *ngIf="paramBean['借阅归还时限']['启用']" style="display: inline-block;width: 35%;text-align: right;">
+            <input size="30" pInputText [(ngModel)]="paramBean['借阅归还时限']['期限']" style="width: 80px" maxlength="10"
+            (keyup)="vertifyNumber($event, '期限')"
+              [(disabled)]="disabledAutoBackInput" (blur)="saveReturnTime()"/>
+            <span>{{paramBean['借阅归还时限']['单位']}}</span>
+              <span class="icon iconfont icon-edit" style="margin-left: 10px;color: #EB564A;"
+              (click)="autoBackEditorClick()"></span>
+          </div>
+        </div>
+        <div class="params" style="margin-top: 0px">时限单位为小时，填写值为大于0的正整数；禁用情况下不生效。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','是否可以查阅全院病人病历')">
+        <div class="params">
+          <div style="display: inline-block;">查阅病历范围设置</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['是否可以查阅全院病人病历']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['是否可以查阅全院病人病历']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['是否可以查阅全院病人病历']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['是否可以查阅全院病人病历']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，可以查阅全院病人病历，禁用时，只能查阅从病案室借阅的病历。</div>
+      </div>
+</div>

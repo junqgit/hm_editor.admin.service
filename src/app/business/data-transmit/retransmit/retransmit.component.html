@@ -1,0 +1,28 @@
+<div class="box">
+  <div class="bar">
+    <label class="mr-10">患者类别</label>
+    <p-dropdown class="ml-5" placeholder="请选择" [options]="clcTypes" [style]="{'width':'150px'}" [(ngModel)]="clcType"
+      [ngModelOptions]="{standalone: true}"></p-dropdown>
+    <button class="ml-20" icon="iconfont icon-sousuo" pButton type="button" label="查询" (click)="doSearch()"></button>
+  </div>
+  <p-dataTable #dt emptyMessage="暂无数据..." [style]="{'text-align':'center'}" [value]="dataList" scrollable="true"
+    scrollHeight="calc(100vh - 200px)" [editable]="true">
+    <p-column field="mapperJsonName" header="传入表名" [style]="{'width':'300px'}"></p-column>
+    <p-column field="emrType" header="病历名称"></p-column>
+    <p-column field="startDate" [header]="clcType == '2' ? '预出院时间(开始)' : '就诊时间(开始)'" [editable]="true" [style]="{'width':'200px'}">
+      <ng-template pTemplate="body" let-col let-data="rowData">
+        <p-calendar [(ngModel)]="data[col.field]" appendTo="body" dateFormat="yy-mm-dd" showLanguage="ch"></p-calendar>
+      </ng-template>
+    </p-column>
+    <p-column field="endDate" [header]="clcType == '2' ? '预出院时间(结束)' : '就诊时间(结束)'" [style]="{'width':'200px'}">
+      <ng-template pTemplate="body" let-col let-data="rowData">
+        <p-calendar [(ngModel)]="data[col.field]" appendTo="body" dateFormat="yy-mm-dd" showLanguage="ch"></p-calendar>
+      </ng-template>
+    </p-column>
+    <p-column field="" header="操作" [style]="{'width':'250px'}">
+      <ng-template pTemplate="body" let-col let-data="rowData">
+        <button type="button" pButton (click)="handle(data)" label="执行" class="table-btn second-btn"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</div>

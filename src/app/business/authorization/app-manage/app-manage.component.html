@@ -1,0 +1,87 @@
+<div style="padding:10px 10px 0">
+    <input pInputText placeholder="平台名称" type="text" [(ngModel)]="searchSysName"
+        style="width: 200px;margin-left: 10px;">
+    <input pInputText placeholder="用户名" type="text" [(ngModel)]="searchUserName" style="width: 200px;">
+    <button pButton type="button" label="查询" class="ml-20" (click)="doSearch()"></button>
+
+    <div class="button-box">
+        <button pButton type="button" label="新增" class="add-btn" (click)="showAddDialog('create')"></button>
+        <button pButton type="button" label="删除" class="delete-btn" (click)="doDelete()"></button>
+    </div>
+</div>
+<div>
+    <p-dataTable emptyMessage="暂无数据..."
+        [style]="{'padding':'20px 10px 0','max-height': '100%','overflow':'auto','text-align':'center'}"
+        [value]="authorizationInfoList" [editable]="true" fixedPaginator="true" scrollable="true"
+        scrollHeight="calc(100vh - 240px)" [(selection)]="selectionUsers" dataKey="_id">
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+        <p-column [style]="{'width':'25%'}" field="sysname" header="平台名称"></p-column>
+        <p-column [style]="{'width':'25%'}" field="syscode"  header="平台编码"></p-column>
+        <p-column [style]="{'width':'25%'}" field="username"  header="用户名"></p-column>
+        <p-column [style]="{'width':'25%'}" field="password" header="密码">
+            <ng-template let-col="rowData" pTemplate="body">
+                <div style="display: inline-block;width:200px">
+                    <input class="password" *ngIf="!col['showPassword']" pPassword type="password"
+                        [(ngModel)]="col['password']" disabled="true" />
+                    <span *ngIf="col['showPassword']">{{col['password']}}</span>
+                </div>
+                <i *ngIf="!col['showPassword']" class="fa fa-eye" style="font-size: 20px;"
+                    (click)="isShowPassword(col,true)"></i>
+                <i *ngIf="col['showPassword']" class="fa fa-eye-slash" style="font-size: 20px;"
+                    (click)="isShowPassword(col,false)"></i>
+            </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'25%'}" field="" header="操作">
+            <ng-template let-col="rowData" pTemplate="body">
+                <div class="operation-box">
+                    <button pButton type="button" label="修改" (click)="doUpdate(col)" [disabled]="false"
+                        style="border-radius: 15px"></button>
+                    <p-inputSwitch [(ngModel)]="col['status']"
+                        (onChange)="updateAuthorizationInfo(col)"></p-inputSwitch>
+                </div>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+    <p-paginator [style]="{'margin':'0 10px'}" [first]="paginateInfo['first']" [rows]="paginateInfo['pageSize']"  [rowsPerPageOptions]="[5,10,20]"  [totalRecords]="paginateInfo['totalNum']" pageLinkSize="3"  (onPageChange)="lazyLoad($event)"></p-paginator>
+</div>
+
+<p-dialog class="add-dialog" [(header)]="header" [(visible)]="isShowAddDialog" modal="true" closeOnEscape="false"
+    [responsive]="true" (onHide)="closeAddDialog()">
+    <div>
+        <label>平台名称：</label><span style="color: red;">*</span>
+        <input  class="input" type="text" pInputText [style]="{'width':'300px'}"
+            [(ngModel)]="authorizationInfo.sysname" name="sysnameInput" (blur)="nameBlur($event)"/>
+    </div>
+    <div>
+      <label>平台编码：</label><span style="color: red;">*</span>
+      <input [disabled]="type==='update'" class="input" type="text" pInputText readonly="true"
+           [(ngModel)]="authorizationInfo.syscode" name="syscodenameInput" />
+    </div>
+    <div>
+        <label>用户名：</label><span style="color: red;">*</span>
+        <input  class="input" type="text" pInputText
+            [(ngModel)]="authorizationInfo.username" name="usernameInput" />
+    </div>
+    <div>
+        <label>密码：</label><span style="color: red;">*</span>
+        <div class="password-box">
+            <input *ngIf="authorizationInfo.showPassword" class="input" type="text" pInputText
+                [(ngModel)]="authorizationInfo.password" />
+            <input *ngIf="!authorizationInfo.showPassword" class="input" type="password" pPassword
+                [(ngModel)]="authorizationInfo.password" />
+            <i *ngIf="!authorizationInfo.showPassword" class="fa fa-eye" style="font-size: 20px;"
+                (click)="isShowPassword(authorizationInfo,true)"></i>
+            <i *ngIf="authorizationInfo.showPassword" class="fa fa-eye-slash" style="font-size: 20px;"
+                (click)="isShowPassword(authorizationInfo,false)"></i>
+        </div>
+    </div>
+    <div>
+        <label style="vertical-align: super;">是否启用：</label>
+        <p-inputSwitch [(ngModel)]="authorizationInfo.status" checkedString="是" unCheckedString="否"></p-inputSwitch>
+    </div>
+    <p-footer>
+        <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="addOrUpdate()"></button>
+        <button pButton class="mr-20 kyee-button" type="button" label="取消" (click)="closeAddDialog()"></button>
+    </p-footer>
+</p-dialog>
+<p-growl [(value)]="msgs" [life]="1000"></p-growl>

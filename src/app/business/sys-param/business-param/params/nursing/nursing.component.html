@@ -1,0 +1,314 @@
+<div *ngIf="selectParamType ==='护理文书'">
+      <div *ngIf="showOtherProperty('visible','护理表单保存是否同步生成病历')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单保存是否同步生成病历</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单保存是否同步生成病历']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单保存是否同步生成病历']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单保存是否同步生成病历']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理表单保存是否同步生成病历']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，护理表单保存后自动同步生成病历，禁用时需手动点击生成病历按钮，默认启用。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单生成病历是否弹出打印界面')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单生成病历是否弹出打印界面</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单生成病历是否弹出打印界面']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单生成病历是否弹出打印界面']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单生成病历是否弹出打印界面']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;"><p-inputSwitch [(ngModel)]="paramBean['护理表单生成病历是否弹出打印界面']" (onChange)="saveHospitalParams()"></p-inputSwitch></div>
+        </div>
+        <div class="params">启用时，护理表单生成病历将自动弹出打印界面，禁用时则不弹出，默认启用状态</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单签名及修改权限设置')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单签名及修改权限设置</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单签名及修改权限设置']['启用']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单签名及修改权限设置']['启用']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单签名及修改权限设置']['启用']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理表单签名及修改权限设置']['启用']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div style="display: inline-block;width: 100%;margin-top:10px;" *ngIf="paramBean['护理表单签名及修改权限设置']['启用']">
+          <div style="margin-left: 20px;display: inline-block;">
+            启用修改权限后是否可以修改他人记录：
+          </div>
+          <div style="display: inline-block; width: 30%;">
+            <p-dropdown [options]="showOtherProperty('options','护理表单签名及修改权限设置')" [(ngModel)]="paramBean['护理表单签名及修改权限设置']['可以修改他人记录']" placeholder="请选择" (onChange)="saveHospitalParams()"
+            [ngModelOptions]="{standalone: true}"></p-dropdown>
+          </div>
+        </div>
+        <div style="display: inline-block;width: 100%;margin-top:10px;" *ngIf="paramBean['护理表单签名及修改权限设置']['启用']">
+          <div style="margin-left: 20px;display: inline-block;">
+            修改是否可以变更签名：
+          </div>
+          <div style="display: inline-block; width: 30%;">
+            <p-dropdown [options]="showOtherProperty('options','护理表单签名及修改权限设置')" [(ngModel)]="paramBean['护理表单签名及修改权限设置']['修改是否可以变更签名']" placeholder="请选择" (onChange)="saveHospitalParams()"
+            [ngModelOptions]="{standalone: true}"></p-dropdown>
+          </div>
+        </div>
+        <div style="display: inline-block;width: 100%;margin-top:10px;" *ngIf="paramBean['护理表单签名及修改权限设置']['启用'] && paramBean['护理表单签名及修改权限设置']['可以修改他人记录']=='N'">
+          <div style="margin-left: 20px;display: inline-block;">
+            密码校验：
+          </div>
+          <div style="display: inline-block; width: 30%;">
+            <p-dropdown [options]="showOtherProperty('options','护理表单签名及修改权限设置')" [(ngModel)]="paramBean['护理表单签名及修改权限设置']['密码校验']" placeholder="请选择" (onChange)="saveHospitalParams()"
+            [ngModelOptions]="{standalone: true}"></p-dropdown>
+          </div>
+        </div>
+        <div class="params">
+          说明：该参数开启，自动带入签名后，签名不能修改。<br/>
+          启用时，护理表单新增记录后自动带入签名；当设置启用修改权限后，【可以修改他人记录】为是时可以修改他人记录，为否时记录只能由创建者、质控护士、护士长修改，默认为否；【修改是否可以变更签名】为是则在修改时，可以更改签名，否则不能，默认为否。<br/>
+          禁用时，不自动带入签名，并且可以修改他人记录。<br/>
+          【可以修改他人记录】为否时，可以选择是否【密码校验】，为是时则输入当前记录签名用户的密码即可修改内容。<br/>
+        </div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','是否使用httpPrinter打印')">
+        <div class="params" style="line-height: 40px;background-color: #ddd;">
+          <div style="display: inline-block;padding-left: 10px;">是否使用httpPrinter打印</div>
+          <button  pButton type="button" (click)="saveHospitalParams()" label="保存" style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        </div>
+        <div class="clearfix ml-20 mr-20">
+          <div class="ui-g-5">
+            <span *ngIf="!paramBean['是否使用httpPrinter打印']['启用']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['是否使用httpPrinter打印']['启用']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['是否使用httpPrinter打印']['启用']? '启用' : '禁用'}}
+          </div>
+          <div class="ui-g-7 txt-a-r">
+            <p-inputSwitch [(ngModel)]="paramBean['是否使用httpPrinter打印']['启用']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <section *ngIf="paramBean['是否使用httpPrinter打印']" class="ml-20 mr-20 mb-10">
+            <div class="clearfix">
+              <label class="ui-g-3">httpPrinter端口号：</label>
+              <input class="ui-g-8" pInputText [(ngModel)]="paramBean['是否使用httpPrinter打印']['httpPrinter端口']"/>
+            </div>
+            <label class="ui-g-3" style="float: none">护理记录单名称及其打印字段映射（打印模板字段与表单字段映射之间使用中文冒号进行分隔，多组字段映射之间使用中文分号进行分隔）：</label>
+            <div class="clearfix">
+              <ul class="config-box">
+                <li>
+                  <ul class="data-config http-config">
+                    <li>
+                      <span style="width:165px;padding:0.5em">名称</span>
+                      <span style="width:250px;padding:0.5em">空白头映射</span>
+                      <span style="width:450px;padding:0.5em">字段映射</span>
+                      <button pButton type="button" (click)="addTemplateMapping()" label="增加"></button>
+                    </li>
+                    <li *ngFor="let item of nursingTemplateMaps;let i=index">
+                      <textarea type="text" pInputText style="vertical-align: middle;width: 165px;height: 35px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['name']"></textarea>
+                      <textarea type="text" pInputText style="vertical-align: middle;width: 250px;height: 35px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['blankHeadMapping']"></textarea>
+                      <textarea type="text" pInputText style="vertical-align: middle;width: 450px;height: 35px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['fieldMapping']"></textarea>
+                      <button pButton type="button" (click)="removeTemplateMapping(i)" label="删除"></button>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+        </section>
+        <div class="ml-20 mr-20 mb-10">本地安装httpPrinter打印插件后，启用参数且配置具体护理记录单及其字段映射时，表单录入页面显示‘打印’按钮，并使用httpPrinter进行表单的打印，否则显示‘生成病历’按钮，打印仍使用原方式。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','表单录入同步新版体温单字段映射')">
+        <div class="params" style="line-height: 40px;background-color: #ddd;">
+          <div style="display: inline-block;padding-left: 10px;">表单录入同步新版体温单字段映射</div>
+          <button  pButton type="button" (click)="saveHospitalParams()" label="保存" style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        </div>
+        <section *ngIf="paramBean['表单录入同步新版体温单字段映射']" class="ml-20 mr-20 mb-10">
+          <div class="clearfix">
+            <ul class="config-box">
+              <li>
+                <ul class="data-config" style="overflow-x: hidden;">
+                  <li>
+                    <span style="width:165px;padding:0.5em">名称</span>
+                    <span style="padding:0.5em">字段映射</span>
+                    <button pButton type="button" (click)="addFieldAndSignCodeMapping()" label="增加"></button>
+                  </li>
+                  <li *ngFor="let item of nursingFieldSignDictMaps;let i=index">
+                    <textarea type="text" pInputText style="vertical-align: middle;width: 165px;height: 35px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['name']"></textarea>
+                    <textarea type="text" pInputText style="vertical-align: middle;width: 350px;height: 35px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['fieldMapping']"></textarea>
+                    <button pButton type="button" (click)="removeFieldAndSignCodeMapping(i)" label="删除"></button>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <label class="ui-g-3" style="float: none">护理记录单中字段与新版体温单体征代码(时间点体征)映射（字段与体征代码之间使用英文冒号进行分隔，多组字段映射之间使用英文逗号进行分隔）（体温同步为准确时间点时才同步）</label>
+          <br>
+          <label class="ui-g-3" style="float: none">一日一测项目也可以配置按时间点同步，例如【血压:XYA#1030】表示表单录入在10:30时才会同步体征数据，其他时间不同步，不配置“#1030”则全天时间点均可同步。</label>
+        </section>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护士批量删除护理记录权限')">
+        <div class="params">
+          <div style="display: inline-block;">是否开启护士批量删除护理记录权限</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护士批量删除护理记录权限']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护士批量删除护理记录权限']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护士批量删除护理记录权限']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护士批量删除护理记录权限']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">开启时，电子病历护理录入页面，患者护理记录数据支持多选删除</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','生成产程图')">
+        <div class="params">
+          <div style="display: inline-block;">是否开启生成产程图</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['生成产程图']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['生成产程图']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['生成产程图']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['生成产程图']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">开启时，在《产前待产记录》录入页面可以生成产程图</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单数据是否允许复制')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单数据是否允许复制</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单数据是否允许复制']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单数据是否允许复制']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单数据是否允许复制']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理表单数据是否允许复制']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，可复制某患者护理数据到选定患者</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单是否顺序排序')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单是否顺序排序</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单是否顺序排序']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单是否顺序排序']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单是否顺序排序']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理表单是否顺序排序']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，护理记录顺序排序；禁用时，护理记录倒序排序。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单签名是否倒序排序')">
+        <div class="params">
+          <div style="display: inline-block;">护理表单签名是否倒序排序</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理表单签名是否倒序排序']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理表单签名是否倒序排序']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理表单签名是否倒序排序']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理表单签名是否倒序排序']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，护理表单签名倒序排序；禁用时，护理表单签名顺序排序。默认禁用。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','待办提醒事项设置')">
+        <div class="params" style="line-height: 40px;background-color: #ddd;">
+          <div style="display: inline-block;padding-left: 10px;">待办提醒事项设置</div>
+          <button pButton type="button" (click)="saveHospitalParams()" label="保存" style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+        <ul class="config-box">
+          <li>
+            <ul>
+              <li style="padding-bottom: 5px;">
+                <span style="width:120px;">待办提醒事项类型</span>
+                <span style="width:140px;padding-left: 10px;">待办类型小类</span>
+                <button pButton type="button" (click)="addTodoReminderType()" label="增加"></button>
+              </li>
+              <li *ngFor="let item of todoReminderList;let i=index" style="padding-bottom: 3px;">
+                <input type="text" pInputText style="width:120px;" [(ngModel)]="item['reminderType']">
+                <input type="text" pInputText style="width:500px;" [(ngModel)]="item['todoReminderList']">
+                <button pButton type="button" (click)="removeTodoReminderType(i)" label="删除"></button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="params">设置待办提醒的大类和明细项，如：
+          <br/> 护理记录单  &nbsp;&nbsp;&nbsp;&nbsp;       科室一:内科护理记录单,科室二:外科护理记录单
+          <br/> <待办事项类型>   &nbsp;&nbsp;&nbsp;&nbsp;  <各科室待办事项明细键值对>
+          <br/> 各科室设置之间使用英文逗号分隔，科室名称与模板名称之间使用冒号分隔。
+        </div>
+        </div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理表单数据分页数量')">
+        <button  pButton type="button" (click)="saveHospitalParams()" label="保存" style="float:right;margin-right:30px;margin-top: 5px;"></button>
+        <div class="params">
+          <div style="display: inline-block;">护理表单数据分页数量</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block; padding-left: 25px;">
+          <p class="margin-t-15">全局默认分页数量: </p>
+        </div>
+        <div style="display: inline-block; padding-left: 20px;text-align: center;">
+          <p-dropdown [options]="signEntryPageOption" [(ngModel)]="paramBean['护理表单默认分页数']" placeholder="请选择"></p-dropdown>
+        </div>
+        <div style="padding-left: 20px;padding-bottom: 3px;padding-top: 5px;">
+          <span style="width:200px;padding:0.5em;display: inline-block;">护理表单名称</span>
+          <span style="padding: 0.5em;width: 95px;display: inline-block;">分页数</span>
+          <button pButton type="button" style="margin-left: 5px;" (click)="addSignEntryPage()" label="增加"></button>
+        </div>
+        <ul class="data-config" style="margin-left: 20px;">
+          <li *ngFor="let item of signEntryPageArr ;let i=index">
+            <textarea type="text" pInputText style="width: 200px;height: 30px;overflow: auto hidden;white-space: nowrap;resize: none;" [(ngModel)]="item['name']"></textarea>
+            <p-dropdown [options]="signEntryPageOption" [ngStyle]="{'width': '96px', 'margin-right': '4px', 'vertical-align': 'top', 'height': '30px','display':'inline-grid'}" [(ngModel)]="item['pageNum']" placeholder="请选择"></p-dropdown>
+            <button pButton type="button" (click)="removeSignEntryPage(i)" label="删除" style="top: -8px;"></button>
+          </li>
+        </ul>
+        <div class="params">参数用于设置打开各护理表单默认的数据分页数量和护理表单全局默认分页数量，请自行配置，优先级（各表单配置 > 全局配置），都未配置时默认分页数为20。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','护理文书显示已提交病案患者')">
+        <div class="params">
+          <div style="display: inline-block;">护理文书显示已提交病案患者</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['护理文书显示已提交病案患者']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['护理文书显示已提交病案患者']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['护理文书显示已提交病案患者'] === false? '禁用' : '启用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['护理文书显示已提交病案患者']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，护理文书模块出院患者显示已提交病案的患者，护士可以修改内容；禁用时，护理文书模块出院患者不显示已提交病案的患者。默认禁用。
+        </div>
+      </div>
+</div>

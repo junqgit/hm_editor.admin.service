@@ -1,0 +1,65 @@
+$space:5px;
+#folder{
+    display: flex;
+    height:100%;
+    & > div{
+        height: 100%;
+        overflow: hidden;
+        background: #fff;
+        p{
+            padding: $space;
+            margin-bottom: $space;
+            border-bottom: 1px solid #eee;
+     font-weight: bold;
+    font-size: 1.2em;
+        }
+    }
+    .left-area{
+        width: 260px;
+        border-bottom: 1px solid #eee;
+    }
+    .right-area{
+        flex: 1;
+        background: unset;
+        padding: $space;
+        & > p{
+            margin-left: -5px;
+    background: #fff;
+    margin-top: -5px;
+        }
+        &>button{
+            margin-bottom: $space;
+        }
+    }
+    dl{
+        margin-left: 20px;
+        height: calc(100% - 40px);
+        overflow-y: auto;
+        dd{
+            padding: 5px;
+            
+            span{
+                padding: 5px;
+            }
+        }
+        .sel{
+            span{
+                color: #4297fe;
+                background: #eee;
+            }
+            
+        }
+        div{
+            float:right;
+            display: inline-block;
+            height: 1.5em;
+            margin-right: 20px;
+        }
+    }
+   
+}
+:host /deep/ button.ui-button-icon-only{
+    width: 1.5em;
+    height: 100%;
+}
+

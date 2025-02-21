@@ -1,0 +1,139 @@
+.form-config {
+    width: 98%;
+    height: 100%;
+    display: inline-block;
+    overflow: hidden;
+    .form-head {
+        display: inline-block;
+        width: 100%;
+        height: 30px;
+        padding: 0 0 0 20px;
+        border-bottom: 2px solid #CBCFD0;
+        font-size: 16px;
+    }
+    .form-main-container {
+        position: relative;
+        height: calc(100% - 30px);
+        .left-tree-area {
+            display: inline-block;
+            width: 20%;
+            height: 100%;
+            background: white;
+            .hospital-search-block {
+                height: 28px;
+            }
+            .left-tree-list {
+                height: calc(100% - 28px);
+            }
+        }
+        .right-area {
+            position: relative;
+            display: inline-block;
+            height: 100%;
+            padding: 0 10px;
+            vertical-align: top;
+        }
+    }
+    
+    /deep/ .ui-dialog.ui-widget .ui-dialog-content {
+        padding: 1em 1.2em;
+        line-height: 1.5;
+    }
+    /deep/ .ui-grid-responsive .ui-grid-row {
+        padding-bottom: .5rem;
+    }
+    /deep/.ui-widget   {
+        .ui-spinner-button.ui-button {
+            border-radius: 0;
+        }
+        .ui-spinner-button.ui-button.ui-corner-tr {
+            border-top-right-radius: 3px;
+        }
+        .ui-spinner-button.ui-button.ui-corner-br {
+            border-bottom-right-radius: 3px;
+        }
+    }
+}
+.text-over{
+    //text-align: center;
+    text-overflow:ellipsis !important;
+    overflow:hidden !important;
+    white-space: nowrap !important;
+    word-break: break-all;
+    &:hover {
+        text-overflow: inherit !important;
+        overflow: visible !important;
+        white-space: inherit !important;
+        word-break: inherit !important;
+    }
+}
+.padding{
+  padding: 0.5rem;
+}
+:host ::ng-deep .ui-tree{
+    width: 100%;
+ }
+ :host ::ng-deep.ui-menu   {
+  background-color: #ffffff;
+  padding: 0;
+  &:hover{
+      cursor: pointer;
+      color: white;
+      span{
+          background-color: transparent;
+      }
+  }
+
+}
+
+ :host ::ng-deep .ui-dialog .ui-dialog-content{
+     overflow: visible;
+ }
+
+:host ::ng-deep span.ui-spinner{
+  width: 100%;
+}
+
+.row-label-text{
+    box-sizing: border-box;
+    width: 20%;
+    label{
+        //float: right;
+    }
+}
+.row-input {
+    box-sizing: border-box;
+    width: 30%;
+}
+
+.ui-g-slef-12 {
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+}
+:host ::ng-deep .ui-tree{
+    width: 100%;
+}
+
+.tree{
+    height:calc(100% - 2.5rem);
+    overflow:scroll;
+    margin-top: 0.5rem;
+}
+.width1{
+    padding-left: 5px;
+    width: 13%;
+}
+.width2{
+    width: 24%;
+}
+.paddingL{
+    padding-left: 1rem !important;
+}
+.table-tree{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - 42.2px);
+    overflow: hidden;
+}

@@ -1,0 +1,16 @@
+<div class="business-container">
+  <kyee-common-sidebar *ngIf="showSideBar"  [ngStyle]="{'width': navDisplay? '220px' : '50px','position':'fixed','z-index':'100'}"></kyee-common-sidebar>
+  <kyee-common-footer></kyee-common-footer>
+  <div class="layout-content" [class.siderHide]="!navDisplay">
+    <router-outlet></router-outlet>
+  </div>
+  <p-growl [(value)]="msgs" [life]="10000" [baseZIndex]="9999999999"></p-growl>
+  <p-confirmDialog #cd width="425">
+    <p-footer>
+        <button class="mr-20" type="button" pButton icon="iconfont icon-ensure" label="确认" (click)="cd.accept()"></button>
+        <button type="button" pButton icon="iconfont icon-cancel" label="取消" (click)="cd.reject()"></button>
+    </p-footer>
+  </p-confirmDialog>
+</div>
+
+

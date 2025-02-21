@@ -1,0 +1,173 @@
+<div class="ui-g-12 box clearfix">
+  <div class="ui-g-12 search-box clearfix">
+    <form>
+      <div style="display:flex;align-items: center;flex-wrap: wrap;">
+        <span class="mr_5 ml-10 condition-name" style="width: 60px;">医院</span>
+        <p-dropdown [options]="searchEmrHospitalList" [style]="{'width':'178px'}" [filter]="true" filterPlaceholder="请搜索..."
+          emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true" [(ngModel)]="selectedSearchEmrHospital"
+          [ngModelOptions]="{standalone: true}" (onChange)="getEmrDeptListAndEmrStatus(selectedSearchEmrHospital)"
+          optionLabel="name"></p-dropdown>
+        <span class="mr_5  ml-10 condition-name" style="width:60px">科室</span>
+        <p-dropdown [options]="searchEmrHospitalDeptList" [style]="{'width':'178px'}" [filter]="true"
+          filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"
+          [(ngModel)]="selectedSearchEmrDept" [ngModelOptions]="{standalone: true}" optionLabel="name">
+        </p-dropdown>
+        <span class="mr_5 ml-10 condition-name" style="width: 60px;">病案状态</span>
+        <p-dropdown [options]="status" [style]="{'width':'178px'}" [(ngModel)]="this.searchData['病案状态']"
+          [ngModelOptions]="{standalone: true}"></p-dropdown>
+        <span class="mr_5 ml-10 condition-name" style="width: 60px;">医生姓名</span>
+        <input type="text" pInputText [style]="{'width':'178px'}" [(ngModel)]="this.searchData['主治医生姓名']"
+          placeholder="请输入" [ngModelOptions]="{standalone: true}">
+      </div>
+      <div style="display:flex;align-items: center;flex-wrap: wrap;margin-top: 10px;float: left;">
+        <span class="mr_5 ml-10 condition-name" style="width: 60px;">病历类型</span>
+        <p-dropdown [options]="recordType" [(ngModel)]="selectedRecordType" [ngModelOptions]="{standalone: true}" [style]="{'width':'178px'}" 
+          placeholder="请选择病历类型"></p-dropdown>
+        <span class="mr_5 ml-10 condition-name" *ngIf="selectedRecordType == '住院'" style="width: 60px;">住院号</span>
+        <input type="text" *ngIf="selectedRecordType == '住院'" pInputText style="width:178px" 
+          [(ngModel)]="this.searchData['住院号']" placeholder="请输入" [ngModelOptions]="{standalone: true}">
+        <span class="mr_5 ml-10 condition-name" *ngIf="selectedRecordType == '门诊'" style="width: 60px;">门诊号</span>
+        <input type="text" *ngIf="selectedRecordType == '门诊'" pInputText style="width:178px" 
+          [(ngModel)]="this.searchData['门诊号']" placeholder="请输入" [ngModelOptions]="{standalone: true}">
+        <span class="mr_5 ml-10 condition-name" style="width: 60px;">模板名称</span>
+        <p-dropdown [options]="dropTemplateList" [style]="{'width':'178px'}" editable="true" [filter]="true" filterPlaceholder="请搜索..."
+          emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true" [(ngModel)]="selectSearchTemplate"
+          [ngModelOptions]="{standalone: true}" optionLabel="displayName"></p-dropdown>
+      </div>
+      <div style="float:right;margin-top:10px">
+        <button pButton type="button" style="min-width: 64px;margin:0 5px 0 10px;" (click)="clickSearch()"
+            label="查询"></button>
+          <button type="button" pButton (click)="updateSelectedTemplate()" label="更新">
+          </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="ui-g-12 content-box">
+    <p-dataTable #dt [style]="{'text-align':'center','max-height': 'calc(100vh - 240px)'}"
+     [value]="templateInfoList" emptyMessage="未检索到模板使用情况！" [totalRecords]="allSize" [lazy]="true" 
+     (onLazyLoad)="lazyLoad($event)" [rowsPerPageOptions]="[5,10,20,50,100,200]" [(first)]="first"
+     [rows]="searchData['pageSize']" loadingIcon="fa-spinner" #dt scrollable="true" [loading]="dirLoading"
+     [(selection)]="selectionRecords" [paginator]="true" [pageLinks]="3" fixedPaginator="true" scrollable="true" scrollHeight="calc(100vh - 280px)">
+      <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+      <p-column  header="序号"  [style]="{'width':'70px'}">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          <span>{{ i+1}}</span>
+                  </ng-template>
+      </p-column>
+      <p-column field="templateName" header="医院名称">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['医院名称'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="患者姓名">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['患者姓名'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName"  *ngIf="selectedRecordType == '住院'" header="住院号">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['住院号'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName"  *ngIf="selectedRecordType == '门诊'" header="门诊号">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['门诊号'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="病历名称及版本" [style]="{'width':'220px','word-break':'break-all'}">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body" style="word-break: inherit;">
+          {{item ? item['病历名称及版本'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="科室">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['科室名称'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="医生">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['主治医生姓名'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="病案状态">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? emrStatuMap[item['病案状态']] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="操作人">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item ? item['操作人'] : ''}}
+        </ng-template>
+      </p-column>
+      <p-column field="templateName" header="操作时间">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+          {{item['操作时间'] | date:'y-MM-dd HH:mm:ss'}}
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+
+
+
+<p-dialog header="批量替换模板" [(visible)]="newRecordDialogDisplay"
+  [contentStyle]="{'overflow':'visible','min-height':'400px'}" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="1000" (onHide)="onClose()">
+  <section class="ui-g ui-fluid selection-condition-block">
+    <label class="mr-10">所属分类：</label>
+    <p-radioButton *ngIf="isAreaRole" class="mr-20" name="scope" value="area" label="区域" [(ngModel)]="selectedScope"
+      (click)="changeScope('area')"></p-radioButton>
+    <p-radioButton *ngIf="selectedSearchEmrHospital && selectedSearchEmrHospital['code']" class="mr-20" name="scope" value="hospital"
+      label="医院" [(ngModel)]="selectedScope" (click)="changeScope('hospital')"></p-radioButton>
+    <p-radioButton *ngIf="selectedSearchEmrHospital && selectedSearchEmrHospital['code']" class="mr-5" name="scope" value="deptment" label="科室"
+      [(ngModel)]="selectedScope" (click)="changeScope('deptment')"></p-radioButton>
+    <p-dropdown *ngIf="selectedScope== 'deptment'" class="kyee-dropdown" style="height: 27px;"
+      [options]="searchEmrHospitalDeptList" [(ngModel)]="selectedDeptment" optionLabel="name"
+      [style]="{'width':'150px'}" [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果"
+      [resetFilterOnHide]="true" (onChange)="changeDeptment($event)"></p-dropdown>
+    <div style="display: inline;padding-left: 5px;">
+      <p-autoComplete [inputStyle]="{'width': '450px'}" [(ngModel)]="selectedSearchTemplate"
+        [suggestions]="filteredTemplates" [placeholder]="'请输入模板名称'" [minLength]="1" field="templateNameWithScope"
+        (completeMethod)="filterTemplateByTemplateName($event)" (onSelect)="selectTemplateForPAuto()"
+        emptyMessage="未查到相关模板，请重新输入..."></p-autoComplete>
+    </div>
+  </section>
+  <section class="ui-g">
+    <div class="template-dir-block">
+      <p-dataTable #dirTable [value]="templateDirs" scrollable="true" scrollHeight="300px"
+        [style]="{'text-align': 'center'}" loadingIcon="fa-spinner" selectionMode="single" emptyMessage="暂无模板目录..."
+        [(selection)]="selectedTemplateDir" (onRowSelect)="updateTemplateList()">
+
+        <p-column field="目录名称" header="模板目录"></p-column>
+      </p-dataTable>
+    </div>
+    <div class="template-list-block">
+      <p-dataTable [value]="emrTemplates" scrollHeight="300px" scrollable="true" loadingIcon="fa-spinner"
+        [style]="{'text-align':'center'}" emptyMessage="暂无模板...">
+        <p-column [style]="{'width':'75%'}">
+          <ng-template pTemplate="header"> 模板名称</ng-template>
+          <ng-template let-col let-template="rowData" pTemplate="body">
+            {{template['模板名称']}}
+          </ng-template>
+        </p-column>
+        <p-column [style]="{'width':'20%', 'text-align':'center'}">
+          <ng-template pTemplate="header">操作</ng-template>
+          <ng-template let-col let-template="rowData" pTemplate="body">
+            <button type="button" pButton label="替换" (click)="confirmReplaceOrNot(template)"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </section>
+  <div style="height: 15px;"></div>
+</p-dialog>
+
+<p-dialog styleClass="confirm-dlg" [header]="'替换模板'" [(visible)]="confirmReplace" modal="modal">
+  <p>将使用该模板替换选择的所有病历模板，请确认选择病历的模板类型？</p>
+    <!-- {{this.replaceTemplate['模板名称']}} -->
+  <p-footer>
+    <button type="button" pButton icon="iconfont icon-ensure" (click)="confirmReplaceTemplate()" label="确认"></button>
+    <button class=" second-btn" type="button" pButton icon="iconfont icon-cancel" (click)="cancelReplaceTemplate()" label="取消"></button>
+  </p-footer>
+</p-dialog>
+<p-growl [(value)]="msgs" [life]=10000 ></p-growl>

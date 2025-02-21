@@ -1,0 +1,160 @@
+<div class="main">
+  <div class="ops">
+    <button *ngIf="isSysAdmin" pButton label="复制至" icon="fa-plus"></button>
+    <button pButton label="增加" icon="fa-plus" (click)="addRow()"></button>
+    <button pButton label="保存" icon="fa-save" (click)="saveAll()"></button>
+    <button pButton label="上传图片" icon="pi pi-upload" (click)="showImgDlg()"></button>
+    <i class="remaid">查询模式为【评估表单类】，制作模版时表格属性必须设置【评估单表格类型】</i>
+  </div>
+  <div class="data">
+
+    <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="formList"
+      [editable]="true" dataKey="uid" fixedPaginator="true" scrollable="true">
+
+      <p-column [style]="{'width':'180px'}" field="REPORT_NAME" header="表单名称" [editable]="true">
+        <!-- <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="dymicTemplateDp" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template> -->
+      </p-column>
+      <p-column [style]="{'width':'180px'}" field="REPORT_SHOW_NAME" header="表单显示名称" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <input pInputText type="text"  [(ngModel)]="rowData[col.field]"
+        [ngModelOptions]="{standalone: true}" (blur)="showNameBlur(rowData)">
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'70px'}" field="REPORT_PY_NAME" header="表单首字母缩写" [editable]="true"></p-column>
+      <p-column [style]="{'width':'150px'}" field="REPORT_IMGNAME" header="图片名称" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="dymicImgDp" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          <!-- {{rowData[col.field]}} -->
+          {{showVal('img',rowData[col.field])}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'80px'}" field="IS_CONFIGURATION" header="是否配置" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonSwitchDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'80px'}" field="IS_CUSTOM" header="存在自定义列" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonSwitchDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'80px'}" field="IS_HIDE" header="表单隐藏" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonSwitchDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'100px'}" field="IS_QUERY" header="查询模式" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonSearchDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+
+
+      </p-column>
+      <!-- <p-column [style]="{'width':'100px'}" field="REPORT_TYPE" header="表单类型" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonTypeDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column> -->
+      <p-column [style]="{'width':'100px'}" field="REPORT_GROUP" header="表单分类" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="commonGroupDP" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{rowData[col.field]}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'0'}" field="REPORT_MODULE" header="销售分类" [editable]="true"
+        [hidden]="true"></p-column>
+      <p-column [style]="{'width':'100px'}" field="REPORT_DEPT" header="所属科室" [editable]="true">
+        <ng-template pTemplate="editor" let-rowData="rowData" let-col>
+          <p-dropdown [options]="dymicDeptDp" [(ngModel)]="rowData[col.field]" [style]="{'width':'100%'}"
+            appendTo="body"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData="rowData" let-col>
+          {{showVal('dept',rowData[col.field])}}
+        </ng-template>
+      </p-column>
+      <p-column [style]="{'width':'40px'}" field="SHOW_INDEX" header="排序值" [editable]="true"></p-column>
+      <p-column [style]="{'width':'60px'}" field="REMARK" header="备注" [editable]="true"></p-column>
+      <p-column field="REMARK" header="操作"
+        [style]="{'width':'170px','position':'sticky','right':'0','background-color': 'inherit'}">
+        <ng-template pTemplate="body" let-col let-data="rowData" let-index="rowIndex">
+          <button *ngIf="data['_id'] && data['IS_CONFIGURATION'] == '是'" type="button" pButton
+            (click)="showDetail(data)" label="配置" class="table-btn second-btn"></button>
+
+          <button type="button" pButton (click)="del(data,index)" label="删除" class="table-btn second-btn"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>
+
+<p-dialog class="import-img-dialog" header="上传图片" [(visible)]="imgDlg" modal="true" closeOnEscape="false"
+  [responsive]="true" (onHide)="beforeHideImportFileDialog($event)" width="400">
+  <ul class="impot-file-content">
+    <li class="mb-10 mt-10 ml-10">
+      <label class="mr-10">图片名称</label>
+      <input pInputText placeholder="图片名称" type="text" class="inp" [(ngModel)]="imgName"
+        [ngModelOptions]="{standalone: true}">
+    </li>
+    <li class="mb-10 mt-10  ml-10 import-file-area">
+      <div>
+        <label class="mr-10">选择图片</label>
+        <button class="import-btn kyee-button" pButton type="button" label="+ 点击上传"
+          (click)="importFile($event)"></button>
+        <input #fileUpload type="file" ng2FileSelect [uploader]="uploader" accept="image/*" hidden="true" />
+        <span class="import-file-name">{{imgName}}</span>
+      </div>
+      <!-- <div class="mt-5">
+                      <span class="import-file-name">{{imgName}}</span>
+                      <span *ngIf="importFileName" class="fa fa-close ml-10 remove-file-btn" (click)="removeFile()"></span>
+                  </div> -->
+
+    </li>
+  </ul>
+  <p-footer>
+    <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="confirmUpload()"></button>
+    <button pButton class="mr-20 kyee-button" type="button" label="取消" (click)="closeUploadDialog()"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog class="nursing-from-detail" [header]="(selectRow || {})['REPORT_NAME'] + '配置'" [(visible)]="nfdDlg" modal="true" closeOnEscape="false"
+  [responsive]="true" (onHide)="beforeHideImportFileDialog($event)">
+  <kyee-eva-detail-config *ngIf="nfdDlg" [nursingFromData]="selectRow"></kyee-eva-detail-config>
+</p-dialog>
+
+
+<p-growl [(value)]="msgs" [life]=5000></p-growl>

@@ -1,0 +1,486 @@
+<div class="score-config">
+    <form class="right-form-block mt-10 mb-10">
+        <div class="mb-10">
+            <p-dropdown [options]="controlType" class="kyee-dropdown" name="controlType" [(ngModel)]="selectedControl"
+                [style]="{'width':'155px'}"></p-dropdown>
+            <p-dropdown [options]="templateList" class="kyee-dropdown" name="templateList" [(ngModel)]="sakelengent"
+                [filter]="true" filterPlaceholder="请搜索..." emptyFilterMessage="暂无搜索结果" [resetFilterOnHide]="true"
+                [style]="{'width':'160px'}"></p-dropdown>
+            <p-dropdown [options]="statusType" class="kyee-dropdown" name="statusType" [(ngModel)]="status"
+                [style]="{'width':'155px'}"></p-dropdown>
+            <input pInputText placeholder="评分标准查询" type="text" class="inp" [(ngModel)]="ruleDescription"
+                [ngModelOptions]="{standalone: true}">
+
+            <button pButton type="button" label="查询" class="search-btn ml-50 kyee-button" (click)="doSearch()"></button>
+        </div>
+
+        <div class="clearfix">
+            <span style="color:#4297fe;cursor: pointer;" (click)="showScoreReportList()">扣分病历列表</span>
+            <button pButton type="button" label="删除" (click)="delete('删除')" [disabled]="false"
+                class="add-qc-btn"></button>
+            <button pButton type="button" label="停用" (click)="update('停用')" [disabled]="false"
+                class="add-qc-btn"></button>
+            <button pButton type="button" label="启用" (click)="update('启用')" [disabled]="false"
+                class="add-qc-btn"></button>
+            <button pButton type="button" label="新建时限质控" (click)="showTimeLimitDialog()" class="add-qc-btn"></button>
+            <button pButton type="button" label="新建内容质控" (click)="showContentQualityDialog()" [disabled]="false"
+                class="add-qc-btn"></button>
+            <!-- <button pButton type="button" label="新建逻辑质控" (click)="syncNow(syncBean)" [disabled]="false" class="add-qc-btn"></button> -->
+            <button pButton type="button" label="新建手动质控" (click)="showManualScoreDialog()" class="add-qc-btn"></button>
+        </div>
+    </form>
+    <div class="score-rule-table">
+        <p-dataTable [style]="{'max-height': 'calc(100vh - 240px)','text-align':'center', 'word-break': 'break-word'}" class="score-rule-list"
+            [style]="{'text-align':'center', 'word-break': 'break-word'}" loadingIcon="fa-spinner"
+            [(selection)]="selectedRules" (onRowDblclick)="doEditOrViewRule($event, '查看')" [value]="searchResults"
+            emptyMessage="暂无病历评分记录" fixedPaginator="true" scrollable="true" scrollHeight="calc(100vh - 275px)">
+
+
+            <p-column [style]="{'width':'4%'}" selectionMode="multiple" >
+            </p-column>
+            <p-column header="序号" [style]="{'width': '6%'}">
+                <ng-template let-col  let-index="rowIndex" pTemplate="body">
+                    <span>{{index + 1}}</span>
+                </ng-template>
+            </p-column>
+            <p-column field="templateName" header="病历名称" [style]="{'width': '9%'}"> </p-column>
+            <p-column field="ruleDescription" header="评分标准" [style]="{'width': '12%'}"></p-column>
+            <p-column field="ruleType" header="质控类型" [style]="{'width': '9%'}"></p-column>
+            <p-column field="singleReject" header="是否单向否决" [style]="{'width': '100px'}"></p-column>
+            <p-column field="score.rejectLevel" header="否决级别" [style]="{'width': '9%'}"></p-column>
+            <!-- <p-column field="scoreType" header="评分类型" [style]="{'width': '9%'}"></p-column> -->
+            <p-column field="score.value" header="扣分值" [style]="{'width': '8%'}"></p-column>
+            <p-column field="status" header="是否启用" [style]="{'width': '9%'}"></p-column>
+            <p-column [style]="{'width':'10%'}" field="" header="操作">
+                <ng-template let-col let-scoreData="rowData" pTemplate="body">
+                    <button pButton type="button" label="编辑" (click)="doEditOrViewRule(scoreData, '编辑')"
+                        [disabled]="false" style="border-radius: 10px"></button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
+        <p-paginator [rows]="paginateInfo['pageSize']" [totalRecords]="paginateInfo['totalNum']" pageLinkSize="3"
+            (onPageChange)="paginate($event)"></p-paginator>
+    </div>
+</div>
+<!-- 新建内容质控 -->
+<p-dialog class="quality-dialog view-overlay-dialog" [header]="contentQualityHeader"
+    [(visible)]="isShowContentQualityDialog" modal="true" closeOnEscape="false" [responsive]="true"
+    (onHide)="resetContentQuality()">
+    <form>
+        <div class="overlay-mask" *ngIf="contentQualityHeader == '查看内容质控'"></div>
+        <fieldset class="content">
+
+            <div class="ui-g-12">
+                <div class="ui-g-2"><label>评分标准</label></div>
+                <div class="ui-g-10">
+                    <!-- <textarea [rows]="3" [cols]="30" style="width: 100%;border: 1px solid #ddd;border-radius: 3px;" pInputTextarea autoResize="autoResize"
+                    [(ngModel)]="contentQuality.ruleDescription" [ngModelOptions]="{standalone: true}" placeholder="请填写评分标准">
+                </textarea> -->
+                    <input pInputText placeholder="评分标准" type="text" style="width: 100%;"
+                        [(ngModel)]="contentQuality.ruleDescription" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-2"><label>选择病历</label></div>
+                <div class="ui-g-10">
+                    <p-multiSelect [options]="dialogTemplateList" [(ngModel)]="selectedTemplate" [filter]="true"
+                        filterBy="label,value" [style]="{'width':'100%'}" (onChange)="changeContentQualityTemplates()"
+                        [ngModelOptions]="{standalone: true}" defaultLabel="请选择"></p-multiSelect>
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <button pButton class="mr-20 kyee-button" type="button" label="新增原子条件" (click)="addRule()"></button>
+                <button pButton class="mr-20 kyee-button" type="button" label="正则验证" (click)="showReg()"></button>
+            </div>
+
+            <div class="ui-g-12 rule" *ngFor="let _rule of contentQuality['rules'];let index = index">
+                <button *ngIf="contentQuality['rules'].length > 1" pButton class="mr-20 kyee-button" type="button" label="删除" (click)="delRule(index)"></button>
+                <div class="ui-g-2"><label>序号</label></div>
+                <div class="ui-g-10">
+                    <div>{{index + 1}}</div>
+                </div>
+                <p-radioButton value="" label="正则匹配" [(ngModel)]="_rule.same" (click)="clearValue(index)" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                <p-radioButton value="一致性" label="一致性" [(ngModel)]="_rule.same" (click)="clearValue(index)" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                <p-radioButton value="数值比较" label="数值比较" [(ngModel)]="_rule.same" (click)="clearValue(index)" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                <p-radioButton value="验证出生日期与身份证日期不相等" label="验证出生日期与身份证日期不相等" [(ngModel)]="_rule.same" (click)="clearValue(index)" [ngModelOptions]="{standalone: true}"></p-radioButton>
+                <div class="ui-g-10 data-source" *ngIf="_rule.same != '验证出生日期与身份证日期不相等'" >
+                    <label>选择数据元</label>
+                    <input type="text" [(ngModel)]="_rule.dataSources"
+                        (click)="showDataSourceMsgDialogNew($event, '完整性',index)" [ngModelOptions]="{standalone: true}"
+                        placeholder="请选择数据元"
+                        (keydown)="preventChipsInput($event)" pInputText style="width: 100%;line-height: 20px;" />
+                </div>
+                <div class="ui-g-10" *ngIf="_rule.same == '数值比较'" [ngStyle]="{'margin-top': '5px'}">
+                    <label>比较规则</label>
+                    <p-dropdown [options]="containRange" [(ngModel)]="_rule.rangeValue" [ngModelOptions]="{standalone: true}"
+                    appendTo="body" [style]="{'width':'100px','height':'30px'}"></p-dropdown>
+                    <input *ngIf="_rule.calculateOperation !=5" type="text" [(ngModel)]="_rule.endVal" (click)="showDataSourceMsgDialogNew($event,'endVal',index)"
+                    [ngModelOptions]="{standalone: true}"  placeholder="请选择结束数据元"
+                    (keydown)="preventChipsInput($event)" pInputText style="width: 110px;height: 30px;vertical-align: middle" />
+                    <input type="text" [(ngModel)]="_rule.startVal" (click)="showDataSourceMsgDialogNew($event,'startVal',index)"
+                    [ngModelOptions]="{standalone: true}"  placeholder="请选择起始数据元"
+                    (keydown)="preventChipsInput($event)" pInputText style="width: 110px;height: 30px;vertical-align: middle" />
+                    <p-dropdown [options]="operations" [(ngModel)]="_rule.calculateOperation" [ngModelOptions]="{standalone: true}"
+                    appendTo="body" [style]="{'width':'100px','height':'30px'}"></p-dropdown>
+                </div>
+                <div *ngIf="_rule.same == '验证出生日期与身份证日期不相等'" [ngStyle]="{'margin-top': '5px'}">
+                    <input type="text" [(ngModel)]="_rule.startVal" (click)="showDataSourceMsgDialogNew($event,'startVal',index)"
+                    [ngModelOptions]="{standalone: true}"  placeholder="请选择出生日期数据元"
+                    (keydown)="preventChipsInput($event)" pInputText style="width: 50%;line-height: 20px;margin-top: 5px" />
+                    <input type="text" [(ngModel)]="_rule.endVal" (click)="showDataSourceMsgDialogNew($event,'endVal',index)"
+                    [ngModelOptions]="{standalone: true}"  placeholder="请选择身份证号数据元"
+                    (keydown)="preventChipsInput($event)" pInputText style="width: 50%;line-height: 20px;margin-top: 5px" />
+                </div>
+                <div>
+                    <div class="ui-g-10" *ngIf="!_rule.same">
+                        <label>正则表达式</label>
+                        <input pInputText  type="text" style="width: 100%;"
+                        [(ngModel)]="_rule.reg" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="ui-g-12">
+                <div class="ui-g-2"><label>原子条件关系</label></div>
+                <div class="ui-g-10">
+                    <input  pInputText  type="text" style="width: 100%;" placeholder="支持符号: (、)、and、or、>、<、>=、<=、!=、=="
+                        [(ngModel)]="contentQuality.expression" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+
+
+            <section class="ui-g-12">
+                <div class="ui-g-2"><label>保存类型</label></div>
+                <div class="ui-g-10">
+                    <p-radioButton name="saveBlockType" value="保存时仅显示" label="保存时仅显示"
+                        [(ngModel)]="completeness.saveCheckedType"></p-radioButton>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <p-radioButton name="saveBlockType" value="保存时拦截" label="保存时拦截"
+                        [(ngModel)]="completeness.saveCheckedType"></p-radioButton>
+                </div>
+            </section>
+
+            <section class="ui-g-12">
+                <div class="ui-g-2"><label>提交类型</label></div>
+                <div class="ui-g-10">
+                    <p-radioButton name="commitBlockType" value="提交时仅显示" label="提交时仅显示"
+                        [(ngModel)]="completeness.commitCheckedType"></p-radioButton>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <p-radioButton name="commitBlockType" value="提交时拦截" label="提交时拦截"
+                        [(ngModel)]="completeness.commitCheckedType"></p-radioButton>
+                </div>
+            </section>
+            <div class="ui-g-12">
+                <div class="ui-g-2"><label>提示信息</label></div>
+                <div class="ui-g-10">
+                    <input  pInputText  type="text" style="width: 100%;"
+                        [(ngModel)]="contentQuality.msg" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="ui-g-12">
+                <div class="ui-g-2"><label>是否启用</label></div>
+                <div class="ui-g-10">
+                    <p-radioButton name="status" value="启用" label="启用"
+                        [(ngModel)]="contentQuality.status"></p-radioButton>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <p-radioButton name="status" value="停用" label="停用"
+                        [(ngModel)]="contentQuality.status"></p-radioButton>
+                </div>
+            </div>
+            <child-score></child-score>
+        </fieldset>
+
+    </form>
+    <p-footer *ngIf="contentQualityHeader != '查看内容质控'">
+        <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="confirmContentQuality()"></button>
+        <button pButton class="mr-20 kyee-button" type="button" label="取消"
+            (click)="isShowContentQualityDialog=false"></button>
+    </p-footer>
+</p-dialog>
+
+<!-- 数据元 -->
+<p-dialog header="数据元信息" [(visible)]="displayDataSourceMsgDialog" [modal]="true" [width]="900" id="datasourcedialog"
+    (onHide)="clearDataSourceData()">
+    <form class="ui-g clearfix" style="align-items: center;"
+        (ngSubmit)="dlgSearchParams.page.currentPage=1;getDataSources()">
+        <div class="ui-g-4" style="padding-left: 0">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon" style="width: 200px;">数据元名称：</span>
+                <input type="text" pInputText style="width: 100%" [(ngModel)]="dlgSearchParams.key"
+                    [ngModelOptions]="{standalone: true}">
+            </div>
+        </div>
+        <div class="search-right">
+            <button pButton icon="fa-search" type="submit" class="ui-button-success" style="min-width: 64px;"
+                label="查询"></button>
+        </div>
+    </form>
+    <p-dataTable [style]="{'text-align':'center'}" [(selection)]="selectedDataSources" selectionMode="single"
+        [loading]="dataSourceTableLoadingFlag" [value]="dataSources" emptyMessage="暂无数据">
+        <p-column [style]="{'width':'4%'}" selectionMode="single"></p-column>
+        <p-column field="dataSourceName" header="数据元名称"></p-column>
+        <p-column field="typeName" header="类型"></p-column>
+        <p-column field="createDate" header="创建时间"></p-column>
+    </p-dataTable>
+    <p-paginator [rows]="dlgSearchParams.page['pageSize']" [totalRecords]="dlgSearchParams.page['totalRecords']"
+        pageLinkSize="3" (onPageChange)="searchDataSourcePaginate($event)"></p-paginator>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="fa-check" (click)="confirmDataSourceDialog()" label="确定"></button>
+        </div>
+    </p-footer>
+</p-dialog>
+
+
+<!-- 时限质控新增和编辑 start-->
+<p-dialog class="dialog-modal-block view-overlay-dialog" [header]="timeLimitHeader" [(visible)]="showTimeLimitFlag"
+    modal="modal" [responsive]="true" (onHide)="clearContentQulity()">
+    <form class="dialog-modal-container">
+        <div class="overlay-mask" *ngIf="timeLimitHeader == '查看时限质控'"></div>
+        <ul class="time-limit-content">
+            <li class="time-limit-item mb-10">
+                <label class="time-limit-label">选择病历：</label>
+                <p-dropdown class="time-limit-select" [style]="{height:'30px',width:'100%'}"
+                    [panelStyle]="{width: '100%'}" [options]="dialogTemplateList" [(ngModel)]="selectedTemplate"
+                    placeholder="请选择" [ngModelOptions]="{standalone: true}" [filter]="true" [resetFilterOnHide]="true"
+                    filterPlaceholder="请搜索" [useClear]="true" [isShowTitle]="true"
+                    [disabled]="timeLimitHeader == '编辑时限质控'"></p-dropdown>
+            </li>
+            <li class="mb-10">
+                <div class="time-limit-item mb-10">
+                    <label class="time-limit-label">事件：</label>
+                    <p-dropdown [options]="eventTypeList" [(ngModel)]="deadLine.event" placeholder="选择事件" class="mr-10"
+                        [ngStyle]="{width: '30%'}" [style]="{width: '100%', height: '30px'}"
+                        [panelStyle]="{width: '100%'}" [ngModelOptions]="{standalone: true}" [filter]="true"
+                        filterPlaceholder="请选择" [disabled]="timeLimitHeader == '编辑时限质控'"></p-dropdown>
+                    <p-radioButton class="mr-5" name="eventGroup" value="事件前" label="事件前"
+                        [(ngModel)]="deadLine.conditions" [disabled]="timeLimitHeader == '编辑时限质控'"></p-radioButton>
+                    <p-radioButton name="eventGroup" value="事件后" label="事件后" [(ngModel)]="deadLine.conditions">
+                    </p-radioButton>
+                </div>
+                <div class="time-limit-item">
+                    <label class="time-limit-label">时间：</label>
+                    <input class="time-limit-input mr-5" type="number" min="0" step="1" pInputText
+                        [(ngModel)]="deadLine.timeValue" (keyup)="vertifyNumber($event, 'timeValue')"
+                        [ngModelOptions]="{standalone: true}" />
+                    <p-dropdown [options]="timeUnitList" [(ngModel)]="deadLine.timeUnit"
+                        [ngModelOptions]="{standalone: true}" [ngStyle]="{width: '15%'}"
+                        [style]="{width: '100%', height: '30px'}" appendTo="body"></p-dropdown>
+                </div>
+            </li>
+            <li class="mb-10">
+                <label class="time-limit-label">病历分类：</label>
+                <input class="time-limit-input mr-5" pInputText [(ngModel)]="emrType"
+                    [ngModelOptions]="{standalone: true}" placeholder="入院记录、病案首页" style="width: 50%;" />
+            </li>
+            <li class="mb-10">
+                <label class="time-limit-label">质控条件：</label>
+                <p-radioButton name="limitType1" value="reg" label="模糊匹配" [(ngModel)]="valueType"
+                    (click)="clearValueLimit()"></p-radioButton>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p-radioButton name="limitType1" value="acc" label="精确匹配" [(ngModel)]="valueType"
+                    (click)="clearValueLimit()"></p-radioButton>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p-radioButton name="limitType1" value="limit" label="值域范围" [(ngModel)]="valueType"
+                    (click)="clearValueLimit()"></p-radioButton>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div style="margin-left: 21%;" *ngIf="valueType != 'limit'">
+
+                    <p-dropdown [options]="basKey" [(ngModel)]="valueName" [ngModelOptions]="{standalone: true}"
+                        [ngStyle]="{width: '15%'}" [style]="{width: '120px', height: '30px'}" appendTo="body"
+                        placeholder="选择基本信息"></p-dropdown>
+                    <input pInputText placeholder="值" [(ngModel)]="value1" style="width: 30%;height: 30px;"
+                        [ngModelOptions]="{standalone: true}">
+
+                </div>
+                <div style="margin-left: 21%;" *ngIf="valueType == 'limit'">
+                    <p-dropdown [options]="basLimitKey" [(ngModel)]="valueName" [ngModelOptions]="{standalone: true}"
+                        [ngStyle]="{width: '15%'}" [style]="{width: '110px', height: '30px'}" appendTo="body"
+                        placeholder="选择基本信息"></p-dropdown>
+                    <!-- <p-radioButton name="contain1" value="1" label="包含" [(ngModel)]="containMin"></p-radioButton>    -->
+                    <input pInputText placeholder="最小值" type="number" min="0" [(ngModel)]="value1"
+                        (keyup)="vertifyNumber($event, 'minLength')" style="width: 80px;height: 30px;"
+                        [ngModelOptions]="{standalone: true}">
+                    <p-dropdown [options]="containType" [(ngModel)]="containMin" [ngModelOptions]="{standalone: true}"
+                        appendTo="body" [style]="{'width':'70px','height':'30px'}"></p-dropdown>
+                    <span>-</span>
+                    <!-- <p-radioButton name="contain2" value="1" label="包含" [(ngModel)]="containMax"></p-radioButton> -->
+                    <input pInputText placeholder="最大值" type="number" min="0" [(ngModel)]="value2"
+                        (keyup)="vertifyNumber($event,'maxLength')" style="width: 80px;height: 30px;"
+                        [ngModelOptions]="{standalone: true}">
+                    <p-dropdown [options]="containType" [(ngModel)]="containMax" [ngModelOptions]="{standalone: true}"
+                        appendTo="body" [style]="{'width':'70px','height':'30px'}"></p-dropdown>
+                </div>
+
+            </li>
+            <li class="mb-10">
+                <div class="time-limit-item mb-10">
+                    <label class="time-limit-label">是否周期：</label>
+                    <p-radioButton class="mr-5" name="frequencyGroup" [value]="false" label="否"
+                        [(ngModel)]="deadLine.isCycle" (onClick)="updateIsCycle(false)"></p-radioButton>
+                    <p-radioButton name="frequencyGroup" [value]="true" label="是" [(ngModel)]="deadLine.isCycle"
+                        (onClick)="updateIsCycle(true)"></p-radioButton>
+                </div>
+                <div *ngIf="deadLine.isCycle" class="time-limit-item">
+                    <label class="time-limit-label">频次：</label>
+                    <input class="time-limit-input mr-5" type="number" min="0" step="1" pInputText
+                        [(ngModel)]="deadLine.frequency" (keyup)="vertifyNumber($event, 'frequency')"
+                        [ngModelOptions]="{standalone: true}" />
+                    <span class="mr-10">次</span>
+                    <input class="time-limit-input mr-5" type="number" min="0" step="0.5" pInputText
+                        [(ngModel)]="deadLine.frequercyTime" (keyup)="vertifyNumber($event, 'frequercyTime')"
+                        [ngModelOptions]="{standalone: true}" />
+                    <p-dropdown [options]="timeUnitList" [(ngModel)]="deadLine.frequencyUnit"
+                        [ngModelOptions]="{standalone: true}" [ngStyle]="{width: '15%'}"
+                        [style]="{width: '100%', height: '30px'}" appendTo="body"></p-dropdown>
+                </div>
+            </li>
+            <li class="time-limit-item baseline mb-10">
+                <label class="time-limit-label">评分标准：</label>
+                <textarea class="time-limit-textarea" pInputTextarea [(ngModel)]="contentQuality.ruleDescription"
+                    rows="3" placeholder="请填写评分标准" [ngModelOptions]="{standalone: true}"></textarea>
+            </li>
+        </ul>
+        <section class="main-content">
+            <div class="ui-g-12">
+                <div class="ui-g-4 txt-a-r create_score_Tit"><label>是否同时创建评分标准</label></div>
+                <div class="ui-g-8">
+                    <p-radioButton class="mr-5" name="createScoreGroup" [value]="false" label="否"
+                        [(ngModel)]="contentQuality.createScoreCriteria" (onClick)="updateScoreCriteria(false)">
+                    </p-radioButton>
+                    <p-radioButton name="createScoreGroup" [value]="true" label="是"
+                        [(ngModel)]="contentQuality.createScoreCriteria" (onClick)="updateScoreCriteria(true)">
+                    </p-radioButton>
+                </div>
+            </div>
+            <fieldset class="sub-content" *ngIf="contentQuality.createScoreCriteria">
+                <div class="ui-g-12">
+                    <div class="ui-g-3 txt-a-r create_score_item label"><label>是否单项否决：</label></div>
+                    <div class="ui-g-3 create_score_item">
+                        <p-radioButton class="mr-5" name="singleReject" [value]="false" label="否"
+                            [(ngModel)]="contentQuality.score.singleReject" (onClick)="updateSingleReject(false)">
+                        </p-radioButton>
+                        <p-radioButton name="singleReject" [value]="true" label="是"
+                            [(ngModel)]="contentQuality.score.singleReject" (onClick)="updateSingleReject(true)">
+                        </p-radioButton>
+                    </div>
+                    <div class="ui-g-2 txt-a-r create_score_item label" *ngIf="contentQuality.score.singleReject">
+                        <label>否决级别：</label></div>
+                    <div class="ui-g-4 create_score_item" *ngIf="contentQuality.score.singleReject">
+                        <p-dropdown [options]="rejectLevelList" [(ngModel)]="contentQuality.score.rejectLevel"
+                            [style]="{'width':'150px'}" [ngModelOptions]="{standalone: true}" appendTo="body">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-3 txt-a-r create_score_item label"><label>评分类型：</label></div>
+                    <div class="ui-g-3 create_score_item">
+                        <p-dropdown [options]="markTypeList" [(ngModel)]="contentQuality.score.markType"
+                            [style]="{'width':'100px'}" [ngModelOptions]="{standalone: true}" appendTo="body">
+                        </p-dropdown>
+                    </div>
+                    <div class="ui-g-2 txt-a-r create_score_item label"><label>分值：</label></div>
+                    <div class="ui-g-4 create_score_item">
+                        <input type="number" size="30" min="0" step="0.5" pInputText
+                            [(ngModel)]="contentQuality.score.value" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                </div>
+            </fieldset>
+        </section>
+
+        <!-- <child-score [score]="contentQuality.score" [createScoreCriteria]="contentQuality.createScoreCriteria"></child-score> -->
+    </form>
+    <p-footer *ngIf="timeLimitHeader != '查看时限质控'">
+        <button class="mr-20" pButton type="button" icon="iconfont icon-ensure" (click)="confirmTimeLimitDialog()"
+            label="确认"></button>
+        <button class="cancel-btn" pButton type="button" icon="iconfont icon-cancel"
+            (click)="showTimeLimitFlag = false;" label="取消"></button>
+    </p-footer>
+</p-dialog>
+<!-- 时限质控新增和编辑 end-->
+
+<!-- 手动评分规则新增和编辑 start-->
+<p-dialog class="dialog-modal-block view-overlay-dialog" [header]="manualScoreHeader" [(visible)]="showManualScoreFlag"
+    modal="modal" [responsive]="true" (onHide)="clearContentQulity()">
+    <form class="dialog-modal-container">
+        <div class="overlay-mask" *ngIf="manualScoreHeader == '查看手动质控'"></div>
+        <ul class="time-limit-content">
+            <li class="time-limit-item mb-10">
+                <label class="time-limit-label">选择病历：</label>
+                <p-dropdown class="time-limit-select" [style]="{height:'30px',width:'100%'}"
+                    [panelStyle]="{width: '100%'}" [options]="dialogTemplateList" placeholder="请选择"
+                    [(ngModel)]="selectedTemplate" [ngModelOptions]="{standalone: true}" [filter]="true"
+                    filterPlaceholder="请搜索" [resetFilterOnHide]="true" [isShowTitle]="true" [useClear]="true"
+                    [disabled]="manualScoreHeader == '编辑手动质控'"></p-dropdown>
+            </li>
+            <li class="time-limit-item baseline mb-10">
+                <label class="time-limit-label">编码：</label>
+                <input style="width:70%" class="time-limit-input mr-5" type="text" pInputText [(ngModel)]="contentQuality.code" name="codeInput"/>
+            </li>
+            <li class="time-limit-item baseline mb-10">
+                <label class="time-limit-label">评分标准：</label>
+                <textarea class="time-limit-textarea" pInputTextarea [(ngModel)]="contentQuality.ruleDescription"
+                    rows="3" placeholder="请填写评分标准" name="ruleDescription"></textarea>
+            </li>
+            <li class="time-limit-item baseline mb-10">
+                <div class="reject-level-item ml-20">
+                    <label class="time-limit-label">是否单项否决：</label>
+                    <p-radioButton class="mr-5" name="singleRejectGroup" [value]="false" label="否"
+                        [(ngModel)]="contentQuality.score.singleReject" (onClick)="updateSingleReject(false)">
+                    </p-radioButton>
+                    <p-radioButton class="mr-20" name="singleRejectGroup" [value]="true" label="是"
+                        [(ngModel)]="contentQuality.score.singleReject" (onClick)="updateSingleReject(true)">
+                    </p-radioButton>
+                </div>
+                <div class="reject-level-item" *ngIf="contentQuality.score.singleReject">
+                    <label class="time-limit-label">否决级别：</label>
+                    <p-dropdown [options]="rejectLevelList" [(ngModel)]="contentQuality.score.rejectLevel"
+                        [ngModelOptions]="{standalone: true}" [style]="{width: '50%', height: '30px'}" appendTo="body">
+                    </p-dropdown>
+                </div>
+            </li>
+            <li class="time-limit-item baseline mb-10">
+                <label class="time-limit-label">评分类型：</label>
+                <p-dropdown [options]="markTypeList" [(ngModel)]="contentQuality.score.markType"
+                    [ngModelOptions]="{standalone: true}" [ngStyle]="{width: '20%', marginRight: '15px'}"
+                    [style]="{width: '100%', height: '30px'}" appendTo="body"></p-dropdown>
+                <label class="time-limit-label mr-10">分值：</label>
+                <input class="time-limit-input mr-5" type="number" size="" min="0" step="0.5" pInputText
+                    [(ngModel)]="contentQuality.score.value" name="manualScoreInput" />
+            </li>
+        </ul>
+    </form>
+    <p-footer *ngIf="manualScoreHeader != '查看手动质控'">
+        <button class="mr-20" pButton type="button" icon="iconfont icon-ensure" (click)="confirmManualScoreDialog()"
+            label="确认"></button>
+        <button class="cancel-btn" pButton type="button" icon="iconfont icon-cancel"
+            (click)="showManualScoreFlag = false;" label="取消"></button>
+    </p-footer>
+</p-dialog>
+<!-- 手动评分规则新增和编辑 end-->
+<p-dialog class="dialog-modal-block view-overlay-dialog" [header]="'扣分病历'" [(visible)]="showScoreReportListFlag"
+    modal="modal" [responsive]="true">
+    <form class="dialog-modal-container">
+        <span>以下病历为扣分病历，除此之外的病历不做扣分处理。</span>
+        <p-dataTable [value]="scoreReportList">
+            <p-column [style]="{'width': '20%'}" field="目录" header="目录"></p-column>
+            <p-column [style]="{'width': '80%'}" field="病历" header="病历"></p-column>
+        </p-dataTable>
+    </form>
+</p-dialog>
+
+<p-dialog class="dialog-modal-block view-overlay-dialog" [header]="'正则验证'" [(visible)]="showRegDiag"
+    modal="modal" [responsive]="true">
+
+    <input class="mr-5" type="text"   pInputText placeholder="正则表达式"
+                    [(ngModel)]="testReg"  />
+    <input class="mr-5" type="text"  pInputText placeholder="验证内容"
+                    [(ngModel)]="testText"  />
+    <span>{{regRes}}</span>
+    <button class="mr-20" pButton type="button"  (click)="reg()"
+                    label="验证"></button>
+    <button class="cancel-btn" pButton type="button"
+                    (click)="showRegDiag = false;" label="取消"></button>
+</p-dialog>

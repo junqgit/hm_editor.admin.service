@@ -1,0 +1,43 @@
+<section class="regional-configuration">
+  <div class="mb-10 clearfix">
+    <button *ngIf="configurationList.length==0" class="pad-lr-5 pull-right " pButton type="button" (click)="addConfiguration()" label="新增"></button>
+  </div>
+  <p-dataTable [style]="{'max-height': 'calc(100% - 50px)','overflow':'auto','text-align': 'center'}" [value]="configurationList" selectionMode="single" 
+    emptyMessage="暂无数据" [loading]="loadingFlag" loadingIcon="fa-spinner">
+      <p-column [style]="{'width': '15%'}" field="areaName" header="区域名称"></p-column>
+      <p-column [style]="{'width': '15%'}" field="areaCode" header="区域编码"></p-column>
+      <p-column [style]="{'width': '55%'}" field="targetContextPath" header="接口地址"></p-column>
+      <p-column [style]="{'width': '15%'}" header="操作">
+        <ng-template let-item="rowData" let-i="rowIndex" pTemplate="body">
+            <button pButton type="button" (click)="editConfiguration(item)" label="编辑"></button>
+            <button pButton type="button" (click)="deleteConfiguration(item)" label="删除"></button>
+        </ng-template>
+      </p-column>
+  </p-dataTable>
+  <p-dialog class="dialog-modal-block" [header]="headerTitle" [(visible)]="displayDialogEditOrAdd" 
+  modal="modal" draggable="false" resizable="false" (onHide)="dialogModalHidden()">
+    <form class="dialog-modal-container mtb-5">
+      <div class="mb-10">
+          <label class="item-label-name mr-10">区域名称*</label>
+          <input class="item-input" type="text" pInputText placeholder="区域名称" [(ngModel)]="selectedConfiguration.areaName"
+                  [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="mb-10">
+          <label class="item-label-name mr-10">区域编码*</label>
+          <input class="item-input" type="text" pInputText placeholder="区域编码" [(ngModel)]="selectedConfiguration.areaCode"
+                  [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="mb-10">
+          <label class="item-label-name mr-10">接口地址*</label>
+          <input class="item-input" type="text" pInputText placeholder="接口地址" [(ngModel)]="selectedConfiguration.targetContextPath"
+                  [ngModelOptions]="{standalone: true}">
+      </div>
+    </form>
+
+    <p-footer>
+        <button pButton type="button" style="right:250px" iconPos="left" (click)="checkUrl()" label="测试接口"></button>
+        <button class="mr-20" pButton type="button" icon="iconfont icon-ensure" (click)="confirmDialog()" label="确认"></button>
+        <button class="cancel-btn" pButton type="button" icon="iconfont icon-cancel" (click)="displayDialogEditOrAdd = false;" label="取消"></button>
+    </p-footer>
+  </p-dialog> 
+</section>

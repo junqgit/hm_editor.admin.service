@@ -1,0 +1,20 @@
+.regional-configuration {
+    padding: 0 20px;
+    .dialog-modal-block /deep/ {
+        .dialog-modal-container {
+            width: 500px;
+            .item-label-name {
+                display: inline-flex;
+                width: 18%;
+                justify-content: flex-end;
+            }
+            .item-input {
+                display: inline-flex;
+                width: 70%;
+            }
+        }
+        .ui-dialog-content {
+            padding: 20px 20px 20px 20px;
+        }
+    }
+}

@@ -1,0 +1,134 @@
+.right-btn{
+    display: flex;
+    flex-grow: 1;
+    justify-content: end;
+}
+.inp{
+    
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding-left: 5px;
+}
+
+.cell-btn{
+    button{
+        line-height: 16px;
+    }
+}
+.myEmrWrapper{
+    float: right;
+    // width: calc(99% - 250px);
+    width:100%;
+    height: 100%;
+    overflow: auto;
+}
+.header-group{
+    position: relative;
+    
+    
+    width: 100%;
+    
+    margin-top: 5px;
+    padding:16px;
+    top: -22px;
+    .btn-group{
+        display: inline-block;
+        float: right;
+    }
+    .btn{
+        height: 26px;
+        line-height: 24px;
+        border-radius: 5px;
+        margin-right: 20px;
+        min-width: 70px;
+    }
+}
+.log-scan-btn{
+    line-height: 16px;
+}
+.box{
+    height: 100%;
+}
+.header-box{
+    display: flex;
+    flex-wrap: wrap;
+    padding:0 0.5em;
+    >*{
+        margin:5px 0;
+    }
+}
+.content-box{
+    height:calc(100vh - 150px);
+}
+:host ::ng-deep .ui-dropdown-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+ .mr_5{
+    margin-right:5px;
+ }
+ :host ::ng-deep .ediotrDialog {
+    z-index: 1200;
+    width: 95% !important;
+    height: 95% !important;
+  }
+
+  :host ::ng-deep .ediotrDialog .ui-widget-header {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  
+  :host ::ng-deep .ediotrDialog .ui-widget-content {
+    height: 95% !important;
+  }
+  .selection-condition-block {
+    margin-top: 15px; 
+    margin-left: 5px; 
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  /deep/ .kyee-dropdown {
+    .ui-dropdown-panel {
+        background-color: #fff;
+    }
+    .ui-dropdown-filter-container {
+        width: 100%;
+    }
+    .ui-dropdown-panel .ui-dropdown-filter-container .fa {
+        top: 1em;
+    }
+  }
+
+  .template-dir-block {
+    margin-left: 5px;
+    position: relative;
+    width: 30%;
+    margin-right: 2%;
+    background-color: #fff;
+  }
+  .template-list-block {
+      position: relative;
+      width: 65%;
+      background-color: #fff;
+  }
+  @media screen and (min-width:1435px) {
+      :host ::ng-deep .ui-datatable-scrollable-body {
+          max-height: calc(100vh - 235px) !important;
+      }
+  }
+
+  @media screen and (max-width:1435px) {
+      .content-box {
+          height: calc(100vh - 195px) !important;
+      }
+
+      :host ::ng-deep .ui-datatable-scrollable {
+          max-height: calc(100vh - 240px) !important;
+      }
+
+      :host ::ng-deep .ui-datatable-scrollable-body {
+          max-height: calc(100vh - 280px) !important;
+      }
+  }

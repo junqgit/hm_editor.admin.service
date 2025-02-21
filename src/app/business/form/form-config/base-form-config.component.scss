@@ -1,0 +1,19 @@
+.firstTitle{
+    color: $nursingBgColor;
+}
+.skipCtrl{
+    color:$nursingBgColor;
+}
+:host ::ng-deep p-fileUpload>.ui-widget.ui-button{
+    overflow:hidden;
+    &:not(:disabled){
+        :hover{
+            background:$specialHoverBg !important;
+            border-color:$specialHoverBg !important;
+        }
+    }
+    &:hover:not(:disabled){
+        background:$specialHoverBg !important;
+        border-color:$specialHoverBg !important;
+    }
+}

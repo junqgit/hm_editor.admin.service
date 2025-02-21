@@ -1,0 +1,39 @@
+<section class="redis-cache">
+    <form class="handle-block">
+      <input class="mr-10" pInputText size="40" [(ngModel)]="searchKey" placeholder="输入key检索" [ngModelOptions]="{standalone: true}"/>
+      <button pButton type="button" label="查询" (click)="searchByKey()"></button>
+      <button pButton type="button" label="删除" (click)="doDeleteEvt()"></button>
+      <button class="clear-all-btn" pButton type="button" label="一键清除" (click)="doDeleteAllEvt()"></button>
+    </form>
+    <p-dataTable #table [value]="redisDataList" class="redis-table" [style]="{'text-align': 'center'}"
+      scrollable="true" selectionMode="multiple" 
+      [(selection)]="selectedList" 
+      emptyMessage="暂无数据">
+      <p-column selectionMode="multiple" [style]="{'width': '4%'}"></p-column>
+      <p-column header="key" field="name">
+        <ng-template let-col let-row="rowData"  pTemplate="body">
+          <div class="key-cell" [title]="row[col.field]">{{row[col.field]}}</div>
+        </ng-template>
+      </p-column>
+      <p-column header="描述" field="description">
+        <ng-template let-col let-row="rowData"  pTemplate="body">
+          <div class="key-cell">{{row[col.field]}}</div>
+        </ng-template>
+      </p-column>
+      <!-- <p-column header="" field=""></p-column> -->
+      <p-column header="操作" [style]="{'width': '10%'}">
+        <ng-template let-col let-row="rowData" pTemplate="body">
+          <button *ngIf="!row.group" pButton type="button" label="查看" (click)="doPreviewDetail(row)"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+
+    <p-dialog  header="缓存详情" width="550" [(visible)]="isShowDetailDialog"
+     modal="true" [responsive]="true" closeOnEscape="false"
+      [contentStyle]="{'overflow': 'auto','height': '360px','padding': '10px 15px'}">
+        <section *ngIf="!imgFlag" class="redis_detail">
+            {{redisCacheDetail}}
+        </section>
+        <img  *ngIf="imgFlag" [src]="redisCacheDetail" width="510" height="320">
+    </p-dialog>
+</section>

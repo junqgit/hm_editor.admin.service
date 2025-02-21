@@ -1,0 +1,264 @@
+<section class="signs-rule-config mlr-10">
+    <!-- 左侧医院列表 -->
+    <div class="left-tree-area" *ngIf="isSysAdmin">
+        <div class="hospital-search-block">
+            <input style="width: 90%;" name="filterHospitalName" type="text" pInputText [(ngModel)]="filterHospitalName" placeholder="区域/医院"/>
+            <span class="icon iconfont icon-sousuo" (click)="getAreasAndHospitalsList()"></span>
+        </div>
+        <div class="left-tree-list">
+            <p-tree [style]="{'height': '100%', 'width': '100%'}" [(value)]= "reportsTree"  selectionMode="single" [isShowTitle] = "true" [(selection)]="selectedReport" (onNodeSelect)="reportSelect()"></p-tree>
+        </div>
+    </div>
+
+    <div class="right-area themeDefault" *ngIf="showConfigTable" [ngStyle]="{'width':isSysAdmin?'79%':'98%'}">
+        <!--工具栏-->
+        <div class="toolBar">
+            <p-checkbox class="checkbox" (onChange)="selectNewborn()"></p-checkbox>新生儿&nbsp;
+            <p-radioButton name="group1" value="1" label="全院" (onClick)="onSelectType('1')" [(ngModel)]="selectType"></p-radioButton>
+            <p-radioButton name="group1" value="2" label="护理单元"  (onClick)="onSelectType('2')" [(ngModel)]="selectType"></p-radioButton>
+            <p-dropdown [options]="wardList" (onChange)="changeWard($event)" [style]="{'width':'10rem'}" [(ngModel)]="selectedWard" [disabled]="wardComDisable"></p-dropdown>
+            <button pButton label="刷新" icon="fa-search" (click)="queryConfig()"></button>
+            <button pButton label="时间点配置" icon="fa-cog" (click)="setTimePoint(true)"></button>
+        </div>
+        <div class="mainContent">
+            <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                        <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">默认规则</span>
+                        <button pButton label="保存" icon="fa-save" (click)="save('默认')" class="headerButton" ></button>
+                </p-header>
+                <div class="comContent">
+                    <div  *ngFor="let col of defaultItems" [ngStyle]="{'padding-right': '1rem'}">
+                        <label>{{col['体征名称']}}</label>
+                        <p-dropdown [style]="{'width':'6rem'}" [options]="freqCom" [(ngModel)]="col['频率代码']" placeholder="请选择"></p-dropdown>
+                    </div>
+                </div>
+
+            </p-panel>
+
+           <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">入院规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('入院')" class="headerButton" ></button>
+                </p-header>
+                <div class="comContent">
+                    <div *ngFor="let col of admissionItems" [ngStyle]="{'padding-right': '1rem'}">
+                        <label>{{col['体征名称']}}</label>
+                        <p-dropdown [style]="{'width':'6rem'}" [options]="freqCom" [(ngModel)]="col['频率代码']"  placeholder="请选择"></p-dropdown>
+                    </div>
+                    <div [ngStyle]="{'width':'auto'}">
+                        <label>小时</label>
+                        <input type="text" size="20" pInputText [(ngModel)]="admissionHours" (input)="cellEditorChange($event, 'hours', admissionHours, false)" (mouseover)="cellEditorChange($event, 'hours', admissionHours, false)" (focus)="cellEditorChange($event, 'hours', admissionHours, false)" pTooltip={{toolTip}}/>
+                    </div>
+
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">转入规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('转入')" class="headerButton" ></button>
+                </p-header>
+                <div class="comContent">
+                    <div *ngFor="let col of transferItems" [ngStyle]="{'padding-right': '1rem'}">
+                    <label>{{col['体征名称']}}</label>
+                        <p-dropdown [style]="{'width':'6rem'}" [options]="freqCom" [(ngModel)]="col['频率代码']" placeholder="请选择"></p-dropdown>
+                    </div>
+                    <div [ngStyle]="{'width':'auto'}">
+                        <label>小时</label>
+                        <input type="text" size="20" pInputText [(ngModel)]="transferHours" (input)="cellEditorChange($event, 'hours', transferHours, false)" (mouseover)="cellEditorChange($event, 'hours', transferHours, false)" (focus)="cellEditorChange($event, 'hours', transferHours, false)" pTooltip={{toolTip}}/>
+                    </div>
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">发热规则</span>
+                    <button pButton label="新增" icon="fa-plus" (click)="addRule('发热')" class="headerButton" ></button>
+                    <button pButton label="删除" icon="fa-remove" (click)="delRule('发热')" class="headerButton" ></button>
+                    <button pButton label="保存" icon="fa-save" (click)="save('发热')" class="headerButton" ></button>
+                </p-header>
+                <div class="tableFather margin-top">
+                    <p-dataTable [(value)]="feverData" [editable]="true" [scrollable]="true"
+                        emptyMessage="暂无记录" [rowHover]="true" [(selection)]="selectRow">
+                        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                        <p-column *ngFor="let columnConfig of feverColums;" [field]="columnConfig.field" [header]="columnConfig.header" [editable]="true"
+                                [style]="{'text-align': 'center'}">
+
+                            <ng-template *ngIf="columnConfig.type == 'ComboBox'" let-col let-car="rowData" pTemplate="body">
+                                <span>{{findLabel(car[col.field], columnConfig.header)}}</span>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="freqCom"></p-dropdown>
+                                <input appendTo="body" *ngIf="columnConfig.type !== 'ComboBox'" pInputText (input)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (mouseover)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (focus)="cellEditorChange($event, columnConfig.type, data[col.field], true)" [(ngModel)]="data[col.field]" pTooltip={{toolTip}}/>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">年龄规则</span>
+                    <button pButton label="新增" icon="fa-plus" (click)="addRule('年龄')" class="headerButton" ></button>
+                    <button pButton label="删除" icon="fa-remove" (click)="delRule('年龄')" class="headerButton" ></button>
+                    <button pButton label="保存" icon="fa-save" (click)="save('年龄')" class="headerButton" ></button>
+                </p-header>
+                <div class="tableFather margin-top">
+                    <p-dataTable [(value)]="ageData" [editable]="true" [scrollable]="true" [rowHover]="true"
+                    emptyMessage="暂无记录" [(selection)]="selectRow">
+                        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                        <p-column *ngFor="let columnConfig of ageColums;" [field]="columnConfig.field" [header]="columnConfig.header" [editable]="true"
+                                [style]="{'text-align': 'center'}">
+                            <ng-template *ngIf="columnConfig.type == 'ComboBox'" let-col let-car="rowData" pTemplate="body">
+                                <span>{{findLabel(car[col.field], columnConfig.header)}}</span>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="freqCom"></p-dropdown>
+                                <input appendTo="body" *ngIf="columnConfig.type !== 'ComboBox'" pInputText (input)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (mouseover)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (focus)="cellEditorChange($event, columnConfig.type, data[col.field], true)" [(ngModel)]="data[col.field]" pTooltip={{toolTip}}/>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </p-panel>
+
+             <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">护理规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('护理')" class="headerButton" ></button>
+                    <button pButton label="重置" icon="fa-refresh" (click)="reset(selectRow)" class="headerButton" ></button>
+                </p-header>
+                <div class="tableFather margin-top">
+                    <p-dataTable [(value)]="nursingData" [editable]="true" [scrollable]="true" [rowHover]="true" [(selection)]="selectRow"
+                    emptyMessage="暂无记录">
+                        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                        <p-column *ngFor="let columnConfig of nursingColums;" [field]="columnConfig.field" [header]="columnConfig.header" [editable]="true"
+                                [style]="{'text-align': 'center'}">
+                            <ng-template *ngIf="columnConfig.type == 'ComboBox'" let-col let-car="rowData" pTemplate="body">
+                                <span>{{findLabel(car[col.field], columnConfig.header)}}</span>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox'  && columnConfig.signFlag === '1'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="freqCom"></p-dropdown>
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox' && columnConfig.signFlag === '0'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="nuringLevels"></p-dropdown>
+                                <input appendTo="body" *ngIf="columnConfig.type !== 'ComboBox'" pInputText (input)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (mouseover)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (focus)="cellEditorChange($event, columnConfig.type, data[col.field], true)" [(ngModel)]="data[col.field]" pTooltip={{toolTip}}/>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </p-panel>
+
+             <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">手术规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('手术')" class="headerButton" ></button>
+                </p-header>
+                <div class="tableFather margin-top">
+                    <p-dataTable [(value)]="operationData" [editable]="true" [scrollable]="true" [rowHover]="true" [(selection)]="selectRow"
+                    emptyMessage="暂无记录">
+                        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                        <p-column *ngFor="let columnConfig of operationColums;" [field]="columnConfig.field" [header]="columnConfig.header" [editable]="true"
+                                [style]="{'text-align': 'center'}">
+                            <ng-template *ngIf="columnConfig.type == 'ComboBox'" let-col let-car="rowData" pTemplate="body">
+                                <span>{{findLabel(car[col.field], columnConfig.header)}}</span>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="freqCom"></p-dropdown>
+                                <input appendTo="body" *ngIf="columnConfig.type !== 'ComboBox'" pInputText (input)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (mouseover)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (focus)="cellEditorChange($event, columnConfig.type, data[col.field], true)" [(ngModel)]="data[col.field]" pTooltip={{toolTip}}/>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </p-panel>
+
+             <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">病情规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('病情')" class="headerButton" ></button>
+                    <button pButton label="重置" icon="fa-refresh" (click)="reset(selectRow)" class="headerButton" ></button>
+                </p-header>
+                <div class="tableFather margin-top">
+                    <p-dataTable [(value)]="illnessData" [editable]="true" [scrollable]="true"  [rowHover]="true" [(selection)]="selectRow"
+                    emptyMessage="暂无记录">
+                        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
+                        <p-column *ngFor="let columnConfig of illnessColums;" [field]="columnConfig.field" [header]="columnConfig.header" [editable]="true"
+                                [style]="{'text-align': 'center'}">
+                            <ng-template *ngIf="columnConfig.type == 'ComboBox'" let-col let-car="rowData" pTemplate="body">
+                                <span>{{findLabel(car[col.field], columnConfig.header)}}</span>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox' && columnConfig.signFlag === '1'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="freqCom"></p-dropdown>
+                                <p-dropdown appendTo="body" *ngIf="columnConfig.type === 'ComboBox' && columnConfig.signFlag === '0'" pTooltip="{{data.toolTip}}" [style]="{'width': '100%'}" [editable]="false"
+                                            [(ngModel)]="data[col.field]" [options]="illnessLevels"></p-dropdown>
+                                <input appendTo="body" *ngIf="columnConfig.type !== 'ComboBox'" pInputText (input)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (mouseover)="cellEditorChange($event, columnConfig.type, data[col.field], true)" (focus)="cellEditorChange($event, columnConfig.type, data[col.field], true)" [(ngModel)]="data[col.field]" pTooltip={{toolTip}}/>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+                </div>
+            </p-panel>
+
+            <p-panel [toggleable]="true">
+                <p-header class="group-title">
+                    <span class="ui-panel-title" style="display:inline-block;margin:0 2rem 0 0">体重规则</span>
+                    <button pButton label="保存" icon="fa-save" (click)="save('体重')" class="headerButton" ></button>
+                </p-header>
+                <div class="comContent">
+                    <div [ngStyle]="{'padding-right': '1rem'}">
+                        <p-radioButton name="group2" value="1" label="转科时间" [(ngModel)]="weightWay"></p-radioButton>
+                    </div>
+                    <div [ngStyle]="{'padding-right': '1rem'}">
+                        <p-radioButton name="group2" value="2" label="入院时间" [(ngModel)]="weightWay"></p-radioButton>
+                    </div>
+                    <div [ngStyle]="{'padding-right': '1rem','display': 'inherit'}">
+                        <div style="padding-top: 3px;margin-right: 5px;"><label>测量间隔天数</label></div>
+                        <input type="text" size="20" pInputText [(ngModel)]="weightDays" (input)="cellEditorChange($event, 'hours', weightDays, false)" (mouseover)="cellEditorChange($event, 'hours', weightDays, false)" (focus)="cellEditorChange($event, 'hours', weightDays, false)" pTooltip={{toolTip}}/>
+                    </div>
+                </div>
+
+            </p-panel>
+        </div>
+
+        <!--时间点设置弹出框-->
+        <p-dialog class="signs-dialog" header="时间点设置" id="dialog" [(visible)]="display" modal="modal" [width]="600">
+            <div class="ui-grid-row gridrow">
+                <div class="ui-grid-col-2 title"><label>日一：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day1', timePointData.day1, false)" (mouseover)="cellEditorChange($event, 'day1', timePointData.day1, false)" (focus)="cellEditorChange($event, 'day1', timePointData.day1, false)" [(ngModel)]="timePointData.day1" pTooltip={{toolTip}}
+                     placeholder="8"/></div>
+                <div class="ui-grid-col-2 title"><label>日二：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day2', timePointData.day2, false)" (mouseover)="cellEditorChange($event, 'day2', timePointData.day2, false)" (focus)="cellEditorChange($event, 'day2', timePointData.day2, false)" [(ngModel)]="timePointData.day2" pTooltip={{toolTip}}
+                    placeholder="4,8"/></div>
+            </div>
+            <div class="ui-grid-row gridrow">
+                <div class="ui-grid-col-2 title"><label>日三：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day3', timePointData.day3, false)" (mouseover)="cellEditorChange($event, 'day3', timePointData.day3, false)" (focus)="cellEditorChange($event, 'day3', timePointData.day3, false)" [(ngModel)]="timePointData.day3" pTooltip={{toolTip}}
+                    placeholder="4,6,8"/></div>
+                <div class="ui-grid-col-2 title"><label>日四：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day4', timePointData.day4, false)" (mouseover)="cellEditorChange($event, 'day4', timePointData.day4, false)" (focus)="cellEditorChange($event, 'day4', timePointData.day4, false)" [(ngModel)]="timePointData.day4" pTooltip={{toolTip}}
+                    placeholder="4,6,8,10"/></div>
+            </div>
+            <div class="ui-grid-row gridrow">
+                <div class="ui-grid-col-2 title"><label>日五：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day5', timePointData.day5, false)" (mouseover)="cellEditorChange($event, 'day5', timePointData.day5, false)" (focus)="cellEditorChange($event, 'day5', timePointData.day5, false)" [(ngModel)]="timePointData.day5" pTooltip={{toolTip}}
+                    placeholder="4,6,8,10,12"/></div>
+                <div class="ui-grid-col-2 title"><label>日六：</label></div>
+                <div class="ui-grid-col-4"><input pInputText (input)="cellEditorChange($event, 'day6', timePointData.day6, false)" (mouseover)="cellEditorChange($event, 'day6', timePointData.day6, false)" (focus)="cellEditorChange($event, 'day6', timePointData.day6, false)" [(ngModel)]="timePointData.day6" pTooltip={{toolTip}}
+                    placeholder="4,6,8,10,12,14"/></div>
+            </div>
+            <div class="ui-grid-row gridrow">
+                <div class="ui-grid-col-2 title"><label>日十二：</label></div>
+                <div class="ui-grid-col-10"><input pInputText (input)="cellEditorChange($event, 'day12', timePointData.day12, false)" (mouseover)="cellEditorChange($event, 'day12', timePointData.day12, false)" (focus)="cellEditorChange($event, 'day12', timePointData.day12, false)" [(ngModel)]="timePointData.day12" pTooltip={{toolTip}}
+                    placeholder="2,4,6,8,10,12,14,16,18,20,22,0"/></div>
+            </div>
+            <p-footer>
+                <button type="button" pButton icon="fa-check" (click)="saveTimePoint()" label="保存"></button>
+                <button type="button" pButton icon="fa-close" (click)="display=false" label="取消"></button>
+            </p-footer>
+        </p-dialog>
+
+    </div>
+
+</section>

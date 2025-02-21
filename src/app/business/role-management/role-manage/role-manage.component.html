@@ -1,0 +1,93 @@
+<div class="role-manage mlr-10">
+
+  <!--hospital tree-->
+  <div class="left-tree-area" *ngIf="isSysAdmin">
+    <div class="hospital-search-block">
+      <input style="width: 90%;" name="filterHospitalName" type="text" pInputText [(ngModel)]="filterHospitalName" placeholder="请输入医院名称"/>
+      <span class="icon iconfont icon-sousuo" (click)="getAreasAndHospitalsList()"></span>
+    </div>
+    <div class="left-tree-list">
+      <p-tree [style]="{'height': '100%'}" [value]="areasAndHospitals" selectionMode="single" [(selection)]="selectedNode" (onNodeSelect)="selectNode()"></p-tree>
+    </div>
+  </div>
+  <!--data-table-->
+  <div class="right-user-area ui-g" *ngIf="showDataTable" [ngStyle]="{'width':isSysAdmin?'76%':'98%'}">
+
+    <form class="ui-g-12">
+      <div>
+        <input pInputText placeholder="角色名称" type="text" class="inp" [(ngModel)]="searchRoleName" [ngModelOptions]="{standalone: true}">
+        <input pInputText placeholder="角色编码" type="text" class="inp" [(ngModel)]="searchRoleCode" [ngModelOptions]="{standalone: true}">
+        <button pButton type="button" label="查询" class="ml-50" (click)="search()"></button>
+        <!-- <button pButton type="button" *ngIf="!isHospitalRole" label="新增角色" class="add-btn" (click)="showAddRoleDialog('add',null)"></button> -->
+      </div>
+    </form>
+    <p-dataTable class="import-history-table ui-g-8" [style]="{'max-height': 'calc(100% - 90px)','overflow':'auto','text-align':'center'}" selectionMode="single"
+                [paginator]="true" [rows]="paginateInfo['pageSize']" [totalRecords]="paginateInfo['totalNum']"
+                [pageLinks]="3" (onRowSelect)="selectRole($event)" [(selection)]="selectedRole"
+                [loading]="tableLoadingFlag" [value]="searchResults" emptyMessage="暂无数据" [(first)]="first">
+      <p-column header="序号" [style]="{'width': '8%'}">
+        <ng-template let-col let-patient="rowData" let-index="rowIndex" pTemplate="body">
+          <span>{{index + 1}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="角色编码" header="角色编码"></p-column>
+      <p-column field="角色名称" header="角色名称"></p-column>
+      <!-- <p-column field="创建时间" header="创建时间" >
+        <ng-template let-col let-patient="rowData" let-index="rowIndex" pTemplate="body">
+          <span>{{patient[col.field] ?  (patient[col.field] | date: 'yyyy-MM-dd HH:mm:ss') : ''}}</span>
+        </ng-template>
+      </p-column>
+      <p-column *ngIf="!isHospitalRole" [style]="{'width': '20%'}">
+        <ng-template pTemplate="header">操作</ng-template>
+        <ng-template let-col let-template="rowData" pTemplate="body">
+          <button pButton type="button" label="编辑"  (click)="showAddRoleDialog('update',template)"></button>
+          <button pButton type="button" label="删除" (click)="showDeleteRoleDialog(template)"></button>
+        </ng-template>
+      </p-column> -->
+    </p-dataTable>
+    <!--<p-paginator [rows]="paginateInfo['pageSize']" [totalRecords]="paginateInfo['totalNum']" pageLinkSize="3"  (onPageChange)="paginate($event)"></p-paginator>-->
+    <div class="ui-g-4 role-box">
+      <h1>角色菜单</h1>
+      <div class="role-menu-list">
+        <p-tree [value]="currentMenus" [(selection)]="selectedRoleInfo.selectedMenus"></p-tree>
+      </div>
+      <div class="role-menu-btn">
+          <button pButton type="button" label="编辑" [disabled]="searchResults.length==0 || !selectedRole['角色编码']"  (click)="showAddRoleDialog('update',selectedRole)"></button>                
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<p-dialog class="add-role-dialog" header="{{dialogTitle}}" [(visible)]="isShowAddRoleDialog" modal="true" closeOnEscape="false"
+[responsive]="true" (onHide)="clearSelectedRoleInfo()">
+    <ul class="add-role-content">
+        <li class="mb-20">
+            <label class="dialog-label mr-10">角色名称</label>
+            <input readonly pInputText placeholder="角色名称" type="text" class="inp" [(ngModel)]="selectedRoleInfo.selectRoleName" [ngModelOptions]="{standalone: true}">
+        </li>
+        <li style="display:inline-block">
+          <label class="dialog-label mr-10">角色菜单</label>
+          <div class="role-menu-list">
+            <p-tree [value]="menus" selectionMode="checkbox" [autoSelected]="true" [(selection)]="selectedRoleInfo.selectedMenus"></p-tree>
+          </div>
+        </li>
+    </ul>
+    <p-footer>
+      <p>用户只能看到选中的菜单</p>        
+      <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="confirmAddRole()"></button>
+      <button pButton class="mr-20 kyee-button" type="button" label="取消" (click)="isShowAddRoleDialog=false"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog class="delete-role-dialog" header="删除角色" [(visible)]="isShowDeleteRoleDialog" modal="true" closeOnEscape="false" [responsive]="true">
+  <div class="line">
+       <p>确认删除{{selectedRoleInfo.selectRoleName}}吗？</p>
+  </div>
+  <p-footer>
+        <button pButton class="mr-20 kyee-button" type="button" label="确认" (click)="confirmDeleteRole()"></button>
+        <button pButton class="mr-20 kyee-button" type="button" label="取消" (click)="isShowDeleteRoleDialog=false"></button>
+    </p-footer>
+</p-dialog>
+
+<p-growl [(value)]="msgs" [life]=1300></p-growl>

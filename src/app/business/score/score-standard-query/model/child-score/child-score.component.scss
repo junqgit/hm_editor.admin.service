@@ -1,0 +1,30 @@
+.main-content{  
+    margin: 10px;   
+}
+.sub-content{
+    display: inline-block;  
+    // border: 1px solid #ddd;
+    // border-radius: 10px;  
+}
+/deep/ .ui-spinner-input {
+    width: 150px;
+    height: 26px;
+}
+/deep/ .main-content .ui-inputtext {
+    padding: .15em;
+}
+/deep/ .main-content .ui-g-2 {
+    padding: 0.5em;
+}
+/deep/ .main-content .ui-g-12 {
+    padding: 0px;
+}
+/deep/ .main-content .ui-widget.ui-button {
+    border-radius: 0;
+}
+
+.lh26{
+    line-height: 26px;
+}
+
+

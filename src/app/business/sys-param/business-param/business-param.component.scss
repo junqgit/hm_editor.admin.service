@@ -1,0 +1,251 @@
+.business-param {
+  height: 100%;
+  .business-param-head {
+    height: 30px;
+    padding: 0 0 0 20px;
+    border-bottom: 2px solid #CBCFD0;
+    font-size: 16px;
+  }
+  .business-param-content {
+    display: flex;
+    height: calc(100% - 30px);
+    width: 100%;
+  }
+  .area-hospital-tree {
+    display: inline-block;
+    width: 23%;
+    height: 100%;
+    .area-hospital-tree-search {
+      height: 30px;
+    }
+  }
+  .param-value-setting {
+    display: inline-block;
+    padding-top: 10px;
+    padding-right: 10px;
+    height: 100%;
+    overflow: auto;
+  }
+}
+.params{
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(51,51,51,1);
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: calc(100% - 10px);
+}
+
+.params-section {
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
+}
+.tip{
+  color: red;
+}
+
+.currentCheckedValue{
+  display: inline-block;
+  width: 45%;
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #333333;
+  padding-left: 20px;
+}
+
+.migrateBtn{
+  padding: 2px 10px;
+    background-color: #4297fe;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+.migratingBtn{
+  animation: move 2s 0s linear infinite ;
+}
+@keyframes move{
+      from{
+          box-shadow: 0 0 10px #5f97dc;
+      }
+      to{
+          box-shadow: 0 0 20px #1e62b6;
+      }
+  }
+:host /deep/ .ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider {
+  background-color: #5CB85C;
+}
+:host /deep/ .ui-tree{
+  width: 100%;
+}
+
+:host /deep/ .file-upload .ui-button-text-icon-left .ui-button-text {
+  padding: 0px 10px 0px 10px;
+}
+:host /deep/ .file-upload .ui-fileupload-buttonbar {
+  background: #f4f4f4;
+  border: none;
+}
+:host /deep/ .file-upload .ui-corner-bottom {
+  display: none;
+}
+:host /deep/ .file-upload .ui-button-text-icon-left .fa, .ui-button-text-icon-right .fa {
+  display: none;
+}
+:host /deep/ .file-upload .ui-widget.ui-button {
+  border: 1px solid #ddd;
+  background: #ddd;
+}
+:host /deep/ .file-upload .ui-fileupload-choose:not(.ui-state-disabled):hover {
+  border-color: #ddd;
+  background: #ddd;
+}
+:host /deep/ .watermarkBtn{
+  display:inline-block;
+  position: relative;
+  top: -2px;
+  .ui-fileupload-buttonbar{
+    padding: 0;
+    .ui-widget.ui-button{
+      border: 1px solid #4297fe;
+      background: #4297fe;
+      height: 27px;
+      padding-top: 3px;
+    }
+  }
+}
+
+.config-box{
+  padding:0 10px;
+  &>li{
+    margin-bottom: 10px;
+    border-bottom: 1px solid #c3bebe;
+    padding-bottom: 5px;
+    label{
+      font-weight: bold;
+    }
+  }
+  .data-config{
+    overflow-x: auto;
+    li{
+      width: 1500px;
+      margin-bottom: 5px;
+      span{
+        display: inline-block;
+        vertical-align: middle;
+      }
+      button{
+        font-size: 12px;
+      }
+    }
+  }
+  .data-config-cover{
+      li{
+        width:700px;
+      }
+  }
+}
+.defaultValue-config{
+    margin-bottom: 20px;
+    li{
+      width: 1500px;
+      margin-bottom: 5px;
+      span{
+        display: inline-block;
+        vertical-align: middle;
+      }
+      button{
+        font-size: 12px;
+      }
+    }
+}
+.config-pro {
+  display: inline-block;
+  .arrow-pro {
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+  }
+}
+.normal-pro {
+  border: 1px solid lightgray;
+  min-width: 60px;
+  height: 30px;
+  display: inline-block;
+  line-height: 30px;
+  text-align: center;
+  padding: 0 3px;
+  background: white;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.require-pro {
+  border: unset;
+  background: red;
+  color: white;
+  cursor: unset;
+}
+.del-pro {
+  border: unset;
+  background: #868c89;
+  color: white;
+}
+
+.params-type-tree{
+  height: 100%;
+  width: 8%;
+  background-color: #fbfbfb;
+  ul{
+    margin-top: 0.25em;
+    li{
+      height:30px;
+      line-height: 30px;
+      text-align: center;
+    }
+  }
+  .params-type-disable{
+    color: #ccc;
+  }
+}
+.type-active {
+  background-color: #eee;
+  color: #4297fe;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0px 20px 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+:host /deep/ .ui-tree-container>p-treenode>.ui-treenode {
+  >.ui-treenode-selectable {
+    display: none;
+  }
+
+  ul {
+    padding: 0;
+    li>div{
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+}
+
+:host /deep/ .ui-treenode {
+  padding: 0px !important;
+}
+
+:host /deep/ .area-hospital-tree .ui-widget-content {
+  border: 0px;
+  padding-bottom: 10px;
+}
+.third-page-config,.http-config li {
+  width: 950px !important;
+}

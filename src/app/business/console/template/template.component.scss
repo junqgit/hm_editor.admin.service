@@ -1,0 +1,115 @@
+.right-btn{
+    display: flex;
+    flex-grow: 1;
+    justify-content: end;
+    align-items: end;
+    >*{
+        height: 28px;
+    }
+}
+.inp{
+    
+    font-size: 14px;
+    border: 1px solid #ddd;
+    padding-left: 5px;
+}
+
+.cell-btn{
+    button{
+        line-height: 16px;
+    }
+}
+.myEmrWrapper{
+    float: right;
+    // width: calc(99% - 250px);
+    width:100%;
+    height: 100%;
+    overflow: auto;
+}
+.header-group{
+    position: relative;
+    
+    
+    width: 100%;
+    
+    margin-top: 5px;
+    padding:16px;
+    top: -22px;
+    .btn-group{
+        display: inline-block;
+        float: right;
+    }
+    .btn{
+        height: 26px;
+        line-height: 24px;
+        border-radius: 5px;
+        margin-right: 20px;
+        min-width: 70px;
+    }
+}
+.log-scan-btn{
+    line-height: 16px;
+}
+.box{
+    height: 100%;
+}
+.search-box-2{
+    align-items: center;
+    margin-top:10px;
+    >span{
+        margin-top: 3px;
+        margin-right:10px;
+    }
+}
+.search-box-3{
+    align-items: center;
+}
+:host ::ng-deep .ui-dropdown-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+ .ui-inputgroup-addon {
+    margin-right: 5px;
+ }
+ :host ::ng-deep .ediotrDialog {
+    z-index: 1200;
+    width: 95% !important;
+    height: 95% !important;
+  }
+
+  :host ::ng-deep .ediotrDialog .ui-widget-header {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  
+  :host ::ng-deep .ediotrDialog .ui-widget-content {
+    height: 95% !important;
+  }
+ :host ::ng-deep .not-release-box .ui-datatable-scrollable-body {
+    max-height: calc(100vh - 280px) !important;
+  }
+  @media screen and (max-width:1500px){
+    .search-box-3{
+        margin-top: 12px;
+    }
+    .content-box{
+        height:calc(100vh - 235px) !important;
+    }
+    :host ::ng-deep .ui-datatable-scrollable{
+        max-height:calc(100vh - 240px) !important;
+    }
+    :host ::ng-deep .ui-datatable-scrollable-body{
+        max-height: calc(100vh - 320px) !important;
+    }
+    .not-release-box {
+        height: calc(100vh - 195px) !important;
+
+        :host ::ng-deep .ui-datatable-scrollable {
+            max-height: calc(100vh - 200px) !important;
+        }
+
+        :host ::ng-deep .ui-datatable-scrollable-body {
+            max-height: calc(100vh - 280px) !important;
+        }
+    }
+}

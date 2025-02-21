@@ -1,0 +1,67 @@
+<div class="score-query mlr-10">
+    <div class="left-tree-area" *ngIf="isSysAdmin">
+        <div class="hospital-search-block">
+            <input style="width: 90%;" name="filterHospitalName" type="text" pInputText [(ngModel)]="filterHospitalName"
+                placeholder="区域/医院" />
+            <span class="icon iconfont icon-sousuo" (click)="getAreasAndHospitalsList()"></span>
+        </div>
+        <div class="left-tree-list">
+            <p-tree [style]="{'height': 'calc(100% - 30px)','overflow': 'auto'}" [value]="areasAndHospitals"
+                selectionMode="single" (onNodeSelect)="hospitalSelect()" [(selection)]="selectedHospiral">
+            </p-tree>
+        </div>
+    </div>
+    <div class="right-area" *ngIf="showDataTable" [ngStyle]="{'width':isSysAdmin?'76%':'98%'}" style="float: right;;">
+        <ul class="templates-list" *ngIf="currentTemplateDirs && currentTemplateDirs.length !== 0"  style="width: 200px;float:left;">
+            <li *ngFor="let emrTemplateDir of currentTemplateDirs" [class.active]="emrTemplateDir.active"
+                (click)="getTemplateListByDirName(emrTemplateDir)">
+                <i class="iconfont icon-emr-s"></i>
+                {{emrTemplateDir['目录名称']}}
+            </li>
+        </ul>
+        <div class="templates-none" *ngIf="currentTemplateDirs.length == 0"  style="width: 200px;float:left;">
+            <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-no-data"></use>
+            </svg>
+            <span>暂无模板目录...</span>
+        </div>
+
+         <div class="templateWrapper" style="width:calc(100% - 200px);float:right;">
+            <!-- <div class="templates-title">
+                <span></span>
+                {{selectDir ? selectDir['目录名称'] : ''}}
+                <div (click)="save()">保存</div>
+            </div> -->
+            <p-dataTable [value]="viewTableData" scrollHeight="calc(100vh - 220px)" scrollable="true"
+                [loading]="templateLoading" loadingIcon="fa-spinner" [style]="{'text-align':'center'}"
+                selectionMode="single" emptyMessage="暂无模板..." >
+
+                
+                <p-column [style]="{'width':'35%'}">
+                    <ng-template pTemplate="header"> 模板名称</ng-template>
+                    <ng-template let-col let-template="rowData" pTemplate="body">
+                        <div class="template-name-group">
+                            
+                            <span>{{template['模板名称']}}</span>
+                           
+                        </div>
+                    </ng-template>
+                </p-column>
+
+            
+                 <p-column [style]="{'width': '120px'}">
+                    <ng-template pTemplate="header">是否需要上级审核</ng-template>
+                    <ng-template let-col let-template="rowData" pTemplate="body">
+                        <p-toggleButton [(ngModel)]="template['是否需要上级审核']" onLabel="是" offLabel="否"
+                            ></p-toggleButton>
+                    </ng-template>
+                </p-column> 
+                
+            </p-dataTable>
+            <div (click)="save()" class="save">保存</div>
+            <!-- <div class="total-count">共 {{emrTemplates.length}} 条病历模板</div> -->
+        </div> 
+    </div>
+</div>
+
+<p-growl [(value)]="msgs" [life]=5000></p-growl>

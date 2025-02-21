@@ -1,0 +1,18 @@
+.interface-syn-monitor {
+    height: 100%;
+    padding: 0 10px;
+    .ml_40 {
+        margin-left: 40px;
+    }
+    /deep/ .bg_yellow_color {
+        background: rgba(255, 255, 0, .5) !important;
+    }
+    .dialog-modal-block /deep/ {
+        .ui-dialog-content {
+            padding: 0 20px 20px 20px;
+        }
+    }
+    .interface-syn-monitor-content{
+        height: calc(100% - 85px);
+    }
+}

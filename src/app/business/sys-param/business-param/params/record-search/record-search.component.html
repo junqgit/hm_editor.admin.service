@@ -1,0 +1,36 @@
+<div *ngIf="selectParamType ==='病历查询'">
+    <div *ngIf="showOtherProperty('visible','病历查询树形界面是否显示为医生列表')">
+        <div class="params">
+          <div style="display: inline-block;">病历查询树形界面是否显示为医生列表设置</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['病历查询树形界面是否显示为医生列表']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['病历查询树形界面是否显示为医生列表']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['病历查询树形界面是否显示为医生列表']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['病历查询树形界面是否显示为医生列表']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，病历查询树形界面是否显示为医生列表，禁用时，病历查询树形界面显示患者列表。</div>
+      </div>
+      <div *ngIf="showOtherProperty('visible','是否可以查看已归档病历')">
+        <div class="params">
+          <div style="display: inline-block;">是否可以查看已归档病历设置</div>
+          <div style="display: inline-block; width: 70%"><hr></div>
+        </div>
+        <div style="display: inline-block;width: 100%;">
+          <div class="currentCheckedValue">
+            <span *ngIf="!paramBean['是否可以查看已归档病历']" class="icon iconfont icon-caps-on" style="color: #EB564A;"></span>
+            <span *ngIf="paramBean['是否可以查看已归档病历']" class="icon iconfont icon-caps-off" style="color: #5CB85C;"></span>
+            当前：{{paramBean['是否可以查看已归档病历']? '启用' : '禁用'}}
+          </div>
+          <div style="display: inline-block; width: 49%;text-align: right;">
+            <p-inputSwitch [(ngModel)]="paramBean['是否可以查看已归档病历']" (onChange)="saveHospitalParams()"></p-inputSwitch>
+          </div>
+        </div>
+        <div class="params">启用时，病历查询可以查阅已归档病历，禁用时，病历查询不可以查阅已归档病历。</div>
+      </div>
+</div>

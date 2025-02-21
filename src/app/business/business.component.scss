@@ -1,0 +1,19 @@
+.business-container {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+.layout-content{
+  position: relative;
+  transition: all 0.5s;
+  margin-left: 220px;
+  display: block;
+  // flex: 1;
+  width: calc(100% - 220px);
+  // width: 100%;
+  margin-top: 48px;
+}
+.layout-content.siderHide{
+  width: calc(100% - 50px);
+  margin-left: 50px;
+}

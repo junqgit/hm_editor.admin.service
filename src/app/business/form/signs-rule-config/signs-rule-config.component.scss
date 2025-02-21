@@ -1,0 +1,124 @@
+.signs-rule-config{
+    width: 98%;
+    height: 100%;
+    display: inline-block;
+    overflow: hidden;
+    .left-tree-area {
+        display: inline-block;
+        width: 20%;
+        height: 100%;
+        background: white;
+        .hospital-search-block {
+            height: 28px;
+        }
+        .left-tree-list {
+            height: calc(100% - 28px);
+        }
+    }
+    .right-area {
+        position: relative;
+        display: inline-block;
+        height: 100%;
+        padding: 0 10px;
+        vertical-align: top;
+    }
+    .group-title{
+        margin: 0 0.5rem 0.5rem 0.5rem;
+        padding: 0 0.5rem;
+        border-left: 4px solid #2b80e8;
+        flex-shrink: 0;
+    }
+    .toolBar{
+        // padding: 0.5rem;
+        margin: 0.5rem 0 0.5rem 0.5rem;
+        height: 2rem;
+        // font-size:1rem;
+    }
+    .mainContent{
+        margin-top: 0px;
+        padding: 0.5rem;
+        height: calc(100% - 3rem);
+        overflow: auto;
+        .comContent{
+            width: 100%;
+            justify-content: flex-start;
+            display:flex;
+            flex-wrap: wrap;
+            label{
+                display:block;
+                white-space: nowrap;
+
+            }
+            input{
+                max-width:10rem;
+            }
+        }
+        // /deep/ .ui-dropdown {
+        //     height: 24px;
+        //     .ui-dropdown-panel .ui-dropdown-item {
+        //         height: 30px;
+        //         line-height: 30px;
+        //         margin: 0;
+        //         padding: 0;
+        //         border-radius: 0;
+        //         text-align: center;
+        //     }
+        //     .ui-inputtext{
+        //         display: -webkit-box;
+        //         display: -ms-flexbox;
+        //         display: flex;
+        //         -webkit-box-pack: center;
+        //         -ms-flex-pack: center;
+        //         justify-content: center;
+        //         -webkit-box-align: center;
+        //         -ms-flex-align: center;
+        //         align-items: center;
+        //         height: 100%;
+        //     }
+        // }
+            
+    }
+    /deep/ .ui-dropdown {
+        height: 24px;
+        .ui-inputtext{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            height: 100%;
+        }
+    }
+}
+
+.gridrow{
+    padding: 0.5em;
+    .title{
+        text-align: right;
+        padding-right: 0.5rem;
+        padding-top: 0.2rem;
+    }
+    input{
+        width: 100%;
+    }
+}
+/deep/ .signs-dialog .ui-dialog.ui-widget {
+    .ui-dialog-titlebar{
+        padding: .8em;
+    }
+}
+/deep/ .ui-dropdown-panel .ui-dropdown-item {
+    height: 24px;
+    line-height: 24px;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    text-align: center;
+}
+
+
+

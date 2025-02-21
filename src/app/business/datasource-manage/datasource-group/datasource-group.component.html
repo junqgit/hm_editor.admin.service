@@ -1,0 +1,80 @@
+<div class="box">
+  <div class="left">
+    <span class="title">
+      数据组列表
+    </span>
+    <div style="margin: 3px 0 0 10px;height: 24px;">
+      <span style="font-size: 14px;">数据组共：{{dsGroupRecord['total']}}</span>
+      <input style="width: 200px;float: right;height: 22px;" pInputText type="text" [(ngModel)]="dsGroupFilterText"
+        [ngModelOptions]="{standalone: true}" (keyup)="dictFilterBlur($event)" placeholder="编码/名称" />
+    </div>
+    <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center','width':'100%'}"
+      [value]="dsGroupRecord['data']" selectionMode="single" [paginator]="true" [rows]="dsGroupPageSize"
+      [totalRecords]="dsGroupRecord['total']" fixedPaginator="true" scrollable="true" [pageLinks]="3"
+      (onRowSelect)="dsGroupRowSel($event)" [(selection)]="selData" emptyMessage="暂无数据" [(first)]="dsGroupFirst"
+      [lazy]="true" (onLazyLoad)="loadDsGroupLazy($event)">
+      <p-column header="数据组编码" field="code"></p-column>
+      <p-column header="数据组名称" field="name"></p-column>
+      <p-column header="引用数" field="count" [style]="{'width':'60px'}"></p-column>
+    </p-dataTable>
+    <div class="ops">
+      <button pButton label="增加" icon="fa-plus" (click)="addRow()"></button>
+      <button pButton label="修改" icon="icon iconfont icon-edit1" (click)="editorRow()"></button>
+      <button pButton label="删除" icon="icon iconfont icon-delete" (click)="delGroupRow()"></button>
+    </div>
+  </div>
+  <div class="right">
+    <div>
+      <span class="title">数据组包含数据元</span>
+      <div class="ops">
+        <button pButton label="增加" icon="fa-plus" (click)="addRefRow()"></button>
+        <button pButton label="修改" icon="icon iconfont icon-edit1" (click)="editorRefRow()"></button>
+        <button pButton label="删除" icon="icon iconfont icon-delete" (click)="delRef()"></button>
+      </div>
+      <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="groupRefList"
+        selectionMode="single" scrollable="true" [(selection)]="selRef" emptyMessage="暂无数据">
+        <p-column header="数据元编码" field="refCode"></p-column>
+        <p-column header="数据元名称" field="name"></p-column>
+      </p-dataTable>
+    </div>
+    <div>
+      <span class="title">数据组引用情况</span>
+      <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="refrenceList"
+      fixedPaginator="true" scrollable="true">
+      <p-column header="数据编码" field="code"></p-column>
+      <p-column header="数据名称" field="name"></p-column>
+    </p-dataTable>
+    </div>
+  </div>
+  <p-dialog [header]="diagTitle" [(visible)]="diagFlag" modal="true" closeOnEscape="false" [responsive]="true">
+    <div class="row">
+      <label>数据组编码</label><input pInputText type="text" [(ngModel)]="editorData['code']"
+        [ngModelOptions]="{standalone: true}" [disabled]="!!editorData['_id']" />
+    </div>
+    <div class="row">
+      <label>数据组名称</label><input pInputText type="text" [(ngModel)]="editorData['name']"
+        [ngModelOptions]="{standalone: true}" />
+    </div>
+    <div class="ops center">
+      <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmDiag()"></button>
+      <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.diagFlag = false;"></button>
+    </div>
+  </p-dialog>
+
+  <p-dialog [header]="refDiagTitle" [(visible)]="refDiagFlag" modal="true" closeOnEscape="false" [responsive]="true">
+    <div class="row" *ngIf="selRef">
+      <label>数据元</label>
+      <label>{{selRef['name']}}</label>
+    </div>
+    <div class="row">
+      <label>数据元</label>
+      <kyee-all-datatsource-dp [(ngModel)]="selDs" [notShowCode]="notShowCode"></kyee-all-datatsource-dp>
+    </div>
+
+    <div class="ops center">
+      <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmRef()"></button>
+      <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.refDiagFlag = false;"></button>
+    </div>
+  </p-dialog>
+</div>
+<p-growl [(value)]="msgs" [life]=5000></p-growl>

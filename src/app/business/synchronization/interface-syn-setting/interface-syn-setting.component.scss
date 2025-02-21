@@ -1,0 +1,33 @@
+.interface-syn-setting {
+  height: 100%;
+  padding: 0 20px;
+  .form-block {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .interface-syn-setting-content {
+    height: calc(100% - 40px);
+  }
+}
+
+.operateButton{
+  border-radius: 15px;
+  height: 30px;
+  border: 1px solid #2b80e8;
+  background: #2b80e8;
+  color: #fff;
+  width: 56px;
+}
+
+
+.ui-widget.ui-button {
+  border: 1px solid #2b80e8;
+  background: #2b80e8;
+  color: #fff;
+}
+
+.ui-button:focus, .ui-button:enabled:hover, .ui-fileupload-choose:not(.ui-state-disabled):hover{
+  border: 1px solid #4297fe;
+  background: #4297fe;
+  color: #fff;
+}
