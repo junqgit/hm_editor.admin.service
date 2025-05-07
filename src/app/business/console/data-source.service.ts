@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Headers, Http, RequestOptions, ResponseType} from '@angular/http';
 import { environment } from '../../../environments/environment';
-import { AuthTokenService } from '../../basic/auth/authToken.service';
 
 
 @Injectable()
@@ -12,7 +11,7 @@ export class DataSourceService{
     private headers = new Headers({'Content-Type': 'application/json', 'charset': 'UTF-8'});
     private options = new RequestOptions({headers: this.headers});
     private baseUrl = environment.apiUrl;
-    constructor(private http: Http,private authTokenService: AuthTokenService,private http1:HttpClient) {
+    constructor(private http: Http,private http1:HttpClient) {
     }
 
     private handleError(error: any): Promise<any> {
@@ -52,18 +51,6 @@ export class DataSourceService{
           .catch(this.handleError);
     }
 
-    //导出数据元
-    exportDataSource(params): any {
-       
-        const token = this.authTokenService.getJwtToken();
-    let authVlaue = '';
-    if(token){
-      authVlaue = this.authTokenService.createAuthorizationTokenHeader();
-    }
-    const headerParams = new HttpHeaders().set('Authorization',authVlaue);
-    return this.http1.get(`${this.baseUrl}admin-service/dataElement/export`, {responseType: 'blob', headers: headerParams})
-      .map(res => {return res});
-    }  
     public getAllTemplate(): Promise<object> {
       let url = this.baseUrl + 'admin-service/baseTemplates';
       return this.http1.post(url,{page:{currentPage:1,pageSize:10000}})
@@ -71,5 +58,5 @@ export class DataSourceService{
         .then(res => res as object)
         .catch(this.handleError);
     }
-    
+
 }

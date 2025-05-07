@@ -182,7 +182,7 @@ export class DatasourceComponent implements OnInit {
               this.displayEmrDataSourceDialog = false;
               // this.growlMessageService.showSuccess(data.msg || '新建数据元成功！');
               this.getEmrDataSourceList();
-              
+
             } else {
               this.growlMessageService.showError('', data ? (data.msg || '新建失败') : '新建失败');
             }
@@ -301,29 +301,13 @@ export class DatasourceComponent implements OnInit {
 
   onUploadComplete(event) {
     const returnMsg = event.xhr.responseText || '{}';
-    
+
     if (JSON.parse(returnMsg)['code'] == '10000') {
       this.getEmrDataSourceList();
       this.growlMessageService.showGrowl({severity: 'success', detail: "导入成功"});
     } else {
       this.growlMessageService.showGrowl({severity: 'error', detail: "导入失败"});
     }
-  }
-
-  exportDataSource() {
-    this.dataSourceStoreService.exportDataSource(this.searchParams)
-    .subscribe(blob=>{
-      var a = document.createElement('a');
-      var url = window.URL.createObjectURL(blob);
-      
-      a.href = url;
-      a.download = 'data-source.xlsx';
-      a.click();
-      window.URL.revokeObjectURL(url);
-      //this.loadingService.loading(false);
-    },()=>{
-      this.growlMessageService.showGrowl({severity: 'error', detail:'导出失败，请检查网络并稍后再试。'});
-    })
   }
 
   paginate(event) {

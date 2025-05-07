@@ -2,7 +2,6 @@ import { CurrentUserInfo } from './../../../basic/common/model/currentUserInfo.m
 import { Component, OnInit } from '@angular/core';
 import { DatasourceManageService } from '../datasource-manage.service';
 import { ConfirmationService } from 'portalface/widgets';
-import { AuthTokenService } from '../../../basic/auth/authToken.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -68,10 +67,10 @@ export class DatasourceSetComponent implements OnInit {
   };
 
   notShowCode = [];
-  constructor(private dsManageService: DatasourceManageService, private confirmationService: ConfirmationService,private authToken:AuthTokenService,private datePipe:DatePipe) { }
+  constructor(private dsManageService: DatasourceManageService, private confirmationService: ConfirmationService,private datePipe:DatePipe) { }
 
   ngOnInit() {
-    this.curUser = JSON.parse(this.authToken.getCurrentUserInfo());
+    // this.curUser = JSON.parse(this.authToken.getCurrentUserInfo());
     this.dictFilterBlur(null);
     //this.initAllDs();
     this.initAllGroup();
@@ -95,17 +94,17 @@ export class DatasourceSetComponent implements OnInit {
   }
   initAllGroup(){
 
-    this.dsManageService.allGroup().then(d => {
-      this.allGroup = (d['data']||[]).reduce((p,c) => {
-        p.push({"label":c['name'],"value":c['code']});
-        return p;
-      },[{"label":'',"value":''}]);
-      if(d['code'] != 10000){
-        this.showMessage('error','','获取数据元列表异常');
-        return;
-      }
+    // this.dsManageService.allGroup().then(d => {
+    //   this.allGroup = (d['data']||[]).reduce((p,c) => {
+    //     p.push({"label":c['name'],"value":c['code']});
+    //     return p;
+    //   },[{"label":'',"value":''}]);
+    //   if(d['code'] != 10000){
+    //     this.showMessage('error','','获取数据元列表异常');
+    //     return;
+    //   }
 
-    })
+    // })
   }
   addDsDict() {
     this.editorDsDict = { "code": "", "name": "" };
@@ -207,14 +206,14 @@ export class DatasourceSetComponent implements OnInit {
           let dataIndex = res['index'];
 
           this.dictPageNo = Math.floor(dataIndex / this.dictPageSize) + 1;
-          
+
           this.searchDictCall(() => {
             this.dictFirst = (this.dictPageNo - 1) * this.dictPageSize;
             setTimeout(() => {
               this.dictRowSel({"data":res['addData']});
             },100)
-            
-            
+
+
           });
 
 
@@ -300,7 +299,7 @@ export class DatasourceSetComponent implements OnInit {
       this.verShowDataList = this.verDataList.slice(from,to > len?len:to);
     }
   }
- 
+
 
 
   /**
@@ -371,7 +370,7 @@ export class DatasourceSetComponent implements OnInit {
       }
       this.showMessage('error', '', '删除成功');
       this.selVersionData = null;
-      
+
       this.doSearch();
     })
   }
@@ -392,12 +391,12 @@ export class DatasourceSetComponent implements OnInit {
     }else{
       d['code'] = this.selDs;
     }
-    
+
     if(this.dsDictVerDataDiagTitle.indexOf('修改') == 0){
 
       d['_id'] = this.selVersionData['_id'];
     }
-    
+
     var exists = this.verDataListBak.find(vd => vd['_id'] != d['_id'] && vd['code'] == d['code']);
     if(exists){
       this.showMessage('info', '', '已包含'+(this.selType)+'【'+exists['name']+'】');

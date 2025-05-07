@@ -3,10 +3,10 @@
   <div class="clearfix">
     <form (ngSubmit)="searchParams.page.currentPage=1;getEmrDataSourceList()">
       <span class="ui-inputgroup-addon" style="width: 150px;">模板名称：</span>
-        <input type="text" pInputText [style]="{'width':'200px'}" [(ngModel)]="searchParams.templateTrueName" 
+        <input type="text" pInputText [style]="{'width':'200px'}" [(ngModel)]="searchParams.templateTrueName"
                 [ngModelOptions]="{standalone: true}">
         <span class="ui-inputgroup-addon" style="width: 150px;">数据元名称：</span>
-        <input type="text" pInputText [style]="{'width':'200px'}" [(ngModel)]="searchParams.key" 
+        <input type="text" pInputText [style]="{'width':'200px'}" [(ngModel)]="searchParams.key"
                 [ngModelOptions]="{standalone: true}">
         <button pButton type="submit" icon="fa-search" class="ui-button-success ml-10" style="min-width: 64px;"
                 label="查询"></button>
@@ -22,12 +22,11 @@
                     style="float: left;margin-left: 10px;"
                     (onError)="onUploadError($event)"
                     (onUpload)="onUploadComplete($event)" auto="true" chooseLabel="导入数据元"></p-fileUpload>
-      <button type="button" class="ml-10" pButton icon="fa-download" (click)="exportDataSource()" label="全部导出"></button>
       <button type="button" pButton icon="fa-plus" class="ui-button-warning ml-10" (click)="showDialogToCreateEmrDataSource()" label="添加数据元"></button>
   </div>
 </div>
   <div class="ui-g-12 content-box" style="height:calc(100vh - 152px)">
-    <p-dataTable [value]="emrDataSourceList" dataKey="_id" sortMode="none" [style]="{'max-height': 'calc(100vh - 197px)','text-align':'center'}" fixedPaginator="true" scrollable="true" scrollHeight="calc(100vh - 238px)"> 
+    <p-dataTable [value]="emrDataSourceList" dataKey="_id" sortMode="none" [style]="{'max-height': 'calc(100vh - 197px)','text-align':'center'}" fixedPaginator="true" scrollable="true" scrollHeight="calc(100vh - 238px)">
       <p-column [style]="{'text-align':'center'}" header="序号"><ng-template let-col let-patient="rowData" let-index="rowIndex" pTemplate="body">
         <span>{{index + 1}}</span>
       </ng-template></p-column>
@@ -43,12 +42,12 @@
       <p-column [style]="{'width':'15%'}">
         <ng-template pTemplate="header">操作</ng-template>
         <ng-template let-col let-template="rowData" pTemplate="body">
-           
+
           <button pButton type="button" (click)="showDialogToEditEmrDataSource(template)" label="编辑"></button>
           <button pButton type="button" (click)="removeEmrDataSource(template)" label="删除"></button>
         </ng-template>
     </p-column>
-     
+
       <ng-template pTemplate="emptymessage">
         <tr style="line-height: 45px;text-align: center;">
           <td [attr.colspan]="10">
@@ -56,9 +55,9 @@
           </td>
         </tr>
       </ng-template>
-     
+
     </p-dataTable>
-    <p-paginator [rows]="searchPage['pageSize']" 
+    <p-paginator [rows]="searchPage['pageSize']"
     [totalRecords]="searchPage['totalRecords']" pageLinkSize="3"
      (onPageChange)="paginate($event)"></p-paginator>
   </div>
@@ -76,7 +75,7 @@
                  [(ngModel)]="emrDataSource.templateName"/> -->
                  <p-dropdown id="templateName" formControlName="templateName" [options]="templateNameList"
                       [style]="{'width':'100%'}"
-                      [(ngModel)]="emrDataSource.templateName" 
+                      [(ngModel)]="emrDataSource.templateName"
                        appendTo="body" filter="true"></p-dropdown>
         </div>
       </div>
@@ -154,7 +153,7 @@
       <div class="ui-g-12 pd4px">
         <div style="height: 0;border: 1px dashed #eeeeee;margin: 4px 0;"></div>
       </div>
-      
+
       <div class="ui-g-12 pd4px" *ngIf="emrDataSource.dataSourceType.code == 'searchbox'">
         <div class="ui-g-4">
           <label for="printColor">回车自动增加控件：</label>
@@ -200,4 +199,3 @@
     </div>
   </p-footer>
 </p-dialog>
-

@@ -1,4 +1,3 @@
-import { AuthLoginComponent } from './basic/auth/authLogin.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 
@@ -8,8 +7,7 @@ import {MainComponent} from "./basic/main/main.component";
 @NgModule({
     imports: [
         RouterModule.forRoot([
-            { path: '', redirectTo: 'login', pathMatch: 'full' },
-            { path: 'login', component: AuthLoginComponent },
+            { path: '', redirectTo: 'main', pathMatch: 'full' },
             { path: 'main', component: MainComponent,
               children:[
                 {path:'business',loadChildren: './business/business.module#BusinessModule'},

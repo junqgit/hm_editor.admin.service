@@ -1,4 +1,3 @@
-import { AuthTokenService } from './../../basic/auth/authToken.service';
 import { Injectable } from '@angular/core';
 
 
@@ -6,7 +5,6 @@ import { environment } from '../../../environments/environment';
 import {Headers, Http, RequestOptions, ResponseType, URLSearchParams} from '@angular/http';
 import {Base64} from 'js-base64';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthHttpService } from '../../basic/auth/authHttp.service';
 import { LoadingService } from 'portalface/services';
 @Injectable()
 export class TemplateService {
@@ -15,7 +13,7 @@ export class TemplateService {
   private options = new RequestOptions({headers: this.headers});
   private baseUrl = environment.apiUrl+'admin-service';
   private api = environment.apiUrl;
-  constructor(private http: Http,private authTokenService: AuthTokenService,private http1:HttpClient,private authHttpService:AuthHttpService, private loadingService: LoadingService) {
+  constructor(private http: Http,private http1:HttpClient, private loadingService: LoadingService) {
 
   }
 
@@ -103,29 +101,23 @@ disTemplate(param,areaCode,hosnum,hosname,dept,description){
 
 exportTemplate(params): any {
 
-  const token = this.authTokenService.getJwtToken();
-let authVlaue = '';
-if(token){
-authVlaue = this.authTokenService.createAuthorizationTokenHeader();
-}
-const headerParams = new HttpHeaders().set('Authorization',authVlaue);
-return this.http1.post(`${this.baseUrl}/exportTemplates`, params,{responseType: 'blob', headers: headerParams})
+return this.http1.post(`${this.baseUrl}/exportTemplates`, params,{responseType: 'blob'})
 .map(res => {return res});
 }
 isUsedTemplate(id): Promise<Object> {
-  return this.authHttpService.get(`${this.baseUrl}/isUsedTemplate?id=${id}`)
+  return this.http1.get(`${this.baseUrl}/isUsedTemplate?id=${id}`)
     .toPromise()
     .then(data => data)
     .catch(this.handleError);
 }
 deleteBaseTemplate(id): Promise<Object> {
-  return this.authHttpService.get(`${this.baseUrl}/deleteTemplate?id=${id}`)
+  return this.http1.get(`${this.baseUrl}/deleteTemplate?id=${id}`)
     .toPromise()
     .then(data => data)
     .catch(this.handleError);
 }
   revetBaseTemplate(id): Promise<Object> {
-    return this.authHttpService.get(`${this.baseUrl}/revetTemplate?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/revetTemplate?id=${id}`)
       .toPromise()
       .then(data => data)
       .catch(this.handleError);
@@ -135,15 +127,15 @@ deleteBaseTemplate(id): Promise<Object> {
     * 获取模板目录
     */
   getTemplateDirs(hosnum): Promise<Object> {
-    return this.authHttpService.get(this.api + 'admin-service/template/getTemplateDirs?hosnum='+hosnum)
+    return this.http1.get(this.api + 'admin-service/template/getTemplateDirs?hosnum='+hosnum)
     .toPromise()
     .then(res => {
-        return res.data as Object;
+        return res as Object;
     })
     .catch(this.handleError.bind(this));
   }
   moveTemplate(param): Promise<Object> {
-    return this.authHttpService.post(this.api + 'admin-service/moveTemplate',param)
+    return this.http1.post(this.api + 'admin-service/moveTemplate',param)
     .toPromise()
     .then(res => {
         return res as Object;
@@ -155,32 +147,32 @@ deleteBaseTemplate(id): Promise<Object> {
   // 获取模板目录(模板月目录的映射关系)
   queryDirAndTemplateList(searchParams: any): Promise<Object> {
     this.loadingService.loading(true);
-    let urlParams = new URLSearchParams();
-    for (let key in searchParams) {
-        if (searchParams.hasOwnProperty(key)) {
-            urlParams.append(key, searchParams[key]);
-        }
-    }
+    // let urlParams = new URLSearchParams();
+    // for (let key in searchParams) {
+    //     if (searchParams.hasOwnProperty(key)) {
+    //         urlParams.append(key, searchParams[key]);
+    //     }
+    // }
     const url = this.api + 'admin-service/template/getDirAndTemplateList';
-    return this.authHttpService.get(url, urlParams)
+    return this.http1.get(url, searchParams)
     .toPromise()
     .then(res => {
         this.loadingService.loading(false);
-        return res.data as Object;
+        return res as Object;
     })
     .catch(this.handleError.bind(this));
 }
 /**
      * 获取医院配置
-     * @param searchParams 
+     * @param searchParams
      */
 getHospitalPrams(searchParams: any): Promise<Object> {
   this.loadingService.loading(true);
-  return this.authHttpService.get(this.api + "admin-service/paramsConfig/getHospitalConfig", searchParams)
+  return this.http1.get(this.api + "admin-service/paramsConfig/getHospitalConfig", searchParams)
     .toPromise()
     .then(res => {
       this.loadingService.loading(false);
-      return res.data as Object;
+      return res as Object;
     })
     .catch(this.handleError.bind(this));
 }
@@ -191,7 +183,7 @@ getHospitalPrams(searchParams: any): Promise<Object> {
 deleteTemplateByParams(params: any): Promise<any> {
   this.loadingService.loading(true);
   const url = this.api + 'admin-service/template/deleteTemplate';
-  return this.authHttpService.post(url, params)
+  return this.http1.post(url, params)
   .toPromise()
   .then((res) => {
       this.loadingService.loading(false);
@@ -206,7 +198,7 @@ deleteTemplateByParams(params: any): Promise<any> {
 updateEmrTemplateByExchange(emrTemplates: Object): Promise<any> {
   this.loadingService.loading(true);
   const url = this.api + 'admin-service/template/updateEmrTemplateByExchange';
-  return this.authHttpService.post(url, emrTemplates)
+  return this.http1.post(url, emrTemplates)
   .toPromise()
   .then(() => {
       this.loadingService.loading(false);
@@ -221,7 +213,7 @@ updateEmrTemplateByExchange(emrTemplates: Object): Promise<any> {
 adjustTemplateDir(params: any): Promise<any> {
   this.loadingService.loading(true);
   const url = this.api + 'admin-service/template/adjustTemplateDir';
-  return this.authHttpService.post(url, params)
+  return this.http1.post(url, params)
   .toPromise()
   .then((res) => {
       this.loadingService.loading(false);

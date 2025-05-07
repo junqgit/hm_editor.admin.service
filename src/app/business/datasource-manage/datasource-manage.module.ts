@@ -1,4 +1,3 @@
-import { SysParamService } from './../sys-param/sys-param.service';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,7 +24,6 @@ import { BreadcrumbModule, GrowlModule } from 'primeng/primeng';
 import { EditorWrapperModules } from '../../common/editor-wrapper/editor-wrapper.module';
 import { LoadingService } from './../../common/service/loading.service';
 import { DatasourceSetComponent } from './datasource-set/datasource-set.component';
-import { DatasourceGroupComponent } from './datasource-group/datasource-group.component';
 import { DatasourceComponent } from './datasource/datasource.component';
 import { DatasourceManageRoutingModule } from './datasource-manage-routing.module';
 import { DatasourceDictComponent } from './datasource-dict/datasource-dict.component';
@@ -56,7 +54,7 @@ import { AllDatatsourceDpModule } from '../all-datatsource-dp/all-datatsource-dp
     EditorWrapperModules,
     AllDatatsourceDpModule
   ],
-  declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceGroupComponent, DatasourceComponent],
-  providers:[LoadingService,SysParamService,DatasourceManageService,DatePipe]
+  declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceComponent],
+  providers:[LoadingService,DatasourceManageService,DatePipe]
 })
 export class DatasourceManageModule { }

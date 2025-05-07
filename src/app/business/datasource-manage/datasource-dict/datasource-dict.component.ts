@@ -2,7 +2,6 @@ import { CurrentUserInfo } from './../../../basic/common/model/currentUserInfo.m
 import { Component, OnInit } from '@angular/core';
 import { DatasourceManageService } from '../datasource-manage.service';
 import { ConfirmationService } from 'portalface/widgets';
-import { AuthTokenService } from '../../../basic/auth/authToken.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -39,10 +38,9 @@ export class DatasourceDictComponent implements OnInit {
 
   // 引用情况
   refrenceList: any[] = [];
-  constructor(private dsManageService: DatasourceManageService, private confirmationService: ConfirmationService,private authToken:AuthTokenService,private datePipe:DatePipe) { }
+  constructor(private dsManageService: DatasourceManageService, private confirmationService: ConfirmationService,private datePipe:DatePipe) { }
 
   ngOnInit() {
-    this.curUser = JSON.parse(this.authToken.getCurrentUserInfo());
     this.dictFilterBlur(null);
   }
   // 新增值域
@@ -162,7 +160,7 @@ export class DatasourceDictComponent implements OnInit {
         this.showMessage('error', '', '获取值域版本异常');
       }
     })
-    
+
     // 引用情况
     this.dsManageService.getDictRef(this.selDict['code']).then(d => {
       if (d['code'] == 10000) {

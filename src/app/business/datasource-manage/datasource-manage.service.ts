@@ -1,16 +1,15 @@
-import { AuthTokenService } from './../../basic/auth/authToken.service';
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Base64 } from 'js-base64';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthHttpService } from '../../basic/auth/authHttp.service';
 import { Http } from '@angular/http';
 @Injectable()
 export class DatasourceManageService {
 
   private baseUrl = environment.apiUrl + 'admin-service/datasource';
   private api = environment.apiUrl;
-  constructor(private http: Http, private authTokenService: AuthTokenService, private http1: HttpClient, private authHttpService: AuthHttpService) {
+  constructor(private http: Http,  private http1: HttpClient) {
 
   }
   private handleError(error: any): Promise<any> {
@@ -18,70 +17,70 @@ export class DatasourceManageService {
     return Promise.reject(error.message || error);
   }
   getDict(text:string,pageNo:number,pageSize:number){
-    return this.authHttpService.get(`${this.baseUrl}/dict/getDict?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
+    return this.http1.get(`${this.baseUrl}/dict/getDict?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   //编辑值域
   editDict(data): Promise<any> {
-    return this.authHttpService.post(`${this.baseUrl}/dict/editorDict`, data)
+    return this.http1.post(`${this.baseUrl}/dict/editorDict`, data)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   delDict(id){
-    return this.authHttpService.get(`${this.baseUrl}/dict/delDict?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/dict/delDict?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   allDict(){
-    return this.authHttpService.get(`${this.baseUrl}/dict/allDict`)
+    return this.http1.get(`${this.baseUrl}/dict/allDict`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   allUsedDict(){
-    return this.authHttpService.get(`${this.baseUrl}/dict/allUsedDict`)
+    return this.http1.get(`${this.baseUrl}/dict/allUsedDict`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   addDictVersion(id,version){
-    return this.authHttpService.get(`${this.baseUrl}/dict/addDictVersion?id=${id}&version=${version}`)
+    return this.http1.get(`${this.baseUrl}/dict/addDictVersion?id=${id}&version=${version}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   getDictVersion(id){
-    return this.authHttpService.get(`${this.baseUrl}/dict/getDictVersion?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/dict/getDictVersion?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
   getDictRef(id){
-    return this.authHttpService.get(`${this.baseUrl}/dict/refData?code=${id}`)
+    return this.http1.get(`${this.baseUrl}/dict/refData?code=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   publishDictVersion(d,uid,uname){
-    return this.authHttpService.post(`${this.baseUrl}/dict/publishDictVersion?userId=${uid}&userName=${uname}`,d)
+    return this.http1.post(`${this.baseUrl}/dict/publishDictVersion?userId=${uid}&userName=${uname}`,d)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   getDictVerDataByCode(code){
-    return this.authHttpService.get(`${this.baseUrl}/dict/getDictVerDataByCode?code=${code}`)
+    return this.http1.get(`${this.baseUrl}/dict/getDictVerDataByCode?code=${code}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
   getDictVerData(id){
-    return this.authHttpService.get(`${this.baseUrl}/dict/getDictVerData?dictVerId=${id}`)
+    return this.http1.get(`${this.baseUrl}/dict/getDictVerData?dictVerId=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
@@ -89,13 +88,13 @@ export class DatasourceManageService {
 
 
   editorDictVerData(data,id){
-    return this.authHttpService.post(`${this.baseUrl}/dict/editorDictVerData?dictVerId=${id}`,data)
+    return this.http1.post(`${this.baseUrl}/dict/editorDictVerData?dictVerId=${id}`,data)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   delDictVerData(id){
-    return this.authHttpService.get(`${this.baseUrl}/dict/delDictVerData?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/dict/delDictVerData?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
@@ -106,161 +105,161 @@ export class DatasourceManageService {
    */
 
   getDatasource(text:string,pageNo:number,pageSize:number){
-    return this.authHttpService.get(`${this.baseUrl}/ds/getDs?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
+    return this.http1.get(`${this.baseUrl}/ds/getDs?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
-  // 
+  //
   editorDatasource(data){
-    return this.authHttpService.post(`${this.baseUrl}/ds/editorDs`,data)
+    return this.http1.post(`${this.baseUrl}/ds/editorDs`,data)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   delDatasource(id){
-    return this.authHttpService.get(`${this.baseUrl}/ds/delDs?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/ds/delDs?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   allDs(){
-    return this.authHttpService.get(`${this.baseUrl}/ds/getAllDs`)
+    return this.http1.get(`${this.baseUrl}/ds/getAllDs`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   getDsRef(id){
-    return this.authHttpService.get(`${this.baseUrl}/ds/refData?code=${id}`)
+    return this.http1.get(`${this.baseUrl}/ds/refData?code=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
-  /**
-   * 数据组
-   */
-  getDsGroup(text:string,pageNo:number,pageSize:number){
-    return this.authHttpService.get(`${this.baseUrl}/group/getGroup?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
+  // /**
+  //  * 数据组
+  //  */
+  // getDsGroup(text:string,pageNo:number,pageSize:number){
+  //   return this.http1.get(`${this.baseUrl}/group/getGroup?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
 
-  editorDsGroup(data){
-    return this.authHttpService.post(`${this.baseUrl}/group/editorGroup`,data)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
- 
-  delDsGroup(id){
-    return this.authHttpService.get(`${this.baseUrl}/group/delGroup?id=${id}`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
-  searchDsGroupRef(code){
-    return this.authHttpService.get(`${this.baseUrl}/group/getGroupRef?code=${code}`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
-  editorDsGroupRef(data){
-    return this.authHttpService.post(`${this.baseUrl}/group/editorGroupRef`,data)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
-  delDsGroupRef(id){
-    return this.authHttpService.get(`${this.baseUrl}/group/delGroupRef?id=${id}`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
-  allGroup(){
-    return this.authHttpService.get(`${this.baseUrl}/group/getAllGroup`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
-  getGroupRef(id){
-    return this.authHttpService.get(`${this.baseUrl}/group/refData?code=${id}`)
-      .toPromise()
-      .then(data => data as object)
-      .catch(this.handleError);
-  }
+  // editorDsGroup(data){
+  //   return this.http1.post(`${this.baseUrl}/group/editorGroup`,data)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+
+  // delDsGroup(id){
+  //   return this.http1.get(`${this.baseUrl}/group/delGroup?id=${id}`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+  // searchDsGroupRef(code){
+  //   return this.http1.get(`${this.baseUrl}/group/getGroupRef?code=${code}`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+  // editorDsGroupRef(data){
+  //   return this.http1.post(`${this.baseUrl}/group/editorGroupRef`,data)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+  // delDsGroupRef(id){
+  //   return this.http1.get(`${this.baseUrl}/group/delGroupRef?id=${id}`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+  // allGroup(){
+  //   return this.http1.get(`${this.baseUrl}/group/getAllGroup`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
+  // getGroupRef(id){
+  //   return this.http1.get(`${this.baseUrl}/group/refData?code=${id}`)
+  //     .toPromise()
+  //     .then(data => data as object)
+  //     .catch(this.handleError);
+  // }
   /**
    * 数据集
    */
 
   getDsSet(text:string,pageNo:number,pageSize:number){
-    return this.authHttpService.get(`${this.baseUrl}/set/getDsSet?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
+    return this.http1.get(`${this.baseUrl}/set/getDsSet?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   //编辑值域
   editDsSet(data): Promise<any> {
-    return this.authHttpService.post(`${this.baseUrl}/set/editorDsSet`, data)
+    return this.http1.post(`${this.baseUrl}/set/editorDsSet`, data)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   delDsSet(id){
-    return this.authHttpService.get(`${this.baseUrl}/set/delDsSet?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/set/delDsSet?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   addSetVersion(id,version){
-    return this.authHttpService.get(`${this.baseUrl}/set/addSetVersion?id=${id}&version=${version}`)
+    return this.http1.get(`${this.baseUrl}/set/addSetVersion?id=${id}&version=${version}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   getSetVersion(id){
-    return this.authHttpService.get(`${this.baseUrl}/set/getSetVersion?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/set/getSetVersion?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   getSetRef(code){
-    return this.authHttpService.get(`${this.baseUrl}/set/refData?code=${code}`)
+    return this.http1.get(`${this.baseUrl}/set/refData?code=${code}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
   getSetVerData(id){
-    return this.authHttpService.get(`${this.baseUrl}/set/getSetVerData?dictVerId=${id}`)
+    return this.http1.get(`${this.baseUrl}/set/getSetVerData?dictVerId=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   editorSettVerData(data,id){
-    return this.authHttpService.post(`${this.baseUrl}/set/editorSetVerData?dictVerId=${id}`,data)
+    return this.http1.post(`${this.baseUrl}/set/editorSetVerData?dictVerId=${id}`,data)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
   publishSetVersion(d,uid,uname){
-    return this.authHttpService.post(`${this.baseUrl}/set/publishSetVersion?userId=${uid}&userName=${uname}`,d)
+    return this.http1.post(`${this.baseUrl}/set/publishSetVersion?userId=${uid}&userName=${uname}`,d)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
   delDsSetVerData(id){
-    return this.authHttpService.get(`${this.baseUrl}/set/delDsSetVerData?id=${id}`)
+    return this.http1.get(`${this.baseUrl}/set/delDsSetVerData?id=${id}`)
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);
   }
 
   generalCode(text:string){
-    return this.authHttpService.post(`${this.baseUrl}/ds/generalCode`,{"name":text})
+    return this.http1.post(`${this.baseUrl}/ds/generalCode`,{"name":text})
       .toPromise()
       .then(data => data as object)
       .catch(this.handleError);

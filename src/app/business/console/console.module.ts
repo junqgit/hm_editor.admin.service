@@ -1,4 +1,3 @@
-import { SysParamService } from './../sys-param/sys-param.service';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -27,12 +26,6 @@ import { FormWidgetsModule } from 'portalface/widgets';
 import { BreadcrumbModule, GrowlModule, OverlayPanelModule } from 'primeng/primeng';
 import { EditorWrapperModules } from '../../common/editor-wrapper/editor-wrapper.module';
 import { LoadingService } from './../../common/service/loading.service';
-import { TemplateUpdateComponent } from './templateUpdate/templateUpdate.component';
-import { TemplateUpdateService } from './templateUpdate.service';
-import { CollectedTemplateReplaceComponent } from './collectedTemplateReplace/collectedTemplateReplace.component';
-import { CollectedTemplateReplaceService } from './collectedTemplateReplace.service';
-import { ReplaceTemplateDataSourceService } from './replaceTemplateDataSource.service';
-import { TemplateEditorComponent } from './template-editor/template-editor.component';
 import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
 
 
@@ -59,7 +52,7 @@ import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
     OverlayPanelModule,
     KyeePipeModule
   ],
-  declarations: [FolderComponent, DatasourceComponent, TemplateComponent,TemplateUpdateComponent,CollectedTemplateReplaceComponent, TemplateEditorComponent],
-  providers:[FolderService,DataSourceService,TemplateService,LoadingService,TemplateUpdateService,CollectedTemplateReplaceService,ReplaceTemplateDataSourceService,SysParamService]
+  declarations: [FolderComponent, DatasourceComponent, TemplateComponent],
+  providers:[FolderService,DataSourceService,TemplateService,LoadingService]
 })
 export class ConsoleModule { }

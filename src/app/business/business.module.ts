@@ -8,9 +8,7 @@ import {CommonSidebarComponent} from "../basic/common-sidebar/common-sidebar.com
 import {CommonFooterComponent} from "../basic/common-footer/common-footer.component";
 import {CommonFooterService} from "../basic/common-footer/common-footer.service";
 import { GrowlMessageService } from '../common/service/growl-message.service';
-import { RoleManagementComponent } from './role-management/role-management.component';
 import { PublicCommService } from '../common/service/public-comm.service';
-import { SysParamService } from './sys-param/sys-param.service';
 import { AllDatatsourceDpComponent, AllDatatsourceDpModule } from './all-datatsource-dp/all-datatsource-dp.component';
 
 
@@ -31,7 +29,7 @@ import { AllDatatsourceDpComponent, AllDatatsourceDpModule } from './all-datatso
     CommonFooterService,
     GrowlMessageService,
     ConfirmationService,
-    PublicCommService,SysParamService
+    PublicCommService
   ]
 })
 export class BusinessModule { }

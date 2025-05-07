@@ -1,8 +1,7 @@
 import { Router } from '@angular/router';
 
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AuthTokenService } from '../../../basic/auth/authToken.service';
 import { CurrentUserInfo } from '../../../basic/common/model/currentUserInfo.model';
 import { FolderService } from '../folder.service';
 import { BasFolder } from '../model/bas-folder';
@@ -19,7 +18,6 @@ import { EditorWrapperComponent } from '../../../common/editor-wrapper/editor-wr
 import { MenuItem } from 'primeng/primeng';
 import { environment } from '../../../../environments/environment';
 import { ConfirmationService } from 'portalface/widgets';
-import { SysParamService } from '../../sys-param/sys-param.service';
 
 declare let $: any;
 @Component({
@@ -156,28 +154,28 @@ export class TemplateComponent implements OnInit {
     hosDirList:any[];
 
     editorMedicalIp:any[];
-  constructor(private templateService:TemplateService,private authTokenService:AuthTokenService,private folderService:FolderService,private growlMessageService: GrowlMessageService,private confirmationService: ConfirmationService,private router: Router,private sysParamService:SysParamService) {
+  constructor(private templateService:TemplateService,private folderService:FolderService,private growlMessageService: GrowlMessageService,private confirmationService: ConfirmationService,private router: Router) {
 
 
   }
 
   ngOnInit() {
-    this.currentUserInfo = this.sysParamService.getCurUser();
-    this.isHospitalRole = !this.sysParamService.isAreaUser(this.currentUserInfo);
-    if(this.isHospitalRole){
-      this.uploadUrl = `/emr-server/admin-service/upload?hosnum=${this.currentUserInfo.hosNum || ''}&nodecode=${this.currentUserInfo.nodeCode || ''}&hosname=${this.currentUserInfo.hosName || ''}&username=${this.currentUserInfo.userName || ''}`;
-    }else{
-      this.uploadUrl = `/emr-server/admin-service/upload?hosnum=&nodecode=&hosname=&username=${this.currentUserInfo.userName || ''}`;
+    // this.currentUserInfo = this.sysParamService.getCurUser();
+    // this.isHospitalRole = !this.sysParamService.isAreaUser(this.currentUserInfo);
+    // if(this.isHospitalRole){
+    //   this.uploadUrl = `/emr-server/admin-service/upload?hosnum=${this.currentUserInfo.hosNum || ''}&nodecode=${this.currentUserInfo.nodeCode || ''}&hosname=${this.currentUserInfo.hosName || ''}&username=${this.currentUserInfo.userName || ''}`;
+    // }else{
+    //   this.uploadUrl = `/emr-server/admin-service/upload?hosnum=&nodecode=&hosname=&username=${this.currentUserInfo.userName || ''}`;
 
-    }
+    // }
     this._initEmrHospital([]);
     this._initEmrDept([]);
     this.initHospitals();
     this.getAllFolders();
     this.initDirTemplate(null);
-    this.initHosEmrMeta();
+    // this.initHosEmrMeta();
     // 可编辑【住院病案首页、中医病案首页】的ip
-    this.initEditorIp();
+    // this.initEditorIp();
 
   }
   _initEmrHospital(data){
@@ -221,37 +219,37 @@ export class TemplateComponent implements OnInit {
   }
   initHospitals(){
     this.searchEmrHospitalList = [];
-    var params = {'areaCode':this.currentUserInfo.areaCode || 'guangdong_jy'};
-    if(this.currentUserInfo.authority == '医院'){
-      params['hosnum'] = this.currentUserInfo.hosNum;
-      params['nodecode'] = this.currentUserInfo.nodeCode;
-    }
-    this.sysParamService.queryHospitalListByRole().then(
-      (data) => {
-        data = data||[];
-        let allHospital = [];
-        if(data){
+    // var params = {'areaCode':'guangdong_jy'};
+    // if(this.currentUserInfo.authority == '医院'){
+    //   params['hosnum'] = this.currentUserInfo.hosNum;
+    //   params['nodecode'] = this.currentUserInfo.nodeCode;
+    // }
+    // this.sysParamService.queryHospitalListByRole().then(
+    //   (data) => {
+    //     data = data||[];
+    //     let allHospital = [];
+    //     if(data){
 
-           allHospital = (data|| []).reduce((prev,h) => {
-            let _h = new EmrHospital();
-            _h.name = h['医院名称'];
-            _h.code= h['医院编码'] + '-'+h['院区编码'];
-            this.hospitalMap[h['医院编码'] + '-'+h['院区编码']] = h;
-            let depts = [];
-            (h['科室列表'] || []).forEach(d => {
-              let _d = new EmrDept();
-              _d.name = d['科室名称'];
-              _d.code = d['科室ID'];
-              depts.push(_d);
-            });
-            _h.children = depts;
-            prev.push(_h);
-            return prev;
-          },[]);
-        }
-        this._initEmrHospital(allHospital);
-      }
-    )
+    //        allHospital = (data|| []).reduce((prev,h) => {
+    //         let _h = new EmrHospital();
+    //         _h.name = h['医院名称'];
+    //         _h.code= h['医院编码'] + '-'+h['院区编码'];
+    //         this.hospitalMap[h['医院编码'] + '-'+h['院区编码']] = h;
+    //         let depts = [];
+    //         (h['科室列表'] || []).forEach(d => {
+    //           let _d = new EmrDept();
+    //           _d.name = d['科室名称'];
+    //           _d.code = d['科室ID'];
+    //           depts.push(_d);
+    //         });
+    //         _h.children = depts;
+    //         prev.push(_h);
+    //         return prev;
+    //       },[]);
+    //     }
+    //     this._initEmrHospital(allHospital);
+    //   }
+    // )
 
   }
   getEmrDeptList(type:string){
@@ -486,7 +484,7 @@ export class TemplateComponent implements OnInit {
           return;
         }
         canEditor = this.emrEditFlag(emrTemplate);
-      
+
         let folderName = ((this.dirTemplate['模板'] || {})[emrTemplate.templateTrueName] || {})['folder'];
         if(!folderName){
 
@@ -497,8 +495,6 @@ export class TemplateComponent implements OnInit {
           `&templateCode=` + encodeURIComponent(`${emrTemplate.templateName}`) +
           `&templateID=${emrTemplate['idStr']}` +
           `&fileID=${emrTemplate.fileID}` +
-          `&userID=${this.currentUserInfo.userId || ''}` +
-          `&userName=${this.currentUserInfo.userName || ''}` +
           `&consoleCanEdit=${canEditor}` +
           `&folderName=${folderName}`;
         this.editorWrapperComponent.setEditorUrl( editorUrl);
@@ -513,8 +509,6 @@ export class TemplateComponent implements OnInit {
           `&templateCode=` + encodeURIComponent(`${emrTemplate.templateName}`) +
           `&templateID=${emrTemplate['idStr']}` +
           `&fileID=${emrTemplate.fileID}` +
-          `&userID=${this.currentUserInfo.userId || ''}` +
-          `&userName=${this.currentUserInfo.userName || ''}` +
           `&consoleCanEdit=${canEditor}` +
           `&folderName=${folderName}`;
         this.editorWrapperComponent.setEditorUrl( editorUrl);
@@ -536,8 +530,6 @@ export class TemplateComponent implements OnInit {
       `&templateTrueName=` + encodeURIComponent(templateConsoleDoc['templateTrueName']) +
       `&templateCode=` + encodeURIComponent(`${templateConsoleDoc['templateName']}`) +
       `&templateID=${templateConsoleDoc['idStr']}` +
-      `&fileID=${templateConsoleDoc['fileID']}` +
-      `&userID=${this.currentUserInfo.userId}` +
       `&userName=${this.currentUserInfo.userName}` +
       `&consoleCanEdit=1`;
     const iframe = <HTMLIFrameElement>this.editorIframe.nativeElement;
@@ -604,7 +596,7 @@ export class TemplateComponent implements OnInit {
           });
 
 
-          this.initHosEmrMeta();
+          // this.initHosEmrMeta();
           this.updateDataSource = false;
         }
         this.getEmrTemplateList();
@@ -757,10 +749,10 @@ export class TemplateComponent implements OnInit {
   }
   initEditorIp(){
     this.editorMedicalIp = ['127.0.0.1','localhost'];
-    this.sysParamService.editorMedicalIp().then(d => {
-      this.editorMedicalIp = this.editorMedicalIp.concat(d || []);
-      console.log('可编辑病案首页ip:',this.editorMedicalIp);
-    })
+    // this.sysParamService.editorMedicalIp().then(d => {
+    //   this.editorMedicalIp = this.editorMedicalIp.concat(d || []);
+    //   console.log('可编辑病案首页ip:',this.editorMedicalIp);
+    // })
   }
   emrEditFlag(emrTemplate){
     let flag = '0';

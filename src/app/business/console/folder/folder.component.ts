@@ -8,7 +8,6 @@ import * as _ from 'underscore';
 
 import { Utils } from '../../../basic/common/util/Utils';
 import { ConfirmationService } from 'portalface/widgets';
-import { AuthTokenService } from '../../../basic/auth/authToken.service';
 
 
 
@@ -45,11 +44,9 @@ export class FolderComponent implements OnInit {
   dsSet:any[] = [];
   selSet:any;
   dsSetObj:object = {};
-  constructor(private folderService:FolderService,private growlMessageService: GrowlMessageService,private loadingService: LoadingService,private confirmationService: ConfirmationService,private authTokenService:AuthTokenService) { }
+  constructor(private folderService:FolderService,private growlMessageService: GrowlMessageService,private loadingService: LoadingService,private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
-    this.currentUserInfo = JSON.parse(this.authTokenService.getCurrentUserInfo());
-    this.hosnum = (this.currentUserInfo.hosNum || '')+'-'+(this.currentUserInfo.nodeCode || '');
     this.getAllFolders();
     this.initAllDsSet();
   }
