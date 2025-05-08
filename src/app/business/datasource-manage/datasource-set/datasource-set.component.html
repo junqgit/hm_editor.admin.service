@@ -46,13 +46,13 @@
 
     </div> -->
     <div>
-      <span class="title">数据集包含数据元/组</span>
+      <span class="title">数据集包含数据元</span>
       <div style="    display: flex;align-items: center">
       <div style="flex: 1;">包含数量：{{verDataListBak.length}}
         <input style="width: 200px;float: right;" pInputText type="text" [(ngModel)]="verDataFilterTxt"
         [ngModelOptions]="{standalone: true}" (keyup)="verDataBlur($event)" placeholder="数据元编码/名称" />
       </div>
-  
+
       <div class="ops" style="width: 220px;">
         <button pButton label="增加" icon="fa-plus" (click)="addDictVerDataRow()"></button>
         <button pButton label="修改" icon="icon iconfont icon-edit1" (click)="editorDictVerDataRow()"></button>
@@ -92,7 +92,7 @@
       <label>数据集名称</label><input pInputText type="text" [(ngModel)]="editorDsDict['name']"
         [ngModelOptions]="{standalone: true}" />
     </div>
-    
+
     <div class="ops center">
       <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmEditDict()"></button>
       <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.dsDictDiag = false"></button>
@@ -106,7 +106,7 @@
       <label style="min-width: 100px;">{{'原'+editorDsDictVerData['remark']+'名称'}}</label>
       <label style="min-width: 100px;width: unset;">{{editorDsDictVerData['name']}}</label>
     </div>
-    <div class="row" style="width: 300px;">
+    <div class="row" style="width: 300px;display: none;">
       <label style="min-width: 100px;">类型</label>
       <p-dropdown [options]="types" [(ngModel)]="selType" filter="true" appendTo="body"  [style]="{'height': '22px','width': '140px'}">
         <ng-template let-item pTemplate="selectedItem">
@@ -138,7 +138,7 @@
     </p-dropdown>
     </div>
 
-    
+
     <div class="ops center" style="text-align: center;">
       <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmDictVerData()"></button>
       <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.dsDictVerDataDiag = false"></button>

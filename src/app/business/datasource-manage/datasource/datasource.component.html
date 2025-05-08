@@ -34,7 +34,7 @@
           </ng-template>
         </p-column>
     </p-dataTable>
-    
+
   </div>
   <div class="bottom">
 
@@ -84,7 +84,7 @@
       <p-dropdown [options]="stypes" [(ngModel)]="editorDs['format']" appendTo="body"  [style]="{'height': '22px','width': '60px'}"  [disabled]="!!editorDs['_id']" ></p-dropdown>
 
       <input pInputText type="text" [(ngModel)]="editorDs['length']"
-        [ngModelOptions]="{standalone: true}" style="width:40px;margin: 0 5px 0 3px;" (blur)="checkDsLen()"  [disabled]="!!editorDs['_id']" />
+        [ngModelOptions]="{standalone: true}" style="width:40px;height: 22px;margin: 0 5px 0 3px;" (blur)="checkDsLen()"  [disabled]="!!editorDs['_id']" />
       <label>数据元允许值</label>
       <p-dropdown [options]="dicts" [(ngModel)]="editorDs['dictCode']" filter="true" appendTo="body"  [style]="{'height': '22px','width': '70px'}"  filterBy="label,value">
         <ng-template let-item pTemplate="selectedItem">

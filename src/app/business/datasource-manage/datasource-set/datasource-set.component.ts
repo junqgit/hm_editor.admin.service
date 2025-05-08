@@ -44,7 +44,8 @@ export class DatasourceSetComponent implements OnInit {
   refrenceList: any[] = [];
 
 
-  types = [{'label':'数据元','value':'数据元'},{'label':'数据组','value':'数据组'}];
+  //types = [{'label':'数据元','value':'数据元'},{'label':'数据组','value':'数据组'}];
+  types = [{'label':'数据元','value':'数据元'}];
   selType = '数据元';
   allDs:any[];
   allGroup:any[];
@@ -315,7 +316,7 @@ export class DatasourceSetComponent implements OnInit {
     this.selDs = null;
     this.initDropDs();
     this.editorDsDictVerData = { "order": (this.verDataList || []).length + 1 };
-    this.dsDictVerDataDiagTitle = '新增数据元/组';
+    this.dsDictVerDataDiagTitle = '新增数据元';
     this.dsDictVerDataDiag = true;
   }
   editorDictVerDataRow() {
@@ -347,7 +348,7 @@ export class DatasourceSetComponent implements OnInit {
       return p;
     },[]);
     //this.dropDs = this.allDs.filter(a => alDs.indexOf(a['value']) == -1);
-    this.dropGroup = this.allGroup.filter(a => alDs.indexOf(a['value']) == -1);
+    //this.dropGroup = this.allGroup.filter(a => alDs.indexOf(a['value']) == -1);
   }
 
   checkSelDictVerData() {
@@ -377,7 +378,7 @@ export class DatasourceSetComponent implements OnInit {
 
   confirmDictVerData() {
     if(!this.selDs){
-      this.showMessage('info', '', '请先选择数据元/组');
+      this.showMessage('info', '', '请先选择数据元');
       return;
     }
     let d = {};
@@ -385,7 +386,7 @@ export class DatasourceSetComponent implements OnInit {
     if(this.selType == '数据元'){
       d['code'] = this.selDs['code'];
       if(!this.selDs['code']){
-        this.showMessage('info', '', '请先选择数据元/组');
+        this.showMessage('info', '', '请先选择数据元');
         return;
       }
     }else{
