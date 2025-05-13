@@ -1,9 +1,9 @@
-
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { DatasourceSetComponent } from './datasource-set/datasource-set.component';
 import { DatasourceComponent } from './datasource/datasource.component';
 import { DatasourceDictComponent } from './datasource-dict/datasource-dict.component';
+import { DynamicDictComponent } from './dynamic-dict/dynamic-dict.component';
 
 
 @NgModule({
@@ -21,6 +21,9 @@ import { DatasourceDictComponent } from './datasource-dict/datasource-dict.compo
         }, {
           path: 'datasource-dict',
           component: DatasourceDictComponent
+        }, {
+          path: 'dynamic-dict',
+          component: DynamicDictComponent
         }
       ])
     ]

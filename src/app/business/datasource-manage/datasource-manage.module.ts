@@ -1,4 +1,3 @@
-
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -29,6 +28,7 @@ import { DatasourceManageRoutingModule } from './datasource-manage-routing.modul
 import { DatasourceDictComponent } from './datasource-dict/datasource-dict.component';
 import { DatasourceManageService } from './datasource-manage.service';
 import { AllDatatsourceDpModule } from '../all-datatsource-dp/all-datatsource-dp.component';
+import { DynamicDictComponent } from './dynamic-dict/dynamic-dict.component';
 
 
 
@@ -54,7 +54,7 @@ import { AllDatatsourceDpModule } from '../all-datatsource-dp/all-datatsource-dp
     EditorWrapperModules,
     AllDatatsourceDpModule
   ],
-  declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceComponent],
+  declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceComponent, DynamicDictComponent],
   providers:[LoadingService,DatasourceManageService,DatePipe]
 })
 export class DatasourceManageModule { }

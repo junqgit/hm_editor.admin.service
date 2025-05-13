@@ -1,0 +1,115 @@
+.box {
+  width: 100%;
+  height: 100%;
+  font-size: 12px;
+  padding: 2px;
+}
+.top {
+  width: 100%;
+  height: 100%;
+}
+.title {
+  display: block;
+  background: linear-gradient(180deg, #f9fafd, #e3e4e7);
+  padding: 3px 8px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.ops {
+  display: inline-block;
+  margin-left: 10px;
+  height: 24px;
+  margin: 2px 0;
+  padding: 0 0.3em;
+  text-align: right;
+}
+.row {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0.3em;
+}
+.row label {
+  text-align: right;
+  min-width: 90px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  padding-right: 10px;
+}
+.row input,
+.row textarea {
+  flex: 1;
+}
+.row textarea {
+  width: 100% !important;
+  min-height: 60px;
+  resize: vertical;
+}
+.center {
+  text-align: center;
+  display: block !important;
+}
+
+.dialog-form {
+  .row {
+    margin-bottom: 5px;
+  }
+
+  label {
+    width: 80px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 5px;
+  }
+
+  input, textarea {
+    width: 100%;
+  }
+}
+
+:host /deep/ .top .ui-datatable-scrollable-body {
+  max-height: calc(100vh - 180px);
+}
+
+:host /deep/ .ui-state-highlight {
+  background-color: #4297fe !important;
+  color: #fff !important;
+}
+
+:host /deep/ .iconfont {
+  font-size: 1em !important;
+}
+
+:host /deep/ p-dialog .ui-widget.ui-dialog .ui-dialog-titlebar {
+  padding: 0.8em;
+}
+
+:host /deep/ p-dialog .ui-widget.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon,
+p-dialog .ui-widget.ui-dialog .ui-dialog-titlebar .ui-dialog-title,
+.ui-dialog.ui-confirmdialog .ui-dialog-titlebar .ui-dialog-titlebar-icon,
+.ui-dialog.ui-confirmdialog .ui-dialog-titlebar .ui-dialog-title {
+  font-size: 14px;
+}
+
+:host /deep/ .ui-dialog {
+  .ui-dialog-content {
+    padding: 15px 25px 5px !important;
+    overflow: visible;
+  }
+}
+
+:host /deep/ .ui-button {
+  padding: 0.1em 0.7em;
+  font-size: 12px;
+}
+
+:host /deep/ .ui-datatable {
+  .ui-datatable-thead > tr > th {
+    padding: 0.3em 0.5em;
+  }
+
+  .ui-datatable-tbody > tr > td {
+    padding: 0.2em 0.5em;
+  }
+}

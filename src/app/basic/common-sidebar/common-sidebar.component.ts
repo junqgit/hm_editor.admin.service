@@ -49,9 +49,15 @@ export class CommonSidebarComponent implements OnInit {
             "expanded": false,
             "visible": true
           },{
-            "label":"值域",
+            "label":"字典值域",
             "icon":"",
             "routerLink":"/main/business/datasource/datasource-dict",
+            "expanded": false,
+            "visible": true
+          },{
+            "label":"动态值域",
+            "icon":"",
+            "routerLink":"/main/business/datasource/dynamic-dict",
             "expanded": false,
             "visible": true
           }

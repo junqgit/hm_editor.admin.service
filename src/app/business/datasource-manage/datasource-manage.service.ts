@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Base64 } from 'js-base64';
@@ -272,5 +271,49 @@ export class DatasourceManageService {
       return '名称不能为空';
     }
     return '';
+  }
+
+  /**
+   * 动态值域
+   */
+
+  // 获取动态值域分页列表
+  getDynamicDict(text: string, pageNo: number, pageSize: number){
+    return this.http1.get(`${this.baseUrl}/dynamicDict/getDynamicDict?text=${text}&pageNo=${pageNo}&pageSize=${pageSize}`)
+      .toPromise()
+      .then(data => data as object)
+      .catch(this.handleError);
+  }
+
+  // 编辑/新增动态值域
+  editorDynamicDict(data): Promise<any> {
+    return this.http1.post(`${this.baseUrl}/dynamicDict/editorDynamicDict`, data)
+      .toPromise()
+      .then(data => data as object)
+      .catch(this.handleError);
+  }
+
+  // 删除动态值域
+  delDynamicDict(id){
+    return this.http1.get(`${this.baseUrl}/dynamicDict/delDynamicDict?id=${id}`)
+      .toPromise()
+      .then(data => data as object)
+      .catch(this.handleError);
+  }
+
+  // 获取所有动态值域
+  allDynamicDict(){
+    return this.http1.get(`${this.baseUrl}/dynamicDict/allDynamicDict`)
+      .toPromise()
+      .then(data => data as object)
+      .catch(this.handleError);
+  }
+
+  // 根据编码获取动态值域
+  getDynamicDictByCode(code){
+    return this.http1.get(`${this.baseUrl}/dynamicDict/getDynamicDictByCode?code=${code}`)
+      .toPromise()
+      .then(data => data as object)
+      .catch(this.handleError);
   }
 }
