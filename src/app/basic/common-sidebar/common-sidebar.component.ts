@@ -122,7 +122,8 @@ export class CommonSidebarComponent implements OnInit {
     if(expandedIndex !== null){
       this.setItemActive(expandedIndex,0,undefined);
     }else{
-      this.setItemActive(3,0,undefined);
+      // 不默认选中任何菜单项
+      // this.setItemActive(3,0,undefined);
     }
     this.storageCacheService.localStorageCache.set('menu',this.items);
   }

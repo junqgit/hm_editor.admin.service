@@ -51,7 +51,7 @@
     <div class="dialog-form">
       <div class="row">
         <label>值域编码</label>
-        <input pInputText type="text" [(ngModel)]="editDynamicDict.code" [ngModelOptions]="{standalone: true}" />
+        <input pInputText type="text" [(ngModel)]="editDynamicDict.code" [ngModelOptions]="{standalone: true}" [disabled]="isNewRecord" placeholder="新增时系统自动生成" />
         <label>值域名称</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.name" [ngModelOptions]="{standalone: true}" />
       </div>

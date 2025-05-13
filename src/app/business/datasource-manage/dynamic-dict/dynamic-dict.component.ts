@@ -18,6 +18,8 @@ export class DynamicDictComponent implements OnInit {
   dialogTitle: string = '';
   // 编辑对象
   editDynamicDict: any = {};
+  // 是否为新增记录
+  isNewRecord: boolean = false;
 
   // 分页相关
   pageSize: number = 10;
@@ -67,6 +69,7 @@ export class DynamicDictComponent implements OnInit {
   addDynamicDict() {
     this.dialogTitle = '新增动态值域';
     this.editDynamicDict = {};
+    this.isNewRecord = true;
     this.displayDialog = true;
   }
 
@@ -78,6 +81,7 @@ export class DynamicDictComponent implements OnInit {
     }
     this.dialogTitle = '编辑动态值域';
     this.editDynamicDict = { ...this.selectedDynamicDict };
+    this.isNewRecord = false;
     this.displayDialog = true;
   }
 
@@ -117,7 +121,35 @@ export class DynamicDictComponent implements OnInit {
       return;
     }
 
-    this.datasourceManageService.editorDynamicDict(this.editDynamicDict)
+    // 初始化所有可能的字段，确保都会传递给后台
+    const allFields = [
+      'code', 'name', 'url', 'returnCode', 'returnName',
+      'returnExt1', 'returnExt2', 'displayContent', 'tag', 'paramExample'
+    ];
+
+    // 复制当前编辑对象
+    const saveData = {...this.editDynamicDict};
+
+    // 新增时不传递编码，由后台自动生成
+    if (this.isNewRecord) {
+      delete saveData.code;
+    }
+
+    // 确保所有字段都存在，即使值为空
+    allFields.forEach(field => {
+      if (field === 'code' && this.isNewRecord) {
+        return; // 新增时不需要设置code字段
+      }
+
+      // 如果字段不存在或为undefined，设置为空字符串
+      if (saveData[field] === undefined) {
+        saveData[field] = '';
+      }
+    });
+
+    console.log('发送到后台的数据:', saveData);
+
+    this.datasourceManageService.editorDynamicDict(saveData)
       .then(res => {
         if (res['code'] === 10000) {
           this.displayDialog = false;
@@ -140,7 +172,7 @@ export class DynamicDictComponent implements OnInit {
 
   // 验证动态值域信息
   validateDynamicDict(): boolean {
-    if (!this.editDynamicDict.code) {
+    if (!this.isNewRecord && !this.editDynamicDict.code) {
       this.showMessage('warn', '', '请输入值域编码');
       return false;
     }
