@@ -9,9 +9,7 @@ import * as _ from 'underscore';
 import { Utils } from '../../../basic/common/util/Utils';
 import { ConfirmationService } from 'portalface/widgets';
 
-
-
-
+declare const HMEditorLoader: any;
 
 @Component({
   selector: 'kyee-folder',
@@ -49,6 +47,7 @@ export class FolderComponent implements OnInit {
   ngOnInit() {
     this.getAllFolders();
     this.initAllDsSet();
+    this.getDynamicDict();
   }
   getAllFolders(){
     this.folderList = [];
@@ -289,5 +288,123 @@ export class FolderComponent implements OnInit {
     });
 
     return names.join(',');
+  }
+  editorDisplay = false;
+  editorTemplateName = '';
+  editorId = '';
+  dynamicDictList = [];
+  makeTemplate(template){
+    this.editorDisplay = true;
+    this.editorTemplateName = template.templateName;
+    this.getTemplateDs(template.templateName, (datasources) => {
+      setTimeout(() => {
+        this.createTab(this.editorTemplateName, template.id,datasources, [
+          {
+            "code": "DOC_001",
+            "docContent": ""
+          }
+        ]);
+      }, 10);
+    });
+  }
+  createTab(title,id, datasources, content) {
+    this.editorId = 'editor_' + id;
+    const _this = this;  // 保存 this 引用
+    try {
+        // 创建编辑器
+        HMEditorLoader.createEditorAsync({
+          container: "#editorContainer",
+          sdkHost: 'http://127.0.0.1:3071',
+          style: {
+              width: '100%',
+              height: '100%',
+              border: '1px solid #ddd'
+          },
+          editorConfig: {
+              // 编辑器配置项
+          },
+          // 模式设置
+          designMode: true,  // 是否启用设计模式
+          reviseMode: false,  // 是否启用修订模式
+          readOnly: true,     // 是否启用只读模式
+          customParams: {     // 自定义参数
+              departmentCode: '0001',
+              doctorCode: '0001'
+          }
+        })
+        .then(function(result) {
+            // 编辑器初始化完成
+            var editorInstance = result;
+            
+            if (content) {
+              // 如果有内容，则设置文档内容
+              editorInstance.setDocContent(content);
+              editorInstance.setTemplateDatasource({
+                'datasource': datasources,
+                'dynamicDict': _this.dynamicDictList || []
+              });
+            } else {
+                // 否则设置默认内容
+                editorInstance.editor.setData(`<p style='height:300px;position:relative;'>这是${title}的内容</p>`);
+            }
+        })
+        .catch(function(error) {
+            console.error("编辑器初始化失败:", error);
+        });
+    } catch (error) {
+        console.error('创建编辑器失败:', error);
+        throw error;
+    }
+  }
+  
+
+  backToList() {
+    this.editorDisplay = false;
+    HMEditorLoader.destroyEditor(this.editorId);
+  }
+
+  /**
+   * 获取模板数据集
+   * @param templateName 模板名称
+   * @param callback 回调函数
+   */
+  getTemplateDs(templateName: string, callback?: (data: any) => void) {
+    this.loadingService.loading(true);
+    this.folderService.getTemplateDs(templateName)
+      .then(data => {
+        this.loadingService.loading(false);
+        if (data && data.code === 10000) {
+          if (callback) {
+            callback(data.data);
+          }
+        } else {
+          this.growlMessageService.showErrorInfo('获取模板数据集失败', data ? data.msg : '');
+        }
+      })
+      .catch(error => {
+        this.loadingService.loading(false);
+        this.growlMessageService.showErrorInfo('获取模板数据集失败', error);
+        return null;
+      });
+  }
+  
+  /**
+   * 获取动态字典数据
+   */
+  getDynamicDict() {
+    this.loadingService.loading(true);
+    this.folderService.getDynamicDict()
+      .then(data => {
+        this.loadingService.loading(false);
+        if (data && data.code === 10000) {
+          this.dynamicDictList = data['data'] || [];
+        } else {
+          this.growlMessageService.showErrorInfo('获取动态字典失败', data ? data.msg : '');
+        }
+      })
+      .catch(error => {
+        this.loadingService.loading(false);
+        this.growlMessageService.showErrorInfo('获取动态字典失败', error);
+      });
   }
 }

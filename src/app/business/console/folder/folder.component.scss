@@ -58,6 +58,48 @@ $space:5px;
     }
    
 }
+
+.scroll-cell {
+    max-width: 200px;
+    padding: 5px;
+}
+
+.scroll-inner {
+    max-height: 200px;
+    overflow-y: auto;
+    word-break: break-all;
+}
+
+.myEmrWrapperClass {
+    position: absolute;
+    top: -7px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+
+    .header-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 10px 0 10px;
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+    }
+
+    .wrapper {
+        flex: 1;
+        border: 2px solid #000;
+        margin: 10px;
+        overflow: auto;
+    }
+}
+
 :host /deep/ button.ui-button-icon-only{
     width: 1.5em;
     height: 100%;

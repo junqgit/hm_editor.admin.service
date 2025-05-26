@@ -122,4 +122,26 @@ export class FolderService {
       .then(data => data)
       .catch(this.handleError);
   }
+
+  /**
+   * 获取模板数据集
+   * @param templateName 模板名称
+   */
+  getTemplateDs(templateName: string): Promise<any> {
+    return this.http1.get(`${this.bathPath}/templateDs?name=${templateName}`)
+      .toPromise()
+      .then(data => data)
+      .catch(this.handleError);
+  }
+
+  /**
+   * 获取动态字典数据
+   * @returns Promise<any>
+   */
+  getDynamicDict(): Promise<any> {
+    return this.http1.get(`${this.bathPath}/datasource/dynamicDict/allDynamicDict`)
+      .toPromise()
+      .then(data => data)
+      .catch(this.handleError);
+  }
 }

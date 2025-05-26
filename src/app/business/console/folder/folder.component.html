@@ -1,4 +1,4 @@
-<div id="folder">
+<div id="folder" *ngIf="!editorDisplay">
   <div class="left-area">
     <p>目录</p>
     <!-- <p-tree [value]="treeNodes" selectionMode="single" [(selection)]="curFolder" [loading]="treeLoading" (onNodeSelect)="nodeSelect($event)"
@@ -21,12 +21,12 @@
         <dl class="tree">
           <dd *ngFor="let node of treeNodes index as i" [class]="curFolder == node?'sel':''">
             <span (click)="nodeSelect(node)">{{node.name}}</span>
-            <div *ngIf="curFolder == node" style="display: inline-block;">
+            <!-- <div *ngIf="curFolder == node" style="display: inline-block;">
             <button *ngIf="i > 0" type="button" pButton icon="fa-arrow-circle-up"
               (click)="mup( i)" class="tree-emrRecord-btn" pTooltip="上移"></button>
               <button *ngIf="i &lt; treeNodes.length - 1" type="button" pButton icon="fa-arrow-circle-down" (click)="mdown(i)"
               class="tree-emrRecord-btn" pTooltip="下移"></button>
-            </div>
+            </div> -->
           </dd>
         </dl>
   </div>
@@ -45,11 +45,11 @@
     <ng-template pTemplate="header">
       <tr>
         <th width="5%">序号</th>
-        <th width="30%">模板名称</th>
-        <th width="20%">模板类别</th>
-        <th width="25%">是否禁止多份</th>
+        <th width="20%">模板名称</th>
+        <th width="10%">模板类别</th>
+        <th width="10%">是否禁止多份</th>
         <th width="25%">数据集</th>
-        <th width="21%">操作</th>
+        <th width="240px">操作</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-baseTemplate let-rowIndex="rowIndex">
@@ -58,11 +58,15 @@
         <td>{{baseTemplate.templateName}}</td>
         <td>{{baseTemplate.type}}</td>
         <td>{{baseTemplate.isForbidMultiple == '0'?'否':'是'}}</td>
-        <td>{{formatDSet(baseTemplate.dsSet)}}</td>
+        <td class="scroll-cell">
+          <div class="scroll-inner">{{formatDSet(baseTemplate.dsSet)}}</div>
+        </td>
         <td class="text-a-c">
 
           <button pButton type="button" (click)="showDialogToEditEmrBaseTemplate(baseTemplate)" label="编辑"></button>
           <button pButton type="button" (click)="removeEmrBaseTemplate(baseTemplate)" label="删除"></button>
+          <button pButton type="button" (click)="makeTemplate(baseTemplate)" label="制作模板"></button>
+          
         </td>
       </tr>
     </ng-template>
@@ -75,6 +79,19 @@
     </ng-template>
   </p-table>
   </div>
+</div>
+<!-- 编辑器窗口 -->
+<div class="myEmrWrapperClass" *ngIf="editorDisplay" >
+  <div class="header-group">
+    <span style="color: #1b82d7;">{{editorTemplateName}}</span>
+    <div class="btn-group">
+        <button type="button" class="btn" (click)="backToList()">返回列表</button>
+    </div>
+  </div>
+  <div class="wrapper" id="editorContainer">
+
+  </div>
+  
 </div>
 <p-dialog header="模板信息" [(visible)]="displayEmrBaseTemplateDialog" [contentStyle]="{'overflow':'visible'}"
           [responsive]="true" showEffect="fade" [modal]="true" [width]="600" appendTo="body">
