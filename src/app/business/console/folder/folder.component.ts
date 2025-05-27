@@ -293,20 +293,25 @@ export class FolderComponent implements OnInit {
   editorTemplateName = '';
   editorId = '';
   dynamicDictList = [];
-  makeTemplate(template){
+  // 制作模板
+  makeTemplate(template) {
     this.editorDisplay = true;
     this.editorTemplateName = template.templateName;
-    this.getTemplateDs(template.templateName, (datasources) => {
-      setTimeout(() => {
-        this.createTab(this.editorTemplateName, template.id,datasources, [
-          {
-            "code": "DOC_001",
-            "docContent": ""
-          }
-        ]);
-      }, 10);
+
+    this.getBaseTemplateHtml(template.idStr, template.templateName, (htmlData) => {
+      this.getTemplateDs(template.templateName, (datasources) => {
+        setTimeout(() => {
+          this.createTab(this.editorTemplateName, template.idStr, datasources, [
+            {
+              "code": template.idStr,
+              "docContent": htmlData
+            }
+          ]);
+        }, 10);
+      });
     });
   }
+  // 创建编辑器
   createTab(title,id, datasources, content) {
     this.editorId = 'editor_' + id;
     const _this = this;  // 保存 this 引用
@@ -326,10 +331,9 @@ export class FolderComponent implements OnInit {
           // 模式设置
           designMode: true,  // 是否启用设计模式
           reviseMode: false,  // 是否启用修订模式
-          readOnly: true,     // 是否启用只读模式
+          readOnly: false,     // 是否启用只读模式
           customParams: {     // 自定义参数
-              departmentCode: '0001',
-              doctorCode: '0001'
+            
           }
         })
         .then(function(result) {
@@ -343,6 +347,16 @@ export class FolderComponent implements OnInit {
                 'datasource': datasources,
                 'dynamicDict': _this.dynamicDictList || []
               });
+              editorInstance.onToolbarCommandComplete = function(command, type, data) {
+                // 根据命令类型执行不同操作
+                if (command === 'save') {
+                  console.log('保存命令执行完成');
+                  let obj = editorInstance.getDocHtml(id);
+                  if(obj && obj.length > 0){
+                    _this.saveBaseTemplateHtml({id: id, html: obj[0]['html']});
+                  }
+                }
+              };
             } else {
                 // 否则设置默认内容
                 editorInstance.editor.setData(`<p style='height:300px;position:relative;'>这是${title}的内容</p>`);
@@ -357,7 +371,7 @@ export class FolderComponent implements OnInit {
     }
   }
   
-
+  // 关闭编辑器
   backToList() {
     this.editorDisplay = false;
     HMEditorLoader.destroyEditor(this.editorId);
@@ -405,6 +419,40 @@ export class FolderComponent implements OnInit {
       .catch(error => {
         this.loadingService.loading(false);
         this.growlMessageService.showErrorInfo('获取动态字典失败', error);
+      });
+  }
+  // 获取模板HTML
+  getBaseTemplateHtml(id: string, templateName: string, callback?: (htmlData: any) => void) {
+    this.loadingService.loading(true);
+    this.folderService.getBaseTemplateHtml(id)
+      .then(data => {
+        this.loadingService.loading(false);
+        if (data && data.code === 10000) {
+          if (callback) {
+            callback(data.data);
+          }
+        } else {
+          callback("");
+          // this.growlMessageService.showErrorInfo('获取模板HTML失败', data ? data.msg : '');
+        }
+      })
+      .catch(error => {
+        this.loadingService.loading(false);
+        this.growlMessageService.showErrorInfo('获取模板HTML失败', error);
+      });
+  }
+  // 保存模板HTML
+  saveBaseTemplateHtml(params: { id: string, html: string }) {
+    this.folderService.saveBaseTemplateHtml(params)
+      .then(data => {
+        if (data && data.code === 10000) {
+          this.growlMessageService.showSuccessInfo('保存模板HTML成功！');
+        } else {
+          this.growlMessageService.showErrorInfo('保存模板HTML失败', data ? data.msg : '');
+        }
+      })
+      .catch(error => {
+        this.growlMessageService.showErrorInfo('保存模板HTML失败', error);
       });
   }
 }

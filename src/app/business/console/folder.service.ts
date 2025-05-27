@@ -136,12 +136,35 @@ export class FolderService {
 
   /**
    * 获取动态字典数据
-   * @returns Promise<any>
    */
   getDynamicDict(): Promise<any> {
     return this.http1.get(`${this.bathPath}/datasource/dynamicDict/allDynamicDict`)
       .toPromise()
       .then(data => data)
       .catch(this.handleError);
+  }
+  /**
+   * 获取模板HTML
+   * @param idStr 模板ID
+   */
+  getBaseTemplateHtml(idStr: string): Promise<any> {
+    return this.http1.post(`${this.bathPath}/getBaseTemplateHtml`,{id:idStr})
+      .toPromise()
+      .then(data => data)
+      .catch(this.handleError);
+  }
+
+  /**
+   * 保存模板HTML
+   * @param params 包含id和html的对象
+   */
+  saveBaseTemplateHtml(params: { id: string, html: string }): Promise<any> {
+    return this.http1.post(
+      `${this.bathPath}/saveBaseTemplateHtml`,
+      params
+    )
+    .toPromise()
+    .then(data => data)
+    .catch(this.handleError);
   }
 }
