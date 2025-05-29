@@ -29,11 +29,11 @@ export class CommonSidebarComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        "label":"数据元管理",
+        "label":"模板管理",
         "icon": "icon iconfont icon-edit1",
         "url": "",
         "routerLink": "",
-        "expanded": false,
+        "expanded": true,
         "visible": true,
         "items": [
           {
@@ -60,28 +60,10 @@ export class CommonSidebarComponent implements OnInit {
             "routerLink":"/main/business/datasource/dynamic-dict",
             "expanded": false,
             "visible": true
-          }
-        ]
-      },
-      {
-        "label":"模板管理",
-        "icon": "fa-folder",
-        "url": "",
-        "routerLink": "",
-        "expanded": true,
-        "visible": true,
-        "items": [
-          {
-            "label":"模板目录",
-            "icon":"",
-            "routerLink":"/main/business/console/folder",
-            "expanded": false,
-            "visible": true
-          },
-          {
+          },{
             "label":"模板制作",
             "icon":"",
-            "routerLink":"/main/business/console/template",
+            "routerLink":"/main/business/console/folder",
             "expanded": false,
             "visible": true
           }

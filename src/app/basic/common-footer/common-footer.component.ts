@@ -25,7 +25,7 @@ export class CommonFooterComponent implements OnInit {
 
   items=[];
 
-  ngOnInit() {   
+  ngOnInit() {
     this.commonFooterService.footer = this;
     const that = this;
     this.navToggledService.getNavDisplaySub().subscribe(navDisplay => {
@@ -39,10 +39,16 @@ export class CommonFooterComponent implements OnInit {
   loadMenu() {
     let leftMenu = this.storageCacheService.localStorageCache.get('menu');
     let menuData = {};
-    if(location.hash.substr(1).split('/').length-1 < 4 ){
+
+    // 检查URL是否包含console/folder
+    if(location.hash.indexOf('console/folder') > -1) {
+      // 如果是模板制作页面，直接设置正确的页签
+      menuData['text'] = '模板制作';
+      menuData['URL'] = '/main/business/console/folder';
+    } else if(location.hash.substr(1).split('/').length-1 < 4 ){
       menuData['text'] = leftMenu[0].items[0].label;
       menuData['URL'] = leftMenu[0].items[0].routerLink;
-    }else{
+    } else {
       for(let i=0;i <leftMenu.length;i++){
         if(leftMenu[i].items && leftMenu[i].items.length > 0){
           for(let j=0;j<leftMenu[i].items.length;j++){
@@ -55,8 +61,8 @@ export class CommonFooterComponent implements OnInit {
           menuData['text'] = leftMenu[i].label;
           menuData['URL'] = leftMenu[i].routerLink;
         }
-      }  
-    }  
+      }
+    }
     this.menus.push(menuData);
   }
 

@@ -8,7 +8,7 @@ import { BusinessComponent } from './business.component';
             {
                 path: '', component : BusinessComponent,
                 children: [
-                    {path: '', redirectTo: 'template', pathMatch: 'full' },
+                    {path: '', redirectTo: 'console/folder', pathMatch: 'full' },
                     // {path:'score',loadChildren:'./score/score.module#ScoreModule'},
                     // {path:'synchronization',loadChildren:'./synchronization/synchronization.module#SynchronizationModule'},
                     // {path:'sys-param',loadChildren:'./sys-param/sys-param.module#SysParamModule'},
