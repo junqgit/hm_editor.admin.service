@@ -99,7 +99,7 @@ export class DatasourceComponent implements OnInit {
     this.search();
   }
 
-  
+
   search(){
     this.dsManageService.getDatasource(encodeURI(this.dsFilterText || ''), this.dsPageNo, this.dsPageSize).then(d => {
       if (d['code'] == 10000) {
@@ -135,7 +135,7 @@ export class DatasourceComponent implements OnInit {
 
     this.dsDiagTitle = '修改数据元';
     this.editorDs = Object.assign({},this.selDs);
-    
+
     this.dsDiag = true;
   }
 
@@ -151,7 +151,7 @@ export class DatasourceComponent implements OnInit {
       }else{
         this.showInfo('删除失败');
       }
-      
+
     })
   }
   checkSel(){
@@ -203,7 +203,7 @@ export class DatasourceComponent implements OnInit {
 
 
     })
-    
+
   }
   generalCode(ds){
     if(ds['code']){

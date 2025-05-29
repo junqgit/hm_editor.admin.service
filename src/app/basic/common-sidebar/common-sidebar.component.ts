@@ -77,30 +77,7 @@ export class CommonSidebarComponent implements OnInit {
     //let currentUserInfo = JSON.parse(this.authTokenService.getCurrentUserInfo());
     let urlParams = this.storageCacheService.sessionStorageCache.get('urlParams');
     let expandedIndex = null;
-    // if(urlParams.adminRole){
-    //   urlParams.adminRole = decodeURIComponent(urlParams.adminRole);
-    //   let count=0;
-    //  for (let i=0;i< this.items.length; i++){
-    //    if(urlParams.adminRole.indexOf(this.items[i].label) != -1 ){
-    //      count++;
-    //      if(count==1){
-    //        //this.basUserService.setUserInfoThenNavigate(currentUserInfo,this.items[i].items[0].routerLink);
-    //        this.activeLink = this.items[i].items[0].routerLink;
-    //        this.items[i].expanded = true;
-    //        expandedIndex = i;
-    //      }
 
-    //    }else{
-    //      this.items[i].visible =false;
-    //    }
-    //  }
-    // }
-    //f(currentUserInfo && currentUserInfo.currentRole != '区域'){
-      //this.items[0].visible = false;// 医院管理员，隐藏掉模板导入功能，add by zhanyulan（YLYEMR-894）
-      //this.items[1].visible =false;
-      //this.items[2].items[0].visible =false;
-     // this.items[2].items[1].visible =false;
-    //}
     if(expandedIndex !== null){
       this.setItemActive(expandedIndex,0,undefined);
     }else{

@@ -66,7 +66,7 @@
           <button pButton type="button" (click)="showDialogToEditEmrBaseTemplate(baseTemplate)" label="编辑"></button>
           <button pButton type="button" (click)="removeEmrBaseTemplate(baseTemplate)" label="删除"></button>
           <button pButton type="button" (click)="makeTemplate(baseTemplate)" label="制作模板"></button>
-          
+
         </td>
       </tr>
     </ng-template>
@@ -85,13 +85,15 @@
   <div class="header-group">
     <span style="color: #1b82d7;">{{editorTemplateName}}</span>
     <div class="btn-group">
+        <button type="button" class="btn" (click)="importTemplate()">导入模板</button>
         <button type="button" class="btn" (click)="backToList()">返回列表</button>
     </div>
+    <input type="file" id="fileImport" style="display: none;" (change)="handleFileImport($event)" accept=".html,.txt">
   </div>
   <div class="wrapper" id="editorContainer">
 
   </div>
-  
+
 </div>
 <p-dialog header="模板信息" [(visible)]="displayEmrBaseTemplateDialog" [contentStyle]="{'overflow':'visible'}"
           [responsive]="true" showEffect="fade" [modal]="true" [width]="600" appendTo="body">

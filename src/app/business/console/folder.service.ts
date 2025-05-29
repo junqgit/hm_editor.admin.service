@@ -116,12 +116,6 @@ export class FolderService {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
-  isNewTemplate(templateTrueName): Promise<Object> {
-    return this.http1.get(`${this.bathPath}/isNewTemplate?templateTrueName=${templateTrueName}`)
-      .toPromise()
-      .then(data => data)
-      .catch(this.handleError);
-  }
 
   /**
    * 获取模板数据集

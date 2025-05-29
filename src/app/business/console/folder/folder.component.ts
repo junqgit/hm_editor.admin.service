@@ -218,56 +218,34 @@ export class FolderComponent implements OnInit {
     }
   }
   showDialogToEditEmrBaseTemplate(emrBaseTemplate) {
-    this.isNewTemplate(emrBaseTemplate.templateName,(data) => {
-      this.editorNameFlag = data;
-      this.isCreateEmrBaseTemplate = false;
-      this.emrBaseTemplate = <EmrBaseTemplate>Utils.deepCopyObjAndArray(emrBaseTemplate);
-      this.emrBaseTemplate.typeObject = _.find(this.templateTypeList, type => {
-        return type.code === emrBaseTemplate.type;
-      }) || this.templateTypeList[0];
-      this.displayEmrBaseTemplateDialog = true;
-    }
-    )
-
+    this.isCreateEmrBaseTemplate = false;
+    this.emrBaseTemplate = <EmrBaseTemplate>Utils.deepCopyObjAndArray(emrBaseTemplate);
+    this.emrBaseTemplate.typeObject = _.find(this.templateTypeList, type => {
+      return type.code === emrBaseTemplate.type;
+    }) || this.templateTypeList[0];
+    this.displayEmrBaseTemplateDialog = true;
   }
   removeEmrBaseTemplate(emrBaseTemplate: EmrBaseTemplate) {
-    this.isNewTemplate(emrBaseTemplate.templateName,(data) => {
-      if(data){
-        this.growlMessageService.showWarningInfo('已经创建过模板，不能删除病历名称');
-        return;
+    this.confirmationService.confirm({
+      message: `确定删除模板${emrBaseTemplate.templateName}?`,
+      header: '删除模板',
+      icon: 'fa fa-trash',
+      accept: () => {
+        this.folderService.deleteBaseTemplate(emrBaseTemplate).then(
+          (data) => {
+            if (data && data.code == '10000') {
+              this.getEmrBaseTemplateList('');
+              this.growlMessageService.showSuccessInfo(`删除模板${emrBaseTemplate.templateName}成功！`);
+            } else {
+              this.growlMessageService.showErrorInfo(`删除模板${emrBaseTemplate.templateName}失败`, data ? data.msg : '');
+            }
+          },
+          (err) => {
+            this.growlMessageService.showErrorInfo(`删除模板${emrBaseTemplate.templateName}失败：`, err);
+          });
       }
-      this.confirmationService.confirm({
-        message: `确定删除模板${emrBaseTemplate.templateName}?`,
-        header: '删除模板',
-        icon: 'fa fa-trash',
-        accept: () => {
-          this.folderService.deleteBaseTemplate(emrBaseTemplate).then(
-            (data) => {
-              if (data && data.code == '10000') {
-                this.getEmrBaseTemplateList('');
-                this.growlMessageService.showSuccessInfo(`删除模板${emrBaseTemplate.templateName}成功！`);
-              } else {
-                this.growlMessageService.showErrorInfo(`删除模板${emrBaseTemplate.templateName}失败`, data ? data.msg : '');
-              }
-            },
-            (err) => {
-              this.growlMessageService.showErrorInfo(`删除模板${emrBaseTemplate.templateName}失败：`, err);
-            });
-        }
-      });
-
-    })
-
+    });
   }
-  /**
-   * 是否创建过模板
-   * @param templateTrueName
-   */
-  isNewTemplate(templateTrueName,callback){
-    this.folderService.isNewTemplate(templateTrueName).then(d =>
-      d && callback && callback(d['data'])
-    )
-  };
   searchName() {
     let searchName = this.templateSearchName;
     this.searchParams.page.currentPage = 1;
@@ -293,6 +271,8 @@ export class FolderComponent implements OnInit {
   editorTemplateName = '';
   editorId = '';
   dynamicDictList = [];
+  editorInstance: any; // 保存编辑器实例的引用
+
   // 制作模板
   makeTemplate(template) {
     this.editorDisplay = true;
@@ -311,6 +291,59 @@ export class FolderComponent implements OnInit {
       });
     });
   }
+
+  // 打开文件选择对话框
+  importTemplate() {
+    const fileInput = document.getElementById('fileImport') as HTMLInputElement;
+    fileInput.click();
+  }
+
+  // 处理文件导入
+  handleFileImport(event: any) {
+    const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const content = e.target.result;
+      try {
+        // 获取当前编辑的模板ID
+        const templateId = this.editorId.replace('editor_', '');
+
+        // 组装JSON参数，确保包含code字段
+        const docContent = [
+          {
+            "code": templateId,
+            "docContent": content
+          }
+        ];
+
+        // 调用编辑器实例的setDocContent方法
+        if (this.editorInstance) {
+          this.editorInstance.setDocContent(docContent);
+          this.growlMessageService.showSuccessInfo('导入成功！');
+        } else {
+          this.growlMessageService.showErrorInfo('编辑器实例未初始化', '请先等待编辑器加载完成');
+        }
+      } catch (error) {
+        console.error('导入文件内容错误:', error);
+        this.growlMessageService.showErrorInfo('导入失败', '文件内容格式不正确');
+      }
+
+      // 清空文件输入，以便再次选择同一文件
+      event.target.value = '';
+    };
+
+    reader.onerror = () => {
+      this.growlMessageService.showErrorInfo('导入失败', '读取文件时发生错误');
+      event.target.value = '';
+    };
+
+    reader.readAsText(file);
+  }
+
   // 创建编辑器
   createTab(title,id, datasources, content) {
     this.editorId = 'editor_' + id;
@@ -333,13 +366,14 @@ export class FolderComponent implements OnInit {
           reviseMode: false,  // 是否启用修订模式
           readOnly: false,     // 是否启用只读模式
           customParams: {     // 自定义参数
-            
+
           }
         })
         .then(function(result) {
             // 编辑器初始化完成
             var editorInstance = result;
-            
+            _this.editorInstance = editorInstance; // 保存编辑器实例
+
             if (content) {
               // 如果有内容，则设置文档内容
               editorInstance.setDocContent(content);
@@ -370,10 +404,11 @@ export class FolderComponent implements OnInit {
         throw error;
     }
   }
-  
+
   // 关闭编辑器
   backToList() {
     this.editorDisplay = false;
+    this.editorInstance = null; // 清空编辑器实例引用
     HMEditorLoader.destroyEditor(this.editorId);
   }
 
@@ -401,7 +436,7 @@ export class FolderComponent implements OnInit {
         return null;
       });
   }
-  
+
   /**
    * 获取动态字典数据
    */
