@@ -5,6 +5,5 @@
 
 export const environment = {
   production: false,
-  apiUrl : '/emr-server/',
-  editorUrl: '/emr-editor/'
+  apiUrl : '/hmEditor/'
 };

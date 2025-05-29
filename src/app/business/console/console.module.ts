@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FolderComponent } from './folder/folder.component';
 import { DatasourceComponent } from './datasource/datasource.component';
-import { TemplateComponent } from './template/template.component';
 import { ConsoleRoutingModule } from './console-routing.module';
 import { TreeModule } from 'portalface/widgets/tree-widget/tree/tree';
 import { DropdownModule } from 'portalface/widgets/form-widgets/dropdown/dropdown';
@@ -24,7 +23,6 @@ import { FileUploadModule } from 'portalface/widgets/form-widgets/fileupload/fil
 import { TemplateService } from './template.service';
 import { FormWidgetsModule } from 'portalface/widgets';
 import { BreadcrumbModule, GrowlModule, OverlayPanelModule } from 'primeng/primeng';
-import { EditorWrapperModules } from '../../common/editor-wrapper/editor-wrapper.module';
 import { LoadingService } from './../../common/service/loading.service';
 import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
 
@@ -48,11 +46,10 @@ import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
     HttpClientModule,
     FormWidgetsModule,
     BreadcrumbModule,
-    EditorWrapperModules,
     OverlayPanelModule,
     KyeePipeModule
   ],
-  declarations: [FolderComponent, DatasourceComponent, TemplateComponent],
+  declarations: [FolderComponent, DatasourceComponent],
   providers:[FolderService,DataSourceService,TemplateService,LoadingService]
 })
 export class ConsoleModule { }

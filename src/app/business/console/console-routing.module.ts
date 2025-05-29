@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { FolderComponent } from './folder/folder.component';
 import { DatasourceComponent } from './datasource/datasource.component';
-import { TemplateComponent } from './template/template.component';
 @NgModule({
     imports: [
       RouterModule.forChild([
@@ -13,9 +12,6 @@ import { TemplateComponent } from './template/template.component';
         }, {
           path: 'folder',
           component: FolderComponent
-        }, {
-          path: 'template',
-          component: TemplateComponent
         }
       ])
     ]

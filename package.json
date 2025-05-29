@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --disable-host-check --port 29099 --public-host=http://127.0.0.1:29099/ --base-href=/emr-admin-client/ --deploy-url=/emr-admin-client/",
-    "build": "ng build -aot -prod --base-href=/emr-admin-client/ --deploy-url=/emr-admin-client/ ",
+    "start": "ng serve --disable-host-check --port 29099 --public-host=http://127.0.0.1:29099/ --base-href=/hmEditor/admin-client/ --deploy-url=/hmEditor/admin-client/",
+    "build": "ng build -aot -prod --base-href=/hmEditor/admin-client/ --deploy-url=/hmEditor/admin-client/ ",
     "create": "ng g ",
     "server": "http-server kyeeeditor.admin.web -c-1 --cors"
   },

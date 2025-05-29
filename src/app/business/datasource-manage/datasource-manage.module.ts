@@ -20,7 +20,6 @@ import { FileUploadModule } from 'portalface/widgets/form-widgets/fileupload/fil
 
 import { FormWidgetsModule } from 'portalface/widgets';
 import { BreadcrumbModule, GrowlModule } from 'primeng/primeng';
-import { EditorWrapperModules } from '../../common/editor-wrapper/editor-wrapper.module';
 import { LoadingService } from './../../common/service/loading.service';
 import { DatasourceSetComponent } from './datasource-set/datasource-set.component';
 import { DatasourceComponent } from './datasource/datasource.component';
@@ -51,7 +50,6 @@ import { DynamicDictComponent } from './dynamic-dict/dynamic-dict.component';
     HttpClientModule,
     FormWidgetsModule,
     BreadcrumbModule,
-    EditorWrapperModules,
     AllDatatsourceDpModule
   ],
   declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceComponent, DynamicDictComponent],
