@@ -6,7 +6,7 @@ RUN apk --update add bash
 
 COPY docker/index.js .
 COPY docker/package.json .
-COPY kyeeeditor.admin.web kyeeeditor.admin.web
+COPY hmEditor.admin.web hmEditor.admin.web
 
 
 COPY docker/node_modules.tar .

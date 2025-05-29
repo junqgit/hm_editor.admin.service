@@ -2,11 +2,16 @@ var express = require('express');
 var app = express();
 
 
-app.get('/hm-editor-client/admin', function (req, res) {
+app.use('/hmEditor/admin-client',express.static( __dirname + '/hmEditor.admin.web'));
+
+app.get('*', function(req, res) {
+  res.sendFile( __dirname + '/hmEditor.admin.web/index.html' );
+});
+
+app.get('/hmEditor/admin-client/admin', function (req, res) {
   var status = {
     "status":"UP"
   };
-
   res.send(status);
 });
 

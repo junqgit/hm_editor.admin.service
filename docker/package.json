@@ -1,7 +1,7 @@
 {
-  "name": "emrAdmin",
+  "name": "hmEditorAdmin",
   "version": "1.0.0",
-  "description": "emrAdmin",
+  "description": "hmEditorAdmin",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

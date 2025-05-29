@@ -1,5 +1,5 @@
 {
-  "name": "kyeeeditor.admin.web",
+  "name": "hmEditor.admin.web",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -7,7 +7,7 @@
     "start": "ng serve --disable-host-check --port 29099 --public-host=http://127.0.0.1:29099/ --base-href=/hmEditor/admin-client/ --deploy-url=/hmEditor/admin-client/",
     "build": "ng build -aot -prod --base-href=/hmEditor/admin-client/ --deploy-url=/hmEditor/admin-client/ ",
     "create": "ng g ",
-    "server": "http-server kyeeeditor.admin.web -c-1 --cors"
+    "server": "http-server hmEditor.admin.web -c-1 --cors"
   },
   "private": true,
   "dependencies": {
