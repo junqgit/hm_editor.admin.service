@@ -366,6 +366,48 @@ export class FolderComponent implements OnInit {
     reader.readAsText(file);
   }
 
+  // 导出模板
+  exportTemplate() {
+    if (!this.editorInstance) {
+      this.growlMessageService.showErrorInfo('导出失败', '编辑器实例未初始化');
+      return;
+    }
+
+    try {
+      // 获取当前编辑的模板ID
+      const templateId = this.editorId.replace('editor_', '');
+
+      // 调用编辑器实例的getDocHtml方法获取内容
+      const docContent = this.editorInstance.getDocHtml(templateId);
+
+      if (docContent && docContent.length > 0 && docContent[0]['html']) {
+        // 创建Blob对象
+        const blob = new Blob([docContent[0]['html']], { type: 'text/html' });
+
+        // 创建下载链接
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${'模板_' + (this.editorTemplateName || 'template')}.html`;
+
+        // 模拟点击下载
+        document.body.appendChild(a);
+        a.click();
+
+        // 清理
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        this.growlMessageService.showSuccessInfo('导出成功！');
+      } else {
+        this.growlMessageService.showErrorInfo('导出失败', '未获取到模板内容');
+      }
+    } catch (error) {
+      console.error('导出模板内容错误:', error);
+      this.growlMessageService.showErrorInfo('导出失败', '处理模板内容时发生错误');
+    }
+  }
+
   // 检查内容是否包含二进制数据
   containsBinaryContent(text: string): boolean {
     // 检查是否包含不可打印字符（ASCII控制字符，不包括常见的换行、制表符等）
