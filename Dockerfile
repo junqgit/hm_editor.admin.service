@@ -6,7 +6,7 @@ RUN apk --update add bash
 
 COPY docker/index.js .
 COPY docker/package.json .
-COPY hmEditor.admin.web hmEditor.admin.web
+COPY hm_editor.admin.web hm_editor.admin.web
 
 
 COPY docker/node_modules.tar .

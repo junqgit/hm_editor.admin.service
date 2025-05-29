@@ -2,10 +2,10 @@ var express = require('express');
 var app = express();
 
 
-app.use('/hmEditor/admin-client',express.static( __dirname + '/hmEditor.admin.web'));
+app.use('/hmEditor/admin-client',express.static( __dirname + '/hm_editor.admin.web'));
 
 app.get('*', function(req, res) {
-  res.sendFile( __dirname + '/hmEditor.admin.web/index.html' );
+  res.sendFile( __dirname + '/hm_editor.admin.web/index.html' );
 });
 
 app.get('/hmEditor/admin-client/admin', function (req, res) {
