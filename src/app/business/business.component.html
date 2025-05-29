@@ -1,6 +1,4 @@
 <div class="business-container">
-  <kyee-common-sidebar *ngIf="showSideBar"  [ngStyle]="{'width': navDisplay? '220px' : '50px','position':'fixed','z-index':'100'}"></kyee-common-sidebar>
-  <kyee-common-footer></kyee-common-footer>
   <div class="layout-content" [class.siderHide]="!navDisplay">
     <router-outlet></router-outlet>
   </div>
@@ -12,5 +10,3 @@
     </p-footer>
   </p-confirmDialog>
 </div>
-
-

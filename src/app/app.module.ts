@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './basic/header/header.component';
 import { PageNotFoundComponent } from './basic/page-not-found/page-not-found.component';
 import { LoadingComponent } from './basic/loading/loading.component';
+import { SharedModule } from './basic/shared/shared.module';
 
 import { MainComponent } from './basic/main/main.component';
 import { LoadingService } from 'portalface/services';
@@ -27,7 +28,8 @@ import { NavToggledService} from './common/service/nav-toggled.service'
     imports: [
         KyeeModule,
         WidgetsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        SharedModule
     ],
     providers: [
         LoadingService, NavToggledService,

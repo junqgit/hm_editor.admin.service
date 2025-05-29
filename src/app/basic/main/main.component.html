@@ -1,8 +1,10 @@
-<div style="height: 100%;">
+<div class="main-container">
   <kyee-header></kyee-header>
-  <!--<kyee-common-footer></kyee-common-footer>-->
-  <div class="main-box" >
-    <router-outlet></router-outlet>
+  <kyee-common-footer></kyee-common-footer>
+  <div class="content-area">
+    <kyee-common-sidebar></kyee-common-sidebar>
+    <div class="main-box">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
-

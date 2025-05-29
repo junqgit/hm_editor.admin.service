@@ -10,8 +10,8 @@ $space:5px;
             padding: $space;
             margin-bottom: $space;
             border-bottom: 1px solid #eee;
-     font-weight: bold;
-    font-size: 1.2em;
+            font-weight: bold;
+            font-size: 1.2em;
         }
     }
     .left-area{
@@ -24,8 +24,8 @@ $space:5px;
         padding: $space;
         & > p{
             margin-left: -5px;
-    background: #fff;
-    margin-top: -5px;
+            background: #fff;
+            margin-top: -5px;
         }
         &>button{
             margin-bottom: $space;
@@ -37,7 +37,7 @@ $space:5px;
         overflow-y: auto;
         dd{
             padding: 5px;
-            
+
             span{
                 padding: 5px;
             }
@@ -47,7 +47,7 @@ $space:5px;
                 color: #4297fe;
                 background: #eee;
             }
-            
+
         }
         div{
             float:right;
@@ -56,7 +56,7 @@ $space:5px;
             margin-right: 20px;
         }
     }
-   
+
 }
 
 .scroll-cell {
@@ -70,9 +70,10 @@ $space:5px;
     word-break: break-all;
 }
 
-.myEmrWrapperClass {
+.design-template-wrapper {
     position: absolute;
     top: -7px;
+    padding-top: 40px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -104,4 +105,3 @@ $space:5px;
     width: 1.5em;
     height: 100%;
 }
-

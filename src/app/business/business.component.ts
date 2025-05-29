@@ -10,22 +10,15 @@ import { NavToggledService } from '../common/service/nav-toggled.service';
   styleUrls: ['./business.component.scss']
 })
 export class BusinessComponent implements OnInit {
-  showSideBar:boolean=true;
   msgs: Message[];
   navDisplay:boolean = true;
-  constructor(private navToggledService: NavToggledService,private  storageCacheService:StorageCacheService, private growlMessageService: GrowlMessageService) { }
+  constructor(private navToggledService: NavToggledService,private storageCacheService:StorageCacheService, private growlMessageService: GrowlMessageService) { }
 
   ngOnInit() {
-    // let user = this.storageCacheService.localStorageCache.get("user");
-    // if(user['userMark']=='1'){
-    //   this.showSideBar = false;
-    // }else{
-    //   this.showSideBar = true;
-    // }
     this.navToggledService.getNavDisplaySub().subscribe(navDisplay => {
       this.navDisplay = navDisplay;
     });
-    
+
     this.growlMessageService.getGrowlSubject().subscribe(
       massage => {
         this.msgs = [];
@@ -33,5 +26,4 @@ export class BusinessComponent implements OnInit {
       }
     );
   }
-
 }

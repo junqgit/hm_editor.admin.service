@@ -2,18 +2,21 @@
   display: flex;
   height: 100%;
   overflow: hidden;
+  width: 100%;
 }
-.layout-content{
+
+.layout-content {
   position: relative;
   transition: all 0.5s;
-  margin-left: 220px;
+  margin-left: 0;
   display: block;
-  // flex: 1;
-  width: calc(100% - 220px);
-  // width: 100%;
-  margin-top: 48px;
+  width: 100%;
+  margin-top: 0;
+  overflow: auto;
+  padding-top: 30px;
 }
-.layout-content.siderHide{
-  width: calc(100% - 50px);
-  margin-left: 50px;
+
+.layout-content.siderHide {
+  width: 100%;
+  margin-left: 0;
 }

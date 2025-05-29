@@ -21,7 +21,7 @@
         >div{
             margin-bottom: 10px;
         }
-    }   
+    }
 }
 
 
@@ -31,4 +31,9 @@
 }
 :host /deep/ .bottom .ui-datatable-scrollable-body{
     max-height: calc(40vh - 110px);
+}
+
+/* 确保所有表格内的字体大小一致 */
+:host /deep/ .ui-datatable {
+  font-size: 14px;
 }

@@ -1,15 +1,16 @@
 .sidebar {
   padding-top: 0;
-  background-color: #ffffff;
+  background-color: #252c36;
   color: #3c4144;
   transition: all 0.5s;
   font: 400 14px/2 "Microsoft YaHei",helvetica, arial, verdana, sans-serif;
+  height: 100%;
+  width: 220px;
   li {
     list-style: none;
   }
   li:hover {
     cursor: pointer;
-    //background-color: #eeeeee;
     background: #29426B;
     transition: all .5s ease;
   }
@@ -88,23 +89,18 @@
     }
     .showpopup {
       display: block;
-  }
+    }
   }
 }
 
-
+/* 移除固定定位，使用相对定位 */
 #layout-sidebar {
-  position: fixed;
-  left: 0;
-  top: 57px;
   height: 100%;
-  background-color: #fbfbfb;
-  color:#3c4144;
+  background-color: #252c36;
+  color:#D8E3ED;
   width: 220px;
   border-right: 0px solid #e1e3e4;
-  background: #252c36
 }
-
 
 .submenu-hide {
   max-height: 0;
@@ -123,7 +119,6 @@
   transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
 }
 
-
 .submenu-show {
   max-height: 1500px;
   visibility: visible;
@@ -136,7 +131,6 @@
   -webkit-transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
   -o-transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
   transition-timing-function: cubic-bezier(0.86, 0, 0.07, 1);
-
 }
 
 .text-overflow {

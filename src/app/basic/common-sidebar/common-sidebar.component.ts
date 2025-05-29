@@ -29,6 +29,14 @@ export class CommonSidebarComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
+        "label": "首页",
+        "icon": "icon iconfont icon-home",
+        "url": "/main/business/welcome",
+        "routerLink": "/main/business/welcome",
+        "expanded": false,
+        "visible": true
+      },
+      {
         "label":"模板管理",
         "icon": "icon iconfont icon-edit1",
         "url": "",
@@ -70,21 +78,28 @@ export class CommonSidebarComponent implements OnInit {
         ]
       }
     ];
+
+    // 立即保存菜单到本地存储，以便底部组件能够访问
+    this.storageCacheService.localStorageCache.set('menu', this.items);
+
     this.navToggledService.getNavDisplaySub().subscribe(navDisplay => {
       this.navDisplay = navDisplay;
       this.menuPopup.popupDisplay = false;
     });
-    //let currentUserInfo = JSON.parse(this.authTokenService.getCurrentUserInfo());
+
+    // 检查当前URL是否是首页，如果是则选中首页菜单项
+    const currentUrl = location.hash.substr(1);
+    if (currentUrl === '/main/business/welcome' || currentUrl === '/main/business') {
+      this.setItemActive(0, null, null);
+      this.activeLink = '/main/business/welcome';
+    }
+
     let urlParams = this.storageCacheService.sessionStorageCache.get('urlParams');
     let expandedIndex = null;
 
     if(expandedIndex !== null){
-      this.setItemActive(expandedIndex,0,undefined);
-    }else{
-      // 不默认选中任何菜单项
-      // this.setItemActive(3,0,undefined);
+      this.setItemActive(expandedIndex, 0, undefined);
     }
-    this.storageCacheService.localStorageCache.set('menu',this.items);
   }
 
   menuItemClickHandler(event, menuitem) {
@@ -138,6 +153,11 @@ export class CommonSidebarComponent implements OnInit {
       let menuData = {};
       menuData['text'] = item.label;
       menuData['URL'] = item.routerLink;
+
+      // 标记首页
+      if (item.routerLink === '/main/business/welcome') {
+        menuData['isHomePage'] = true;
+      }
 
       let menus = this.commonFooterService.footer.menus;
       let isExist = false;

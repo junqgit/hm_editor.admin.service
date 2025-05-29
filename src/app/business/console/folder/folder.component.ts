@@ -305,9 +305,31 @@ export class FolderComponent implements OnInit {
       return;
     }
 
+    // 检查文件类型，排除二进制文件
+    if (file.type && !file.type.startsWith('text/') &&
+       !['application/json', 'application/xml', 'application/javascript', 'application/typescript'].includes(file.type)) {
+      // 对于没有明确类型的文件，通过扩展名判断
+      const fileExt = file.name.split('.').pop().toLowerCase();
+      const textExtensions = ['txt', 'html', 'htm', 'xml', 'json', 'js', 'ts', 'css', 'scss', 'less', 'md', 'svg', 'vue', 'jsx', 'tsx'];
+
+      if (!textExtensions.includes(fileExt)) {
+        this.growlMessageService.showErrorInfo('文件类型不支持', '请选择文本文件');
+        event.target.value = '';
+        return;
+      }
+    }
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const content = e.target.result;
+
+      // 简单检查内容是否包含不可打印字符（二进制文件的特征）
+      if (this.containsBinaryContent(content)) {
+        this.growlMessageService.showErrorInfo('文件内容不支持', '请选择纯文本文件');
+        event.target.value = '';
+        return;
+      }
+
       try {
         // 获取当前编辑的模板ID
         const templateId = this.editorId.replace('editor_', '');
@@ -342,6 +364,14 @@ export class FolderComponent implements OnInit {
     };
 
     reader.readAsText(file);
+  }
+
+  // 检查内容是否包含二进制数据
+  containsBinaryContent(text: string): boolean {
+    // 检查是否包含不可打印字符（ASCII控制字符，不包括常见的换行、制表符等）
+    const controlChars = text.match(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g);
+    // 如果包含较多控制字符，可能是二进制文件
+    return controlChars && controlChars.length > text.length * 0.05; // 如果控制字符超过5%，认为是二进制
   }
 
   // 创建编辑器

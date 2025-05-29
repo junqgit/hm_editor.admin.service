@@ -68,7 +68,14 @@ export class DynamicDictComponent implements OnInit {
   // 新增动态值域
   addDynamicDict() {
     this.dialogTitle = '新增动态值域';
-    this.editDynamicDict = {};
+    // 初始化所有字段，包括隐藏字段的默认值
+    this.editDynamicDict = {
+      returnCode: 'code',
+      returnName: 'name',
+      returnExt1: '',
+      returnExt2: '',
+      displayContent: '{name}'
+    };
     this.isNewRecord = true;
     this.displayDialog = true;
   }
@@ -81,6 +88,12 @@ export class DynamicDictComponent implements OnInit {
     }
     this.dialogTitle = '编辑动态值域';
     this.editDynamicDict = { ...this.selectedDynamicDict };
+
+    // 确保隐藏字段有默认值
+    if (!this.editDynamicDict.returnCode) this.editDynamicDict.returnCode = 'code';
+    if (!this.editDynamicDict.returnName) this.editDynamicDict.returnName = 'name';
+    if (!this.editDynamicDict.displayContent) this.editDynamicDict.displayContent = '{name}';
+
     this.isNewRecord = false;
     this.displayDialog = true;
   }
@@ -139,6 +152,17 @@ export class DynamicDictComponent implements OnInit {
     allFields.forEach(field => {
       if (field === 'code' && this.isNewRecord) {
         return; // 新增时不需要设置code字段
+      }
+
+      // 设置隐藏字段的默认值（如果未设置）
+      if (field === 'returnCode' && !saveData.returnCode) {
+        saveData.returnCode = 'code';
+      }
+      if (field === 'returnName' && !saveData.returnName) {
+        saveData.returnName = 'name';
+      }
+      if (field === 'displayContent' && !saveData.displayContent) {
+        saveData.displayContent = '{name}';
       }
 
       // 如果字段不存在或为undefined，设置为空字符串

@@ -10,8 +10,8 @@
            'border-bottom':selectedIndex==index? '3px solid #FF9900':'3px solid rgba(222,227,234,1)'}"
            [title]="menu['text']">
            {{menu['text']}}
-        <img *ngIf="selectedIndex==index" src="assets/img/activedMenu.png" style="margin-left: 20px;" (click)="closeMenu(index)"/>
-        <img  *ngIf="selectedIndex!=index" src="assets/img/footMenuGray.png" style="margin-left: 20px;"
+        <img *ngIf="selectedIndex==index && !menu['isHomePage']" src="assets/img/activedMenu.png" style="margin-left: 20px;" (click)="closeMenu(index)"/>
+        <img *ngIf="selectedIndex!=index && !menu['isHomePage']" src="assets/img/footMenuGray.png" style="margin-left: 20px;"
               (click)="closeMenu(index)" [ngStyle]="{'display':index == mouseOverIndex?'inline':'none'}"/>
       </li>
     </ul>

@@ -11,12 +11,27 @@ body {
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  font-family: "Microsoft YaHei",helvetica, arial, verdana, sans-serif;
+  font-family: "Microsoft YaHei", helvetica, arial, verdana, sans-serif;
   font-weight: normal;
   color: #404C51;
   -webkit-font-smoothing: antialiased;
   font-size: 14px;
   background-color: #f4f4f4;
+}
+
+/* 统一字体样式 */
+*,
+*:before,
+*:after,
+button,
+input,
+textarea,
+select,
+p,
+h1, h2, h3, h4, h5, h6,
+div,
+span {
+  font-family: "Microsoft YaHei", helvetica, arial, verdana, sans-serif !important;
 }
 
 ::-webkit-scrollbar{width:6px; height: 6px;border-radius: 5px;background: transparent;}
@@ -822,4 +837,32 @@ a {
 .signing-details p-tableCheckbox .ui-state-active{
   border-color: #3ACA60;
   background-color: #3ACA60;
+}
+
+/* 从styles.scss合并过来的样式 */
+
+/* 确保侧边栏不会重复显示 */
+kyee-common-sidebar {
+  display: block;
+  height: 100%;
+}
+
+/* 修复重复侧边栏的问题 */
+kyee-common-sidebar > kyee-common-sidebar {
+  display: none !important;
+}
+
+/* 去除其他可能的额外样式 */
+.div.main-box > kyee-common-sidebar {
+  display: none !important;
+}
+
+/* 确保路由内容不会重复显示侧边栏 */
+router-outlet ~ kyee-common-sidebar {
+  display: none !important;
+}
+
+/* 隐藏字段的样式 */
+.hidden {
+  display: none !important;
 }

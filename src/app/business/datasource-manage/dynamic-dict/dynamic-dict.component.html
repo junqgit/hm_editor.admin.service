@@ -30,11 +30,6 @@
       <p-column header="值域编码" field="code"></p-column>
       <p-column header="值域名称" field="name"></p-column>
       <p-column header="请求URL" field="url"></p-column>
-      <p-column header="返回CODE" field="returnCode"></p-column>
-      <p-column header="返回NAME" field="returnName"></p-column>
-      <p-column header="返回扩展1" field="returnExt1"></p-column>
-      <p-column header="返回扩展2" field="returnExt2"></p-column>
-      <p-column header="显示内容" field="displayContent"></p-column>
       <p-column header="标签" field="tag"></p-column>
       <p-column header="入参示例" field="paramExample"></p-column>
       <p-column header="维护时间" field="createTime">
@@ -59,19 +54,19 @@
         <label>请求URL</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.url" [ngModelOptions]="{standalone: true}" style="width: 95%" />
       </div>
-      <div class="row">
+      <div class="row hidden">
         <label>返回CODE</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.returnCode" [ngModelOptions]="{standalone: true}" />
         <label>返回NAME</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.returnName" [ngModelOptions]="{standalone: true}" />
       </div>
-      <div class="row">
+      <div class="row hidden">
         <label>返回扩展1</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.returnExt1" [ngModelOptions]="{standalone: true}" />
         <label>返回扩展2</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.returnExt2" [ngModelOptions]="{standalone: true}" />
       </div>
-      <div class="row">
+      <div class="row hidden">
         <label>显示内容</label>
         <input pInputText type="text" [(ngModel)]="editDynamicDict.displayContent" [ngModelOptions]="{standalone: true}" style="width: 95%" />
       </div>

@@ -81,14 +81,14 @@
   </div>
 </div>
 <!-- 编辑器窗口 -->
-<div class="myEmrWrapperClass" *ngIf="editorDisplay" >
+<div class="design-template-wrapper" *ngIf="editorDisplay" >
   <div class="header-group">
     <span style="color: #1b82d7;">{{editorTemplateName}}</span>
     <div class="btn-group">
         <button type="button" class="btn" (click)="importTemplate()">导入模板</button>
         <button type="button" class="btn" (click)="backToList()">返回列表</button>
     </div>
-    <input type="file" id="fileImport" style="display: none;" (change)="handleFileImport($event)" accept=".html,.txt">
+    <input type="file" id="fileImport" style="display: none;" (change)="handleFileImport($event)">
   </div>
   <div class="wrapper" id="editorContainer">
 

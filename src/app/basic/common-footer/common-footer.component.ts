@@ -38,32 +38,64 @@ export class CommonFooterComponent implements OnInit {
 
   loadMenu() {
     let leftMenu = this.storageCacheService.localStorageCache.get('menu');
-    let menuData = {};
 
-    // 检查URL是否包含console/folder
-    if(location.hash.indexOf('console/folder') > -1) {
-      // 如果是模板制作页面，直接设置正确的页签
-      menuData['text'] = '模板制作';
-      menuData['URL'] = '/main/business/console/folder';
-    } else if(location.hash.substr(1).split('/').length-1 < 4 ){
-      menuData['text'] = leftMenu[0].items[0].label;
-      menuData['URL'] = leftMenu[0].items[0].routerLink;
-    } else {
-      for(let i=0;i <leftMenu.length;i++){
-        if(leftMenu[i].items && leftMenu[i].items.length > 0){
-          for(let j=0;j<leftMenu[i].items.length;j++){
-            if(leftMenu[i].items[j].routerLink == location.hash.substr(1)){
-              menuData['text'] = leftMenu[i].items[j].label;
-              menuData['URL'] = leftMenu[i].items[j].routerLink;
+    // 始终添加首页标签
+    let homeTab = {
+      'text': '首页',
+      'URL': '/main/business/welcome',
+      'isHomePage': true
+    };
+    this.menus.push(homeTab);
+
+    // 添加当前页面标签（如果不是首页）
+    let currentUrl = location.hash.substr(1);
+    if (currentUrl !== '/main/business/welcome' && currentUrl !== '/main/business') {
+      let menuData = {};
+
+      // 检查URL是否包含console/folder
+      if(location.hash.indexOf('console/folder') > -1) {
+        // 如果是模板制作页面，直接设置正确的页签
+        menuData['text'] = '模板制作';
+        menuData['URL'] = '/main/business/console/folder';
+        this.menus.push(menuData);
+      } else if(currentUrl.split('/').length-1 < 4 && leftMenu && leftMenu.length > 0 && leftMenu[0].items && leftMenu[0].items.length > 0){
+        // 添加安全检查，确保 leftMenu 存在且有值
+        menuData['text'] = leftMenu[0].items[0].label;
+        menuData['URL'] = leftMenu[0].items[0].routerLink;
+        this.menus.push(menuData);
+      } else if(leftMenu && leftMenu.length > 0) {
+        // 添加安全检查，确保 leftMenu 存在且有值
+        let foundMenuItem = false;
+
+        for(let i=0; i < leftMenu.length; i++){
+          if(leftMenu[i].items && leftMenu[i].items.length > 0){
+            for(let j=0; j < leftMenu[i].items.length; j++){
+              if(leftMenu[i].items[j].routerLink == currentUrl){
+                menuData['text'] = leftMenu[i].items[j].label;
+                menuData['URL'] = leftMenu[i].items[j].routerLink;
+                this.menus.push(menuData);
+                foundMenuItem = true;
+                break;
+              }
             }
+            if(foundMenuItem) break;
+          } else if(leftMenu[i].routerLink == currentUrl) {
+            menuData['text'] = leftMenu[i].label;
+            menuData['URL'] = leftMenu[i].routerLink;
+            this.menus.push(menuData);
+            foundMenuItem = true;
+            break;
           }
-        }else if(leftMenu[i].routerLink == location.hash.substr(1)) {
-          menuData['text'] = leftMenu[i].label;
-          menuData['URL'] = leftMenu[i].routerLink;
         }
       }
     }
-    this.menus.push(menuData);
+
+    // 设置选中的标签
+    if (currentUrl === '/main/business/welcome' || currentUrl === '/main/business') {
+      this.selectedIndex = 0; // 选中首页
+    } else {
+      this.selectedIndex = this.menus.length > 1 ? 1 : 0; // 如果有其他标签则选中，否则选中首页
+    }
   }
 
   menuClick(index){
@@ -72,6 +104,11 @@ export class CommonFooterComponent implements OnInit {
   }
 
   closeMenu(index){
+    // 检查是否为首页标签，如果是则不允许关闭
+    if (this.menus[index] && this.menus[index]['isHomePage']) {
+      return; // 不关闭首页标签
+    }
+
     this.menus.splice(index, 1);
     if(index==this.selectedIndex){
       if(this.menus.length>0){

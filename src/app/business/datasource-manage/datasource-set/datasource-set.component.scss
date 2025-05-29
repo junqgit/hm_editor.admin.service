@@ -20,7 +20,7 @@
             margin-bottom: 10px;
             background-color: #fff;
         }
-    }   
+    }
 }
 :host /deep/ .left .ui-datatable-scrollable-body{
     max-height: calc(100vh - 265px);
@@ -29,3 +29,16 @@
     max-height: calc(50vh - 140px);
 }
 
+/* 确保表格中的字体大小统一 */
+:host /deep/ .ui-datatable {
+  font-size: 14px;
+}
+
+/* 确保字段标签和输入框字体大小统一 */
+:host /deep/ label,
+:host /deep/ input,
+:host /deep/ button,
+:host /deep/ .ui-dropdown,
+:host /deep/ .ui-multiselect {
+  font-size: 14px;
+}

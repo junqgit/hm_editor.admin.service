@@ -1,34 +1,35 @@
-
 .common-footer{
   width: calc(100vw - 220px);
-  background: #FFFFFF;
+  background: rgba(234,236,240,1);
   height: 40px;
   z-index: 9;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+  display: flex;
   white-space: nowrap;
   overflow: hidden;
-  position: fixed;
-  top: 56px;
-  background: rgba(234,236,240,1);
-  margin-left:220px;
+  position: absolute;
+  top: 0;
+  left: 220px;
   transition: all 0.5s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .common-footer.siderHide{
-  margin-left:50px;
+  left: 50px;
   width: calc(100vw - 50px);
 }
 .menu_item{
   display: inline-block;
-  color: white;
-  background: #31a6f7;
+  color: #4A4A4A;
+  background: rgba(222,227,234,1);
   cursor: pointer;
-
   line-height: 37px;
   height: 37px;
   text-align: center;
   margin-left: 2px;
   min-width: 140px;
+  padding: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .menu_item span{
   font-size: 10px;
@@ -52,4 +53,9 @@
 }
 .showCloseIcon:hover{
   display: inline!important;
+}
+#footerMenu {
+  display: flex;
+  padding: 0;
+  margin: 0;
 }

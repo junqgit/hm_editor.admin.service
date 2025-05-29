@@ -1,7 +1,7 @@
 .box {
   width: 100%;
   height: 100%;
-  font-size: 12px;
+  font-size: 14px;
   padding: 2px;
 }
 .top {
@@ -49,6 +49,11 @@
 .center {
   text-align: center;
   display: block !important;
+}
+
+/* 隐藏字段的样式 */
+.hidden {
+  display: none !important;
 }
 
 .dialog-form {
@@ -101,7 +106,7 @@ p-dialog .ui-widget.ui-dialog .ui-dialog-titlebar .ui-dialog-title,
 
 :host /deep/ .ui-button {
   padding: 0.1em 0.7em;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 :host /deep/ .ui-datatable {
