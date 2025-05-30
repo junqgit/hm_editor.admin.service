@@ -21,7 +21,7 @@
         "../node_modules/portalface/styles/portalface.scss",
         "../src/app/styles/theme.scss",
         "../src/app/styles/primeng/resources/primeng.css",
-        "assets/hm_editor-admin/iconfont.css",
+        "assets/hmeditor-admin/iconfont.css",
         "../node_modules/jquery.json-viewer/json-viewer/jquery.json-viewer.css"
       ],
       "scripts": [
