@@ -2,7 +2,7 @@
   <div class="left-area">
     <p>目录</p>
     <!-- <p-tree [value]="treeNodes" selectionMode="single" [(selection)]="curFolder" [loading]="treeLoading" (onNodeSelect)="nodeSelect($event)"
-             styleClass="kyee-tree" >
+             styleClass="hm-tree" >
             <ng-template let-node let-i pTemplate="patient">
                 <div><span>{{node.name}}</span>
                   <i>
@@ -35,7 +35,7 @@
     <input type="text" pInputText style="vertical-align: middle;" class="inp" [(ngModel)]="templateSearchName" placeholder="请输入模板名称"
            [ngModelOptions]="{standalone: true}">
     <button pButton type="button"  icon="iconfont icon-sousuo" label="查询" (click)="searchName()"></button>
-    <button type="button" pButton icon="fa-plus" class="kyee-button-lg"
+    <button type="button" pButton icon="fa-plus" class="hm-button-lg"
             (click)="showDialogToCreateEmrBaseTemplate()"  label="新增">
     </button>
     <p-table [style]="{'width': '100%', 'max-height': 'calc(100% - 90px)','overflow':'auto','text-align':'center'}"

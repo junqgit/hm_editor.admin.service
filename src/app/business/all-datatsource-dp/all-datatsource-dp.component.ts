@@ -6,7 +6,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { WidgetsModule } from 'portalface/widgets';
 
 @Component({
-  selector: 'kyee-all-datatsource-dp',
+  selector: 'hm-all-datatsource-dp',
   templateUrl: './all-datatsource-dp.component.html',
   styleUrls: ['./all-datatsource-dp.component.scss'],
   providers: [DatasourceManageService,
@@ -36,7 +36,7 @@ export class AllDatatsourceDpComponent implements OnInit, ControlValueAccessor {
   searchDsTimeout: any;
 
   @Input() notShowCode:any = [];
-  
+
   ngOnInit() {
   }
 

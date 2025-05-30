@@ -15,13 +15,13 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "tsconfig": "tsconfig.app.json",
-      "prefix": "kyee",
+      "prefix": "hm",
       "styles": [
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "../node_modules/portalface/styles/portalface.scss",
         "../src/app/styles/theme.scss",
         "../src/app/styles/primeng/resources/primeng.css",
-        "assets/kyeeeditor-admin/iconfont.css",
+        "assets/hm_editor-admin/iconfont.css",
         "../node_modules/jquery.json-viewer/json-viewer/jquery.json-viewer.css"
       ],
       "scripts": [

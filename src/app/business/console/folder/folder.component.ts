@@ -12,7 +12,7 @@ import { ConfirmationService } from 'portalface/widgets';
 declare const HMEditorLoader: any;
 
 @Component({
-  selector: 'kyee-folder',
+  selector: 'hm-folder',
   templateUrl: './folder.component.html',
   styleUrls: ['./folder.component.scss']
 })

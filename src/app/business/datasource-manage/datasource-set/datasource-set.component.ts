@@ -5,7 +5,7 @@ import { ConfirmationService } from 'portalface/widgets';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'kyee-datasource-set',
+  selector: 'hm-datasource-set',
   templateUrl: './datasource-set.component.html',
   styleUrls: ['../datasource-manage.scss', './datasource-set.component.scss']
 })

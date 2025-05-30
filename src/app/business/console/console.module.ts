@@ -24,7 +24,7 @@ import { TemplateService } from './template.service';
 import { FormWidgetsModule } from 'portalface/widgets';
 import { BreadcrumbModule, GrowlModule, OverlayPanelModule } from 'primeng/primeng';
 import { LoadingService } from './../../common/service/loading.service';
-import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
+import { hmPipeModule } from '../../basic/common/pipe/hm-pipe.module';
 
 
 
@@ -47,7 +47,7 @@ import { KyeePipeModule } from '../../basic/common/pipe/kyee-pipe.module';
     FormWidgetsModule,
     BreadcrumbModule,
     OverlayPanelModule,
-    KyeePipeModule
+    hmPipeModule
   ],
   declarations: [FolderComponent, DatasourceComponent],
   providers:[FolderService,DataSourceService,TemplateService,LoadingService]

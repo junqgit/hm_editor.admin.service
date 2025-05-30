@@ -25,7 +25,7 @@
     }
 }
 
-.kyee-loading-backdrop {
+.hm-loading-backdrop {
   position: fixed;
   top: 0;
   right: 0;
@@ -37,14 +37,14 @@
   -moz-opacity: 0.2;
   opacity: 0.2;
 }
-.kyee-loading-container {
+.hm-loading-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 33335;
-  .kyee-loading-big {
+  .hm-loading-big {
     display: block;
     position: relative;
     left: calc(50% + 15px);
@@ -58,7 +58,7 @@
     transform: translateZ(0);
     animation: load 2s linear infinite;
     -webkit-animation: load 2s linear infinite;
-   .kyee-loading-medium {
+   .hm-loading-medium {
       content: "";
       position: absolute;
       top: 5px;
@@ -71,7 +71,7 @@
       animation: load 3s linear infinite;
       -webkit-animation: load 3s linear infinite;
     }
-   .kyee-loading-small {
+   .hm-loading-small {
       content: "";
       position: absolute;
       top: 15px;

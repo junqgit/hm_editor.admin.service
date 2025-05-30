@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-import { KyeeModule } from 'portalface';
+import { hmModule } from 'portalface';
 import { WidgetsModule } from 'portalface/widgets';
 
 import { AppComponent } from './app.component';
@@ -26,7 +26,7 @@ import { NavToggledService} from './common/service/nav-toggled.service'
         MainComponent
     ],
     imports: [
-        KyeeModule,
+        hmModule,
         WidgetsModule,
         AppRoutingModule,
         SharedModule

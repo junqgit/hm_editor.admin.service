@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavToggledService } from '../../common/service/nav-toggled.service';
 
 @Component({
-  selector: 'kyee-header',
+  selector: 'hm-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })

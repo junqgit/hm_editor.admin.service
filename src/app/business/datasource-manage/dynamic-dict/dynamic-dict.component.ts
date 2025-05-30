@@ -3,7 +3,7 @@ import { DatasourceManageService } from '../datasource-manage.service';
 import { ConfirmationService } from 'portalface/widgets';
 
 @Component({
-  selector: 'kyee-dynamic-dict',
+  selector: 'hm-dynamic-dict',
   templateUrl: './dynamic-dict.component.html',
   styleUrls: ['../datasource-manage.scss', './dynamic-dict.component.scss']
 })

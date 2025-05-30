@@ -4,7 +4,7 @@ import {RouterService, StorageCacheService} from "portalface/services";
 import {CommonFooterService} from "../common-footer/common-footer.service";
 import { NavToggledService } from '../../common/service/nav-toggled.service';
 @Component({
-  selector: 'kyee-common-sidebar',
+  selector: 'hm-common-sidebar',
   templateUrl: './common-sidebar.component.html',
   styleUrls: ['./common-sidebar.component.scss']
 })

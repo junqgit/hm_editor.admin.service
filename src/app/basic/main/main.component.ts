@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'kyee-main',
+  selector: 'hm-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })

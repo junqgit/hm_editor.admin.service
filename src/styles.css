@@ -842,23 +842,23 @@ a {
 /* 从styles.scss合并过来的样式 */
 
 /* 确保侧边栏不会重复显示 */
-kyee-common-sidebar {
+hm-common-sidebar {
   display: block;
   height: 100%;
 }
 
 /* 修复重复侧边栏的问题 */
-kyee-common-sidebar > kyee-common-sidebar {
+hm-common-sidebar > hm-common-sidebar {
   display: none !important;
 }
 
 /* 去除其他可能的额外样式 */
-.div.main-box > kyee-common-sidebar {
+.div.main-box > hm-common-sidebar {
   display: none !important;
 }
 
 /* 确保路由内容不会重复显示侧边栏 */
-router-outlet ~ kyee-common-sidebar {
+router-outlet ~ hm-common-sidebar {
   display: none !important;
 }
 

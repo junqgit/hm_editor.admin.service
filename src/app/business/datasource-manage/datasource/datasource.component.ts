@@ -4,7 +4,7 @@ import { DatasourceManageService } from '../datasource-manage.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'kyee-datasource',
+  selector: 'hm-datasource',
   templateUrl: './datasource.component.html',
   styleUrls: ['../datasource-manage.scss', './datasource.component.scss']
 })

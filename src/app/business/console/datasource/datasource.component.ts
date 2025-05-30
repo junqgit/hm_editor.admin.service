@@ -17,7 +17,7 @@ interface DataSourceType {
   placeHolder: string;
 }
 @Component({
-  selector: 'kyee-datasource',
+  selector: 'hm-datasource',
   templateUrl: './datasource.component.html',
   styleUrls: ['./datasource.component.scss']
 })

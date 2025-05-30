@@ -4,7 +4,7 @@ import {StorageCacheService,RouterService, HttpService} from "portalface/service
 import { NavToggledService } from '../../common/service/nav-toggled.service';
 
 @Component({
-  selector: 'kyee-common-footer',
+  selector: 'hm-common-footer',
   templateUrl: './common-footer.component.html',
   styleUrls: ['./common-footer.component.scss']
 })

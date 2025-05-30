@@ -5,7 +5,7 @@ import { GrowlMessageService } from '../common/service/growl-message.service';
 import { NavToggledService } from '../common/service/nav-toggled.service';
 
 @Component({
-  selector: 'kyee-business',
+  selector: 'hm-business',
   templateUrl: './business.component.html',
   styleUrls: ['./business.component.scss']
 })

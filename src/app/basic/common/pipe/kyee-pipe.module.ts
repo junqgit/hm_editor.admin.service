@@ -13,4 +13,4 @@ import {GetTrueName} from "./get-true-name";
   ],
   declarations: [GetTrueName]
 })
-export class KyeePipeModule { }
+export class hmPipeModule { }
