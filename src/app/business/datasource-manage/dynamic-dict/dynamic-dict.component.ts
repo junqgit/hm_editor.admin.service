@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatasourceManageService } from '../datasource-manage.service';
-import { ConfirmationService } from 'portalface/widgets';
+import { ConfirmationService } from 'primeng/primeng';
 
 @Component({
   selector: 'hm-dynamic-dict',

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {CommonFooterService} from "./common-footer.service";
-import {StorageCacheService,RouterService, HttpService} from "portalface/services";
+import { CommonFooterService } from "./common-footer.service";
 import { NavToggledService } from '../../common/service/nav-toggled.service';
+import { StorageService } from '../../common/service/storage.service';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'hm-common-footer',
@@ -16,9 +18,9 @@ export class CommonFooterComponent implements OnInit {
   constructor(
     private navToggledService: NavToggledService,
     private commonFooterService: CommonFooterService,
-    private storageCacheService: StorageCacheService,
-    private routerService: RouterService,
-    private httpService: HttpService) { }
+    private storageService: StorageService,
+    private router: Router,
+    private http: HttpClient) { }
 
   menus=[];
   selectedIndex=0;
@@ -37,7 +39,7 @@ export class CommonFooterComponent implements OnInit {
   }
 
   loadMenu() {
-    let leftMenu = this.storageCacheService.localStorageCache.get('menu');
+    let leftMenu = this.storageService.getLocalStorage('menu');
 
     // 始终添加首页标签
     let homeTab = {
@@ -100,7 +102,7 @@ export class CommonFooterComponent implements OnInit {
 
   menuClick(index){
     this.selectedIndex = index;
-    this.storageCacheService.localStorageCache.set('selectedStatus', "");
+    this.storageService.setLocalStorage('selectedStatus', "");
   }
 
   closeMenu(index){
@@ -115,7 +117,7 @@ export class CommonFooterComponent implements OnInit {
         if(!this.menus[this.selectedIndex]){
           this.selectedIndex--;
         }
-        this.routerService.gotoPage(this.menus[this.selectedIndex]['URL']);
+        this.router.navigateByUrl(this.menus[this.selectedIndex]['URL']);
       }
     }else if(index<this.selectedIndex){
       this.selectedIndex--;

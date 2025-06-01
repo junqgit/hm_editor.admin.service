@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { GrowlMessageService } from '../../../common/service/growl-message.service';
 import { EmrBaseTemplate } from '../model/emr-base-template';
 import { PageClazz } from '../../../common/model/page-clazz';
-import { LoadingService } from 'portalface/services';
+import { LoadingService } from '../../../common/service/loading.service';
 import * as _ from 'underscore';
 
 import { Utils } from '../../../basic/common/util/Utils';
-import { ConfirmationService } from 'portalface/widgets';
+import { ConfirmationService } from 'primeng/primeng';
 
 declare const HMEditorLoader: any;
 
@@ -138,7 +138,7 @@ export class FolderComponent implements OnInit {
     }
     this.searchParams.folder = this.curFolder['value']['idStr'];
     this.searchParams.templateName = searchName;
-    this.loadingService.loading(true);
+    this.loadingService.show();
     this.folderService.searchBaseTemplateListByParams(this.searchParams)
       .then(
         data => {
@@ -155,7 +155,7 @@ export class FolderComponent implements OnInit {
           this.growlMessageService.showErrorInfo('获取模板列表失败：', err);
         }
       ).then(() => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
       });
   }
 
@@ -490,10 +490,10 @@ export class FolderComponent implements OnInit {
    * @param callback 回调函数
    */
   getTemplateDs(templateName: string, callback?: (data: any) => void) {
-    this.loadingService.loading(true);
+    this.loadingService.show();
     this.folderService.getTemplateDs(templateName)
       .then(data => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         if (data && data.code === 10000) {
           if (callback) {
             callback(data.data);
@@ -503,7 +503,7 @@ export class FolderComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         this.growlMessageService.showErrorInfo('获取模板数据集失败', error);
         return null;
       });
@@ -513,10 +513,10 @@ export class FolderComponent implements OnInit {
    * 获取动态字典数据
    */
   getDynamicDict() {
-    this.loadingService.loading(true);
+    this.loadingService.show();
     this.folderService.getDynamicDict()
       .then(data => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         if (data && data.code === 10000) {
           this.dynamicDictList = data['data'] || [];
         } else {
@@ -524,16 +524,16 @@ export class FolderComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         this.growlMessageService.showErrorInfo('获取动态字典失败', error);
       });
   }
   // 获取模板HTML
   getBaseTemplateHtml(id: string, templateName: string, callback?: (htmlData: any) => void) {
-    this.loadingService.loading(true);
+    this.loadingService.show();
     this.folderService.getBaseTemplateHtml(id)
       .then(data => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         if (data && data.code === 10000) {
           if (callback) {
             callback(data.data);
@@ -544,7 +544,7 @@ export class FolderComponent implements OnInit {
         }
       })
       .catch(error => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         this.growlMessageService.showErrorInfo('获取模板HTML失败', error);
       });
   }

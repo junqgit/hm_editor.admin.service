@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'portalface/widgets';
+import { ConfirmationService } from 'primeng/primeng';
 import { DatasourceManageService } from '../datasource-manage.service';
 import { DatePipe } from '@angular/common';
 

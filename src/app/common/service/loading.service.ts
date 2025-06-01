@@ -8,20 +8,26 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class LoadingService {
     private loadingSubject = new Subject<boolean>();
+    loadingState = this.loadingSubject.asObservable();
+
     constructor() { }
 
     /**
      * 获得加载多路推送对象
      */
-    getLoading(): Subject<boolean> {
-        return this.loadingSubject;
+    getLoadingState(): Observable<boolean> {
+        return this.loadingState;
     }
 
     /**
      * 切换加载状态
      * @param showLoading 是否处于加载状态
      */
-    loading(showLoading: boolean): void {
-        this.loadingSubject.next(showLoading);
+    show() {
+        this.loadingSubject.next(true);
+    }
+
+    hide() {
+        this.loadingSubject.next(false);
     }
 }

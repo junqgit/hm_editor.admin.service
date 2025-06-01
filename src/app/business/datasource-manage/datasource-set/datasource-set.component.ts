@@ -1,7 +1,7 @@
 import { CurrentUserInfo } from './../../../basic/common/model/currentUserInfo.model';
 import { Component, OnInit } from '@angular/core';
 import { DatasourceManageService } from '../datasource-manage.service';
-import { ConfirmationService } from 'portalface/widgets';
+import { ConfirmationService } from 'primeng/primeng';
 import { DatePipe } from '@angular/common';
 
 @Component({

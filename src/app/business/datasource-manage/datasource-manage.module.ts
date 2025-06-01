@@ -1,25 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
-
-
-
+import { HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-
-import { TreeModule } from 'portalface/widgets/tree-widget/tree/tree';
-import { DropdownModule } from 'portalface/widgets/form-widgets/dropdown/dropdown';
-import { PaginatorModule } from 'portalface/widgets/commons/paginator/paginator';
-import { RadioButton, RadioButtonModule } from 'portalface/widgets/form-widgets/radiobutton/radiobutton';
-import { ButtonModule } from 'portalface/widgets/common-widgets/button/button';
-import { TableModule } from 'portalface/widgets/datatable-widget/table/table';
-import { DialogModule } from 'portalface/widgets/common-widgets/dialog/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputTextModule } from 'portalface/widgets/form-widgets/inputtext/inputtext';
-import { DataTableModule } from 'portalface/widgets/datatable-widget/datatable/datatable';
+import { PrimengModule } from '../../basic/shared/primeng.module';
 
-import { FileUploadModule } from 'portalface/widgets/form-widgets/fileupload/fileupload';
-
-import { FormWidgetsModule } from 'portalface/widgets';
-import { BreadcrumbModule, GrowlModule } from 'primeng/primeng';
 import { LoadingService } from './../../common/service/loading.service';
 import { DatasourceSetComponent } from './datasource-set/datasource-set.component';
 import { DatasourceComponent } from './datasource/datasource.component';
@@ -29,30 +14,18 @@ import { DatasourceManageService } from './datasource-manage.service';
 import { AllDatatsourceDpModule } from '../all-datatsource-dp/all-datatsource-dp.component';
 import { DynamicDictComponent } from './dynamic-dict/dynamic-dict.component';
 
-
-
-
 @NgModule({
   imports: [
-    CommonModule,DatasourceManageRoutingModule,TreeModule,
+    CommonModule,
+    DatasourceManageRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ButtonModule,
-    TableModule,
-	  GrowlModule,
-    DialogModule,
-    InputTextModule,
-    DataTableModule,
-    DropdownModule,
-    PaginatorModule,
-    RadioButtonModule,
-    FileUploadModule,
+    PrimengModule,
     HttpClientModule,
-    FormWidgetsModule,
-    BreadcrumbModule,
+    HttpModule,
     AllDatatsourceDpModule
   ],
   declarations: [DatasourceDictComponent, DatasourceSetComponent, DatasourceComponent, DynamicDictComponent],
-  providers:[LoadingService,DatasourceManageService,DatePipe]
+  providers: [LoadingService, DatasourceManageService, DatePipe]
 })
 export class DatasourceManageModule { }

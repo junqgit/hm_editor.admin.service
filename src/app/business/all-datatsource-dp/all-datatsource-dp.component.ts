@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, NgModule, forwardRef } from '@angular/core';
 import { DatasourceManageService } from '../datasource-manage/datasource-manage.service';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from 'portalface/widgets/commons/shared';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { WidgetsModule } from 'portalface/widgets';
+import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/primeng';
 
 @Component({
   selector: 'hm-all-datatsource-dp',
@@ -77,7 +76,7 @@ export class AllDatatsourceDpComponent implements OnInit, ControlValueAccessor {
 }
 
 @NgModule({
-  imports: [CommonModule, SharedModule, WidgetsModule],
+  imports: [CommonModule, FormsModule, AutoCompleteModule],
   exports: [AllDatatsourceDpComponent],
   declarations: [AllDatatsourceDpComponent]
 })

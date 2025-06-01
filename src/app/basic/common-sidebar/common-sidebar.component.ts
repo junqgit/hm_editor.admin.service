@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {MenuItem} from "portalface/widgets/commons/menuitem";
-import {RouterService, StorageCacheService} from "portalface/services";
-import {CommonFooterService} from "../common-footer/common-footer.service";
+import { MenuItem } from 'primeng/primeng';
+import { StorageCacheService } from "../../common/service/storage-cache.service";
+import { RouterService } from "../../common/service/router.service";
+import { CommonFooterService } from "../common-footer/common-footer.service";
 import { NavToggledService } from '../../common/service/nav-toggled.service';
+
 @Component({
   selector: 'hm-common-sidebar',
   templateUrl: './common-sidebar.component.html',

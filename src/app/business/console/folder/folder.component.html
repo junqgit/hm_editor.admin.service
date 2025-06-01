@@ -38,46 +38,42 @@
     <button type="button" pButton icon="fa-plus" class="hm-button-lg"
             (click)="showDialogToCreateEmrBaseTemplate()"  label="新增">
     </button>
-    <p-table [style]="{'width': '100%', 'max-height': 'calc(100% - 90px)','overflow':'auto','text-align':'center'}"
-    [value]="emrBaseTemplateList" dataKey="_id" sortMode="none"
-    [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" [pageLinks]="5"
-    [paginator]="true" [rows]="searchParams.page.pageSize" [first]="first" [totalRecords]="searchParams.page.totalRecords">
-    <ng-template pTemplate="header">
-      <tr>
-        <th width="5%">序号</th>
-        <th width="20%">模板名称</th>
-        <th width="10%">模板类别</th>
-        <th width="10%">是否禁止多份</th>
-        <th width="25%">数据集</th>
-        <th width="240px">操作</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-baseTemplate let-rowIndex="rowIndex">
-      <tr>
-        <td class="text-a-c">{{rowIndex+1}}</td>
-        <td>{{baseTemplate.templateName}}</td>
-        <td>{{baseTemplate.type}}</td>
-        <td>{{baseTemplate.isForbidMultiple == '0'?'否':'是'}}</td>
-        <td class="scroll-cell">
+    <p-dataTable [style]="{'width': '100%', 'max-height': 'calc(100% - 90px)','overflow':'auto','text-align':'center'}"
+    [value]="emrBaseTemplateList" dataKey="_id"
+    [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="searchParams.page.pageSize"
+    [first]="first" [totalRecords]="searchParams.page.totalRecords" [pageLinks]="5">
+    <p-column header="序号" [style]="{'width':'5%'}">
+      <ng-template let-rowIndex="rowIndex" pTemplate="body">
+        <span>{{rowIndex+1}}</span>
+      </ng-template>
+    </p-column>
+    <p-column field="templateName" header="模板名称" [style]="{'width':'20%'}"></p-column>
+    <p-column field="type" header="模板类别" [style]="{'width':'10%'}"></p-column>
+    <p-column header="是否禁止多份" [style]="{'width':'10%'}">
+      <ng-template let-baseTemplate="rowData" pTemplate="body">
+        <span>{{baseTemplate.isForbidMultiple == '0'?'否':'是'}}</span>
+      </ng-template>
+    </p-column>
+    <p-column header="数据集" [style]="{'width':'25%'}">
+      <ng-template let-baseTemplate="rowData" pTemplate="body">
+        <div class="scroll-cell">
           <div class="scroll-inner">{{formatDSet(baseTemplate.dsSet)}}</div>
-        </td>
-        <td class="text-a-c">
-
-          <button pButton type="button" (click)="showDialogToEditEmrBaseTemplate(baseTemplate)" label="编辑"></button>
-          <button pButton type="button" (click)="removeEmrBaseTemplate(baseTemplate)" label="删除"></button>
-          <button pButton type="button" (click)="makeTemplate(baseTemplate)" label="制作模板"></button>
-
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td [attr.colspan]="6">
-          未检索到模板分类信息！
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column header="操作" [style]="{'width':'240px'}">
+      <ng-template let-baseTemplate="rowData" pTemplate="body">
+        <button pButton type="button" (click)="showDialogToEditEmrBaseTemplate(baseTemplate)" label="编辑"></button>
+        <button pButton type="button" (click)="removeEmrBaseTemplate(baseTemplate)" label="删除"></button>
+        <button pButton type="button" (click)="makeTemplate(baseTemplate)" label="制作模板"></button>
+      </ng-template>
+    </p-column>
+    <p-column *ngIf="emrBaseTemplateList.length == 0">
+      <ng-template pTemplate="emptymessage">
+        <div>未检索到模板分类信息！</div>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
   </div>
 </div>
 <!-- 编辑器窗口 -->

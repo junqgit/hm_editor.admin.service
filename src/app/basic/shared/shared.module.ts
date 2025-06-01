@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 import { CommonSidebarComponent } from '../common-sidebar/common-sidebar.component';
 import { CommonFooterComponent } from '../common-footer/common-footer.component';
 import { CommonFooterService } from '../common-footer/common-footer.service';
+import { PrimengModule } from './primeng.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    PrimengModule
   ],
   declarations: [
     CommonSidebarComponent,
@@ -17,7 +19,8 @@ import { CommonFooterService } from '../common-footer/common-footer.service';
   exports: [
     CommonSidebarComponent,
     CommonFooterComponent,
-    RouterModule
+    RouterModule,
+    PrimengModule
   ],
   providers: [
     CommonFooterService

@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { StorageCacheService } from 'portalface/services';
+import { StorageCacheService } from './common/service/storage-cache.service';
 
 @Component({
     selector: 'app-root',

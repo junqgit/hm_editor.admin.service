@@ -17,7 +17,6 @@
 .main-box {
   flex: 1;
   padding: 0;
-  padding-top: 10px; /* 增加顶部内边距，确保按钮不被遮挡 */
   overflow: auto;
   margin-left: 0; /* 移除左边距 */
   transition: margin-left 0.3s ease;
@@ -32,11 +31,14 @@
 :host ::ng-deep {
   #layout-sidebar {
     z-index: 10;
+    height: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   hm-common-sidebar {
     height: 100%;
     z-index: 10;
+    display: block;
   }
 
   hm-common-footer {

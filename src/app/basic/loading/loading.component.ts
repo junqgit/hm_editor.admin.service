@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingService } from "portalface/services";
+import { LoadingService } from "../../common/service/loading.service";
 
 @Component({
   selector: 'app-loading',
@@ -16,7 +16,7 @@ export class LoadingComponent implements OnInit {
   constructor(private loadingService: LoadingService) { }
 
   ngOnInit() {
-    this.loadingService.getLoading().forEach((showLoading: boolean) => {
+    this.loadingService.getLoadingState().subscribe((showLoading: boolean) => {
       if (showLoading) {
         this.openLoading();
       } else {

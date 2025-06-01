@@ -6,6 +6,10 @@
   font: 400 14px/2 "Microsoft YaHei",helvetica, arial, verdana, sans-serif;
   height: 100%;
   width: 220px;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  border-right: none;
   li {
     list-style: none;
   }
@@ -26,6 +30,7 @@
   }
   .ul-parent {
     padding-left: 0;
+    margin: 0;
     overflow: auto;
     height: calc(100% - 56px);
     >li {
@@ -38,6 +43,7 @@
     .ul-child {
       display: none;
       padding-left: 10px;
+      margin: 0;
       i {
         font-size: 14px;
       }
@@ -99,7 +105,9 @@
   background-color: #252c36;
   color:#D8E3ED;
   width: 220px;
-  border-right: 0px solid #e1e3e4;
+  padding-top: 70px;
+  border-right: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .submenu-hide {

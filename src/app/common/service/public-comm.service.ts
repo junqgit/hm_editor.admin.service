@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy, Renderer2} from '@angular/core';
-import {StorageCacheService} from 'portalface/services/index';
+import {StorageCacheService} from '../service/storage-cache.service';
 
 // 公共方法
 @Injectable()

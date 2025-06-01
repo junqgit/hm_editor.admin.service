@@ -5,7 +5,10 @@ import { environment } from '../../../environments/environment';
 import {Headers, Http, RequestOptions, ResponseType, URLSearchParams} from '@angular/http';
 import {Base64} from 'js-base64';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoadingService } from 'portalface/services';
+import { LoadingService } from '../../common/service/loading.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 export class TemplateService {
 
@@ -99,10 +102,9 @@ disTemplate(param,areaCode,hosnum,hosname,dept,description){
 
 
 
-exportTemplate(params): any {
-
-return this.http1.post(`${this.baseUrl}/exportTemplates`, params,{responseType: 'blob'})
-.map(res => {return res});
+exportTemplate(params): Observable<any> {
+  return this.http1.post(`${this.baseUrl}/exportTemplates`, params, {responseType: 'blob'})
+    .map(res => res);
 }
 isUsedTemplate(id): Promise<Object> {
   return this.http1.get(`${this.baseUrl}/isUsedTemplate?id=${id}`)
@@ -146,7 +148,7 @@ deleteBaseTemplate(id): Promise<Object> {
   // 移动目录、顺序调整
   // 获取模板目录(模板月目录的映射关系)
   queryDirAndTemplateList(searchParams: any): Promise<Object> {
-    this.loadingService.loading(true);
+    this.loadingService.show();
     // let urlParams = new URLSearchParams();
     // for (let key in searchParams) {
     //     if (searchParams.hasOwnProperty(key)) {
@@ -157,7 +159,7 @@ deleteBaseTemplate(id): Promise<Object> {
     return this.http1.get(url, searchParams)
     .toPromise()
     .then(res => {
-        this.loadingService.loading(false);
+        this.loadingService.hide();
         return res as Object;
     })
     .catch(this.handleError.bind(this));
@@ -167,11 +169,11 @@ deleteBaseTemplate(id): Promise<Object> {
      * @param searchParams
      */
 getHospitalPrams(searchParams: any): Promise<Object> {
-  this.loadingService.loading(true);
+  this.loadingService.show();
   return this.http1.get(this.api + "admin-service/paramsConfig/getHospitalConfig", searchParams)
     .toPromise()
     .then(res => {
-      this.loadingService.loading(false);
+      this.loadingService.hide();
       return res as Object;
     })
     .catch(this.handleError.bind(this));
@@ -181,12 +183,12 @@ getHospitalPrams(searchParams: any): Promise<Object> {
      * @param params
      */
 deleteTemplateByParams(params: any): Promise<any> {
-  this.loadingService.loading(true);
+  this.loadingService.show();
   const url = this.api + 'admin-service/template/deleteTemplate';
   return this.http1.post(url, params)
   .toPromise()
   .then((res) => {
-      this.loadingService.loading(false);
+      this.loadingService.hide();
       return res as Object;
   })
   .catch(this.handleError.bind(this));
@@ -196,12 +198,12 @@ deleteTemplateByParams(params: any): Promise<any> {
      * @param emrTemplates
      */
 updateEmrTemplateByExchange(emrTemplates: Object): Promise<any> {
-  this.loadingService.loading(true);
+  this.loadingService.show();
   const url = this.api + 'admin-service/template/updateEmrTemplateByExchange';
   return this.http1.post(url, emrTemplates)
   .toPromise()
   .then(() => {
-      this.loadingService.loading(false);
+      this.loadingService.hide();
   })
   .catch(this.handleError.bind(this));
 }
@@ -211,12 +213,12 @@ updateEmrTemplateByExchange(emrTemplates: Object): Promise<any> {
 * @param params
 */
 adjustTemplateDir(params: any): Promise<any> {
-  this.loadingService.loading(true);
+  this.loadingService.show();
   const url = this.api + 'admin-service/template/adjustTemplateDir';
   return this.http1.post(url, params)
   .toPromise()
   .then((res) => {
-      this.loadingService.loading(false);
+      this.loadingService.hide();
       return res as Object;
   })
   .catch(this.handleError.bind(this));

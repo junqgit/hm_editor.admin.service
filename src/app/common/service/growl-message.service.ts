@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Message } from 'portalface/widgets';
+import { Message } from 'primeng/primeng';
 
 @Injectable()
 export class GrowlMessageService {

@@ -17,10 +17,7 @@
       "tsconfig": "tsconfig.app.json",
       "prefix": "hm",
       "styles": [
-        "../node_modules/font-awesome/css/font-awesome.min.css",
-        "../node_modules/portalface/styles/portalface.scss",
-        "../src/app/styles/theme.scss",
-        "../src/app/styles/primeng/resources/primeng.css",
+        "app/styles/theme.scss",
         "assets/hm_editor-admin/iconfont.css",
         "../node_modules/jquery.json-viewer/json-viewer/jquery.json-viewer.css"
       ],

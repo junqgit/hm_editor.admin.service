@@ -26,10 +26,10 @@
     "date-fns": "^2.29.3",
     "date-fns-tz": "^1.3.7",
     "ejs": "^2.7.4",
+    "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
     "jquery.json-viewer": "^1.5.0",
     "ng2-file-upload": "1.3.0",
-    "portalface": "^1.2.0",
     "primeng": "^4.1.2",
     "rxjs": "^5.4.2",
     "underscore": "^1.10.2"
