@@ -14,8 +14,6 @@
       <p-column header="数据集编码" field="code"></p-column>
       <p-column header="数据集名称" field="name"></p-column>
       <p-column header="引用数" field="count" [style]="{'width':'60px'}"></p-column>
-      <!-- <p-column header="版本号" field="version" [style]="{'width':'60px'}"></p-column> -->
-
 
     </p-dataTable>
     <div class="ops">
@@ -26,25 +24,6 @@
     </div>
   </div>
   <div class="right">
-    <!-- <div>
-      <span class="title">数据集版本管理</span>
-      <div class="ops">
-        <button pButton label="增加" icon="fa-plus" (click)="addDsDictVersion()"></button>
-        <button pButton label="发布" icon="fa-plus" (click)="publishDictVersion()"></button>
-      </div>
-      <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="versionList"
-        fixedPaginator="true" scrollable="true" selectionMode="single" (onRowSelect)="dsDictVersionSelRow($event)"
-        [(selection)]="selVersion">
-        <p-column header="版本号" field="version"> </p-column>
-        <p-column header="发布时间" field="publishDate">
-          <ng-template let-col let-patient="rowData" let-index="rowIndex" pTemplate="body">
-            <span>{{patient['publishTime'] | date:'y-MM-dd HH:mm'}}</span>
-          </ng-template>
-        </p-column>
-        <p-column header="发布人" field="publishUser"></p-column>
-      </p-dataTable>
-
-    </div> -->
     <div>
       <span class="title">数据集包含数据元</span>
       <div style="    display: flex;align-items: center">
@@ -106,39 +85,10 @@
       <label style="min-width: 100px;">{{'原'+editorDsDictVerData['remark']+'名称'}}</label>
       <label style="min-width: 100px;width: unset;">{{editorDsDictVerData['name']}}</label>
     </div>
-    <div class="row" style="width: 300px;display: none;">
-      <label style="min-width: 100px;">类型</label>
-      <p-dropdown [options]="types" [(ngModel)]="selType" filter="true" appendTo="body"  [style]="{'height': '22px','width': '140px'}">
-        <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-        </ng-template>
-        <ng-template let-car pTemplate="item">
-            <div class="ui-helper-clearfix" style="position: relative;height: 24px;display: flex;">
-                <div style="margin-top:4px">{{car.label}}</div>
-            </div>
-        </ng-template>
-    </p-dropdown>
-    </div>
-    <div class="row" *ngIf="selType == '数据元'"  style="width: 300px;">
+    <div class="row" style="width: 300px;">
       <label style="min-width: 100px;">数据元</label>
       <hm-all-datatsource-dp [(ngModel)]="selDs" [notShowCode]="notShowCode"></hm-all-datatsource-dp>
     </div>
-    <div class="row" *ngIf="selType == '数据组'"  style="width: 300px;">
-      <label style="min-width: 100px;">数据组</label>
-      <p-dropdown [options]="dropGroup" [(ngModel)]="selDs" filter="true" appendTo="body"  [style]="{'height': '22px','width': '140px'}"  filterBy="label,value">
-        <ng-template let-item pTemplate="selectedItem">
-            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-        </ng-template>
-        <ng-template let-car pTemplate="item">
-            <div class="ui-helper-clearfix" style="position: relative;height: 24px;display: flex;">
-                <div style="margin-top:4px">{{car.label}}</div>
-                <div style="margin-top:4px;margin-left: 10px;">{{car.value}}</div>
-            </div>
-        </ng-template>
-    </p-dropdown>
-    </div>
-
-
     <div class="ops center" style="text-align: center;">
       <button pButton label="确认" icon="iconfont icon-ensure" (click)="confirmDictVerData()"></button>
       <button pButton label="取消" icon="iconfont icon-cancel" (click)="this.dsDictVerDataDiag = false"></button>

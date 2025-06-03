@@ -314,7 +314,6 @@ export class DatasourceSetComponent implements OnInit {
     }
     this.selType = '数据元';
     this.selDs = null;
-    this.initDropDs();
     this.editorDsDictVerData = { "order": (this.verDataList || []).length + 1 };
     this.dsDictVerDataDiagTitle = '新增数据元';
     this.dsDictVerDataDiag = true;
@@ -324,31 +323,10 @@ export class DatasourceSetComponent implements OnInit {
       return;
     }
     this.selType = this.selVersionData['type'];
-    if(this.selType == '数据元'){
-      this.selDs = null;
-    }else{
-      this.selDs = '';
-    }
-    this.initDropDs();
+    this.selDs = null;
     this.editorDsDictVerData = Object.assign({}, this.selVersionData);
-    this.dsDictVerDataDiagTitle = '修改数据元/组';
+    this.dsDictVerDataDiagTitle = '修改数据元';
     this.dsDictVerDataDiag = true;
-  }
-
-
-  initDropDs(){
-    this.notShowCode = this.verDataListBak.reduce((p,c) => {
-      if(c['remark'] == '数据元'){
-        p.push(c['refCode']);
-      }
-      return p;
-    },[]);
-    let alDs = (this.verDataListBak || []).reduce((p,c) => {
-      p.push(c['refCode']);
-      return p;
-    },[]);
-    //this.dropDs = this.allDs.filter(a => alDs.indexOf(a['value']) == -1);
-    //this.dropGroup = this.allGroup.filter(a => alDs.indexOf(a['value']) == -1);
   }
 
   checkSelDictVerData() {
