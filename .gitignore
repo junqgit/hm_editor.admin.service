@@ -43,3 +43,5 @@ package-lock.json
 # SpecStory explanation file
 .specstory
 .cursorindexignore
+.editorconfig
+.cursorindexingignore
