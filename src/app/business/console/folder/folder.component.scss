@@ -154,9 +154,7 @@ $space:5px;
 
     .wrapper {
         flex: 1;
-        border: 1px solid #e0e0e0;
-        margin: 10px 20px 20px;
-        overflow: auto;
+        overflow: hidden;
         background: #ffffff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
