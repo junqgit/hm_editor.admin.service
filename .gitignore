@@ -41,5 +41,5 @@ testem.log
 Thumbs.db
 package-lock.json
 # SpecStory explanation file
-.specstory/.what-is-this.md
+.specstory
 .cursorindexignore
