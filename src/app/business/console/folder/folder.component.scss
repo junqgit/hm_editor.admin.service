@@ -1,8 +1,7 @@
 $space:5px;
 #folder{
     display: flex;
-    height: calc(100% - 70px);
-    margin-top: 20px;
+    height: 100%;
     padding: 0 10px;
     & > div{
         height: 100%;
@@ -23,6 +22,9 @@ $space:5px;
         width: 240px;
         border-right: 1px solid #eee;
         margin-right: 10px;
+        p{
+            margin: 0;
+        }
     }
     .right-area{
         flex: 1;
@@ -51,8 +53,10 @@ $space:5px;
         padding-left: 10px;
         height: calc(100% - 40px);
         overflow-y: auto;
+        margin-top: 0;
         dd{
-            padding: 8px 5px;
+            margin: 0;
+            padding: 0;
             border-bottom: 1px dotted #eee;
             cursor: pointer;
             transition: all 0.2s;
@@ -223,5 +227,11 @@ $space:5px;
 
     p-dataTable p-column[header="操作"] {
         width: 180px !important;
+    }
+    .ui-button-text-only .ui-button-text {
+        padding: 0 !important;
+    }
+    .ui-widget-content .ui-dialog-footer{
+        justify-content:center !important;
     }
 }

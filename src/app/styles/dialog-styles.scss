@@ -30,7 +30,7 @@ body .ui-dialog.ui-widget.ui-widget-content {
   }
 
   .ui-dialog-content {
-    padding: 20px;
+    padding: 15px;
     background: #ffffff;
     max-height: calc(90vh - 140px); /* 确保内容不会太长 */
     overflow-y: auto;
@@ -59,7 +59,7 @@ body .ui-dialog.ui-widget.ui-widget-content {
   }
 
   .clearfix {
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
   }
 
   /* 下拉框样式 */

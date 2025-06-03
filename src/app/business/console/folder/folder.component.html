@@ -42,7 +42,7 @@
     [value]="emrBaseTemplateList" dataKey="_id"
     [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="searchParams.page.pageSize"
     [first]="first" [totalRecords]="searchParams.page.totalRecords" [pageLinks]="5">
-    <p-column header="序号" [style]="{'width':'5%'}">
+    <p-column header="序号" [style]="{'width':'6%'}">
       <ng-template let-rowIndex="rowIndex" pTemplate="body">
         <span>{{rowIndex+1}}</span>
       </ng-template>
@@ -146,12 +146,9 @@
       </div>
   </div>
   <p-footer>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+    <div>
+      <button type="button" pButton icon="fa-check" (click)="saveEmrBaseTemplate()"label="确定"></button>
       <button type="button" pButton icon="fa-close" (click)="displayEmrBaseTemplateDialog=false" label="取消"></button>
-      <button type="button" pButton icon="fa-check"
-
-              (click)="saveEmrBaseTemplate()"
-              label="确定"></button>
     </div>
   </p-footer>
 </p-dialog>
