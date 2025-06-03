@@ -60,7 +60,7 @@
       </div>
     </div>
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="verShowDataList"
-        fixedPaginator="true" scrollable="true" selectionMode="single" [(selection)]="selVersionData">
+        fixedPaginator="true" scrollable="true" selectionMode="single" [(selection)]="selVersionData" emptyMessage="暂无数据">
         <p-column header="类型" field="remark"></p-column>
         <p-column header="编码" field="refCode"></p-column>
         <p-column header="名称" field="name"></p-column>
@@ -73,7 +73,7 @@
     <div>
       <span class="title">数据集引用情况</span>
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="refrenceList"
-        fixedPaginator="true" scrollable="true">
+        fixedPaginator="true" scrollable="true" emptyMessage="暂无数据">
         <!-- <p-column header="医院名称" field="code"></p-column> -->
         <p-column header="模板名称" field="name"></p-column>
       </p-dataTable>

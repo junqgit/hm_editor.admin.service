@@ -23,10 +23,10 @@
     }
 }
 :host /deep/ .left .ui-datatable-scrollable-body{
-    max-height: calc(100vh - 265px);
+    max-height: calc(100vh - 270px);
 }
 :host /deep/ .right .ui-datatable-scrollable-body{
-    max-height: calc(50vh - 140px);
+    max-height: calc(50vh - 160px);
 }
 
 /* 确保表格中的字体大小统一 */

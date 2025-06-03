@@ -41,7 +41,7 @@
     <div class="left">
       <span class="title">数据元对应值域信息</span>
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="verDataList"
-        fixedPaginator="true" scrollable="true">
+        fixedPaginator="true" scrollable="true" emptyMessage="暂无数据">
         <p-column header="值" field="val"></p-column>
         <p-column header="含义" field="description"></p-column>
         <p-column header="计算值" field="calcVal"></p-column>
@@ -53,7 +53,7 @@
       <span class="title">数据元引用情况</span>
 
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="refrenceList"
-        fixedPaginator="true" scrollable="true">
+        fixedPaginator="true" scrollable="true" emptyMessage="暂无数据">
         <p-column header="引用类型" field="type"></p-column>
         <p-column header="编码" field="code"></p-column>
         <p-column header="名称" field="name"></p-column>

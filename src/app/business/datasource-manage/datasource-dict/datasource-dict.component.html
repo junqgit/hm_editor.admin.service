@@ -39,7 +39,7 @@
         <!-- <button pButton label="导出" icon="icon iconfont icon-synchronize" (click)="exportDict()"></button> -->
       </div>
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="verDataList"
-        fixedPaginator="true" scrollable="true" selectionMode="single" [(selection)]="selVersionData">
+        fixedPaginator="true" scrollable="true" selectionMode="single" [(selection)]="selVersionData" emptyMessage="暂无数据">
         <p-column header="值" field="val"></p-column>
         <p-column header="含义" field="description"></p-column>
         <p-column header="计算值" field="calcVal"></p-column>
@@ -57,7 +57,7 @@
       </p-dataTable> -->
 
       <p-dataTable [style]="{'max-height': '100%','overflow':'auto','text-align':'center'}" [value]="refrenceList"
-        fixedPaginator="true" scrollable="true">
+        fixedPaginator="true" scrollable="true" emptyMessage="暂无数据">
         <p-column header="数据元编码" field="code"></p-column>
         <p-column header="数据元名称" field="name"></p-column>
       </p-dataTable>

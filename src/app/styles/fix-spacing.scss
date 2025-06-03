@@ -36,7 +36,7 @@ html, body {
 
 /* 设置布局内容区域的顶部间距 */
 .layout-content {
-  padding-top: 70px !important;
+  padding-top: 96px !important;
 }
 
 /* 主内容区域也设置顶部边距 */
@@ -108,18 +108,18 @@ p-dataTable .ui-datatable-tablewrapper {
   }
 }
 
-/* 调整列宽 - 全局设置 */
-.ui-datatable .ui-datatable-thead > tr > th:nth-child(1) {
-  width: 60px !important; /* 序号列宽 */
-}
+// /* 调整列宽 - 全局设置 */
+// .ui-datatable .ui-datatable-thead > tr > th:nth-child(1) {
+//   width: 60px !important; /* 序号列宽 */
+// }
 
-.ui-datatable .ui-datatable-thead > tr > th:nth-child(6) {
-  width: 180px !important; /* 操作列宽 */
-}
+// .ui-datatable .ui-datatable-thead > tr > th:nth-child(6) {
+//   width: 180px !important; /* 操作列宽 */
+// }
 
-.ui-datatable .ui-datatable-thead > tr > th:nth-child(5) {
-  min-width: 300px !important; /* 数据集列宽 */
-}
+// .ui-datatable .ui-datatable-thead > tr > th:nth-child(5) {
+//   min-width: 300px !important; /* 数据集列宽 */
+// }
 
 /* 分页器样式 */
 .ui-paginator {
@@ -160,6 +160,7 @@ router-outlet + * {
   flex: 1;
   overflow: auto;
   width: 100%;
+  height: 100%;
 }
 
 /* 按钮样式优化 */
@@ -213,7 +214,7 @@ button.ui-button {
 
 /* 搜索框和按钮对齐 */
 input[type="text"].ui-inputtext {
-  height: 32px !important;
+  height: 22px !important;
   border-radius: 3px !important;
   border: 1px solid #ccc !important;
   padding: 0 10px !important;
