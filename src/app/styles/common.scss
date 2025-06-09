@@ -211,3 +211,24 @@ p-dialog .ui-widget.ui-dialog .ui-dialog-titlebar, .ui-dialog.ui-confirmdialog .
   -webkit-border-radius: 100%;
   border-radius: 100%;
 }
+.ui-multiselect-filter-container input[type="text"].ui-inputtext{
+  padding-left: 20px !important;
+}
+
+// 优化 PrimeNG 单选按钮选中样式
+.ui-radiobutton-box {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-radiobutton-box .ui-radiobutton-icon {
+  font-size: .5em;
+  line-height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

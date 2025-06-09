@@ -141,7 +141,14 @@
           <label for="type">数据集*：</label>
         </div>
         <div class="ui-g-9">
-          <p-multiSelect [options]="dsSet" [(ngModel)]="emrBaseTemplate.dsSet"  [maxSelectedLabels]="10"></p-multiSelect>
+          <p-multiSelect
+            [options]="dsSet"
+            [(ngModel)]="emrBaseTemplate.dsSet"
+            [maxSelectedLabels]="10"
+            selectedItemsLabel="已选择 {0} 项"
+            defaultLabel="请选择"
+            appendTo="body"
+          ></p-multiSelect>
         </div>
       </div>
   </div>
