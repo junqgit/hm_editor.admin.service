@@ -41,7 +41,7 @@
     <p-dataTable [style]="{'width': '100%', 'max-height': 'calc(100% - 90px)','overflow':'auto','text-align':'center'}"
     [value]="emrBaseTemplateList" dataKey="_id"
     [lazy]="true" (onLazyLoad)="loadCarsLazy($event)" [paginator]="true" [rows]="searchParams.page.pageSize"
-    [first]="first" [totalRecords]="searchParams.page.totalRecords" [pageLinks]="5">
+    [first]="first" [totalRecords]="searchParams.page.totalRecords" [pageLinks]="5" emptyMessage="暂无数据" >
     <p-column header="序号" [style]="{'width':'6%'}">
       <ng-template let-rowIndex="rowIndex" pTemplate="body">
         <span>{{rowIndex+1}}</span>
