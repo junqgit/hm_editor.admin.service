@@ -13,5 +13,5 @@ COPY docker/node_modules.tar .
 RUN  tar -xvf node_modules.tar && rm -f node_modules.tar
 
 
-EXPOSE 29099
+EXPOSE 23071
 CMD [ "node", "./index.js" ]

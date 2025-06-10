@@ -136,59 +136,6 @@ export class DatasourceManageService {
       .catch(this.handleError);
   }
 
-  // /**
-  //  * 数据组
-  //  */
-  // getDsGroup(text:string,pageNo:number,pageSize:number){
-  //   return this.http1.get(`${this.baseUrl}/group/getGroup?text=${text}&pageSize=${pageSize}&pageNo=${pageNo}`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-
-  // editorDsGroup(data){
-  //   return this.http1.post(`${this.baseUrl}/group/editorGroup`,data)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-
-  // delDsGroup(id){
-  //   return this.http1.get(`${this.baseUrl}/group/delGroup?id=${id}`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-  // searchDsGroupRef(code){
-  //   return this.http1.get(`${this.baseUrl}/group/getGroupRef?code=${code}`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-  // editorDsGroupRef(data){
-  //   return this.http1.post(`${this.baseUrl}/group/editorGroupRef`,data)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-  // delDsGroupRef(id){
-  //   return this.http1.get(`${this.baseUrl}/group/delGroupRef?id=${id}`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-  // allGroup(){
-  //   return this.http1.get(`${this.baseUrl}/group/getAllGroup`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
-  // getGroupRef(id){
-  //   return this.http1.get(`${this.baseUrl}/group/refData?code=${id}`)
-  //     .toPromise()
-  //     .then(data => data as object)
-  //     .catch(this.handleError);
-  // }
   /**
    * 数据集
    */
