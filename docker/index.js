@@ -16,6 +16,6 @@ app.get('/hmEditor/admin-client/admin', function (req, res) {
 });
 
 
-app.listen(29099,'0.0.0.0',function(){
+app.listen(23071,'0.0.0.0',function(){
   console.log('hmEditor.admin.web ready...')
 });

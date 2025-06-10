@@ -1,4 +1,4 @@
-FROM node:6-alpine
+FROM gagafonov/node-14.18-alpine3.14-ci:latest
 
 WORKDIR /app
 
@@ -8,10 +8,7 @@ COPY docker/index.js .
 COPY docker/package.json .
 COPY hm_editor.admin.web hm_editor.admin.web
 
-
-COPY docker/node_modules.tar .
-RUN  tar -xvf node_modules.tar && rm -f node_modules.tar
-
+RUN npm install --unsafe-perm=true --allow-root
 
 EXPOSE 23071
 CMD [ "node", "./index.js" ]
